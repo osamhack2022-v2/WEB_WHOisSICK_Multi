@@ -1,0 +1,30 @@
+{
+  "name": "web_whoissick_multi",
+  "version": "1.0.0",
+  "description": "## who_is_sick 아픈 사람? - 소규모 환자 추적-관리 웹 애플리케이션",
+  "main": "index.js",
+  "scripts": {
+    "start": "node sever.js",
+    "dev": "nodemon sever.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osamhack2022/WEB_WHOisSICK_Multi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osamhack2022/WEB_WHOisSICK_Multi/issues"
+  },
+  "homepage": "https://github.com/osamhack2022/WEB_WHOisSICK_Multi#readme",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

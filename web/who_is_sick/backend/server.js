@@ -1,11 +1,22 @@
 const express = require('express')
-
+const connectDB = require('./config/db')
 
 
 const app = express();
 
+connectDB();
+
 app.get('/', (req,res)=> res.send('API running'));
 
-const PORT = process.env.port || 5000;
+app.use(express.json({
+    extended: false,
+}));
 
-app.listen(PORT, ()=>console.log('Server starts on post ${PORT}'));
+app.use('api/auth',require('./routes/api/auth'));
+app.use('api/posts',require('./routes/api/posts'));
+app.use('api/profile',require('./routes/api/profile'));
+app.use('api/user',require('./routes/api/user'));
+
+const PORT = process.env.PORT || 5500;
+
+app.listen(PORT, ()=>console.log(`Server starts on post ${PORT}`));

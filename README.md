@@ -47,10 +47,12 @@ $ yarn start or npm run start
  
 ## 팀 정보 (Team Information)
 ### 절대멀티
-- 남  혁 (skagur10@naver.com), Github Id: skagur10
-- 국동희 (luz0415@naver.com), Github Id: luz0415
-- 서한유 (hu8232@naver.com), Github Id: hu5768
-- 정회륜 (추가예정), Github Id: superjeong
+이름 | 이메일 | Github Id 
+------------ | ------------- | ------------- 
+남  혁 | skagur10@naver.com | skagur10
+서한유 | hu8232@naver.com | hu5768
+정회륜 | asss6868@naver.com | superjeong
+국동희(파견으로 인한 하차) | luz0415@naver.com | luz0415
 
 ## 저작권 및 사용권 정보 (Copyleft / End User License)
  * [MIT](https://github.com/osam2020-WEB/Sample-ProjectName-TeamName/blob/master/license.md)

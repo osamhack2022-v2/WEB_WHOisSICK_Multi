@@ -1,27 +1,23 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
-        type: String,
-        required: true,
-    },  
-    service_number: {
-        type: String,
-        required: true,
-        unique: true, // 군번으로 로그인 시킬 거라서 unique 설정
-    }, //군번
-    password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-    avatar: {
-        type: String,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    date: {
-        type: Date,
-        default: Date.now,
-    }
+    password: { 
+      type: String, 
+      required: true, 
+      trim: true 
+    },
+    id: mongoose.Schema.Types.ObjectId,
+  
+  });
 
-})
 
 module.exports = User = mongoose.model('user', UserSchema);

@@ -1,8 +1,12 @@
 import './App.css';
+import Layout from './components/shared/Layout';
 
 function App() {
+
   return (
-   <div>시작</div>
+    <Layout>
+      <div>콘텐츠!</div>
+    </Layout>
   );
 }
 

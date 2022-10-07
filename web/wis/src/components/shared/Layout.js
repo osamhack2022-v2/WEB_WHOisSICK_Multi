@@ -7,7 +7,6 @@ function Layout({ children }) {
     <div className={styles.container}>
       <Header />
       <div className={styles.layout}>
-        <Menu />
         <div className={styles.contents}>{children}</div>
       </div>
     </div>

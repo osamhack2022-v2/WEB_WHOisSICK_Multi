@@ -6,8 +6,7 @@ function Layout({ children }) {
     <div className={styles.container}>
       <Header />
       <div className={styles.layout}>
-        <div className={styles.contents}>{children}</div>
-        
+        {children}
       </div>
     </div>
   );

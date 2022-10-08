@@ -1,6 +1,5 @@
 import styles from './Layout.module.css';
 import Header from './Header.js';
-import Menu from './Menu.js';
 
 function Layout({ children }) {
   return (
@@ -8,6 +7,7 @@ function Layout({ children }) {
       <Header />
       <div className={styles.layout}>
         <div className={styles.contents}>{children}</div>
+        
       </div>
     </div>
   );

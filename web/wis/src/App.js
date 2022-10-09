@@ -1,7 +1,7 @@
 // src/App.js
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
-import R1 from './pages/routing1';
+import R1 from './pages/mainpage';
 import R2 from './pages/routing2';
 import R3 from './pages/routing3';
 import R4 from './pages/routing4';

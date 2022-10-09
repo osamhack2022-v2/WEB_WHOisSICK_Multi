@@ -1,38 +1,17 @@
-import styles from './Header.module.css';
-import alogo from '../../data/aplogo.png';
-import { Link } from 'react-router-dom';
-
-function Header() {
-  return (
-    <div  className={styles.header}>
-        <img src={alogo} alt="logo" className={styles.logo} />
-        <div>
-          <Link to="/r1">진료 희망자</Link>
-        </div>
-        <div>
-          <Link to="/r2">진료 신청</Link>
-        </div>
-        <div>
-          <Link to="/r3">조치 내역</Link>
-        </div>
-        <div>
-          <Link to="/r4">추적 관리</Link>
-        </div>
-        <div>
-          <Link to="/">로그아웃</Link>
-        </div>
-    </div>
-    );
-}
-
-export default Header;
-/*
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Link } from 'react-router-dom';
+
+import styles from './Layout.module.css';
+import R1 from './pages/routing1';
+import R2 from './pages/routing2';
+import R3 from './pages/routing3';
+import R4 from './pages/routing4';
+import aplogo from './data/aplogo.png';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,23 +55,29 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' ,display: 'flex'}}>
+        <img src={aplogo} alt="로고"/>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="진료 희망자" {...a11yProps(0)} />
+          <Tab label="진료 신청" {...a11yProps(1)} />
+          <Tab label="조치 내역" {...a11yProps(2)} />
+          <Tab label="추적 관리" {...a11yProps(3)} />
         </Tabs>
+        <div className={styles.wfill} />
+        <Link to="/">로그아웃</Link>
       </Box>
       <TabPanel value={value} index={0}>
-        Item One
+        <R1 />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <R2 />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <R3 />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <R4 />
       </TabPanel>
     </Box>
   );
 }
-*/

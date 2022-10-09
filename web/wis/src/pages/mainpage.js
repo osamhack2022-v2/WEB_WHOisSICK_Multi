@@ -1,5 +1,4 @@
 import Layout from '../Layout';
-import styles from './routing.module.css';
 
 function R1() {
   return (

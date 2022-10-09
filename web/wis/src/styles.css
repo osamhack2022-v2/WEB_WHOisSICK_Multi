@@ -1,0 +1,51 @@
+button {
+    position: absolute;
+    width: 171px;
+    height: 93px;
+    left: calc(50% - 171px/2 - 0.5px);
+    top: calc(50% - 93px/2 + 238.5px);
+
+    background: #18F3BF;
+    border-radius: 50px;
+}
+
+select {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 137px;
+    height: 60px;
+    left: calc(50% - 137px/2 + 0.5px);
+    top: calc(50% - 60px/2 - 60px);
+
+    background: #D9D9D9;
+    border: 1px solid #000000;
+}
+
+#Id {
+    box-sizing: border-box;
+    
+    position: absolute;
+    width: 468px;
+    height: 60px;
+    left: calc(50% - 468px/2);
+    top: calc(50% - 60px/2 + 44px);
+
+    background: #D9D9D9;
+    border: 1px solid #000000;
+}
+
+#Password {
+    position: absolute;
+    width: 468px;
+    height: 60px;
+    left: calc(50% - 468px/2);
+    top: calc(50% - 60px/2 + 118px);
+
+    background: #D9D9D9;
+    border: 1px solid #000000;
+}
+
+a {
+    text-decoration: none;
+}

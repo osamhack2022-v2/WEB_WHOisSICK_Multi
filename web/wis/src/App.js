@@ -5,6 +5,7 @@ import R1 from './pages/routing1';
 import R2 from './pages/routing2';
 import R3 from './pages/routing3';
 import R4 from './pages/routing4';
+import "./styles.css";
 
 function App() {
     return (

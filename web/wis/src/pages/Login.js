@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
+import LoginForm from '../logInForm';
+import Button from "../Button";
 
 function Login() {
   return (
     <div>
-      <input/>
-      <input/>
-      <Link to="/r1">login</Link>
-      <div> 로그인 </div>
+      <LoginForm />
+      <Button text="Log In!" fontSize={40}/>
     </div>
   );
   }

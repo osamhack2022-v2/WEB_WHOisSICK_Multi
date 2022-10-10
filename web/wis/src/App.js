@@ -5,7 +5,8 @@ import R1 from './pages/mainpage';
 import R2 from './pages/routing2';
 import R3 from './pages/routing3';
 import R4 from './pages/routing4';
-import "./styles.css";
+import "./login/styles.css";
+//import "./signUp/layout.css";
 
 function App() {
     return (

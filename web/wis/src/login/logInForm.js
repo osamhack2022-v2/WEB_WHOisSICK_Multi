@@ -1,10 +1,17 @@
 import React from "react";
 import Button from "./Button";
 
+const loginValue = {};
+
 const Input = ({text}) => {
     const [value, changeId] = React.useState(0);
     const onChanges = (event) => {
         changeId(event.target.value);
+        if(event.target.id === "Id") {
+            loginValue[0] = event.target.value;
+        } else {
+            loginValue[1] = event.target.value;
+        }
     }
     return <div>
         <input
@@ -39,3 +46,4 @@ const LoginForm = () => {
 }
 
 export default LoginForm;
+export {loginValue};

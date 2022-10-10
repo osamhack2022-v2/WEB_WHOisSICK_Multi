@@ -49,3 +49,27 @@ select {
 a {
     text-decoration: none;
 }
+
+#LogInBtn {
+    position: absolute;
+    width: 171px;
+    height: 93px;
+    left: calc(50% - 171px/2 + 132.5px);
+    top: calc(50% - 93px/2 + 238.5px);
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+    border: 1px solid #000000;
+
+    background: #18F3BF;
+    border-radius: 20px;
+}

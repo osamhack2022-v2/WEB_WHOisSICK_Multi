@@ -1,4 +1,5 @@
-import LoginForm from '../logInForm';
+import LoginForm from '../login/logInForm';
+//import SignUpForm from '../signUp/layout';
 
 function Login() {
   return (

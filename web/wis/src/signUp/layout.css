@@ -1,0 +1,37 @@
+.wrap{
+    width: 400px;
+    border: 1px solid #666;
+    padding: 20px;
+    margin: 20px auto;
+
+}
+
+.wrap p{
+    margin-bottom: 10px;
+}
+
+.wrap p span{
+    margin-left: 10px;
+}
+.wrap p label{
+    display: inline-block;
+    width: 80px;
+}
+.wrap p input{
+    margin-left: 10px;
+    width: 250px;
+    height: 30px;
+    border: 1px solid #999;
+    padding: 0 15px;
+}
+.wrap p:last-child{
+    margin-top: 50px;
+}
+.wrap p button{
+    width: 150px;
+    height: 40px;
+    background: #000;
+    color: #fff;
+    border:none;
+    margin-right: 15px;
+}

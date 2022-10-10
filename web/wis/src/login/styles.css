@@ -1,14 +1,3 @@
-button {
-    position: absolute;
-    width: 171px;
-    height: 93px;
-    left: calc(50% - 171px/2 - 0.5px);
-    top: calc(50% - 93px/2 + 238.5px);
-
-    background: #18F3BF;
-    border-radius: 50px;
-}
-
 select {
     box-sizing: border-box;
 

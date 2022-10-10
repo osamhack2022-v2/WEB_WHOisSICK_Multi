@@ -28,14 +28,17 @@ app.use('/',(req,res)=>{
 
 //회원가입. 군번, 비밀번호, 이름 받아올 거임.
 app.post('/sign-up', (req, res)=> {
+    res.send('전송완료');
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
-        var userCnt = result.totalPost;
-        db.collection('users').insertOne( {군번 : req.body.servNum , 비밀번호 : req.body.password , 이름:req.body.name} , (err,result)=>{
+        //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
+        var userCount = result.totalUser;
+        db.collection('users').insertOne( {_id : userCount +1 ,군번 : req.body.servNum , 비밀번호 : req.body.password , 이름:req.body.name} , (err,result)=>{
           console.log('저장완료')
-          응답.send('전송완료');
+          db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
+            if(err) {return console.log(err);}
+          })
         });
       });
-    res.send('전송완료')
 });
 
 

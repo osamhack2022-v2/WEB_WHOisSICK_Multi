@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button";
+import { Link } from 'react-router-dom';
 
 const loginValue = {};
 
@@ -41,6 +42,7 @@ const LoginForm = () => {
         <Select />
         <MemorizedInput text="Id"/>
         <MemorizedInput text="Password"/>
+        <Link to="/r2">회원가입</Link>
         <Button text="Log In!" fontSize={40}/>
     </form>
 }

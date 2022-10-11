@@ -72,7 +72,7 @@ export default function VerticalTabs() {
     };
   const RemovePeople = (e) =>{
     let name = e.target.value;
-    setJoinList(memb.member.filter((e)=>(e !== name)))
+    setJoinList(member.filter((e)=>(e !== name)))
     };
 
   return (
@@ -87,7 +87,7 @@ export default function VerticalTabs() {
         aria-label="Vertical tabs example"
         sx={{ borderRight: 1, borderColor: 'divider' }}
       >
-        {member.map(maptab)}
+        {memb.member.map(maptab)}
   
         {/*<Tab label="Item One" {...a11yProps(0)} />
         <Tab label="Item Two" {...a11yProps(1)} />
@@ -99,7 +99,7 @@ export default function VerticalTabs() {
 
       </Tabs>
 
-      {member.map(mapFuncion)}
+      {memb.member.map(mapFuncion)}
         
   </Box>
   );

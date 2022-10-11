@@ -41,7 +41,7 @@ const LoginForm = () => {
         <Select />
         <MemorizedInput text="Id"/>
         <MemorizedInput text="Password"/>
-        <Button text="Log In!"/>
+        <Button text="Log In!" fontSize={40}/>
     </form>
 }
 

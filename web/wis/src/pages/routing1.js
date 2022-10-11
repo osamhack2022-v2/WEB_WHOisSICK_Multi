@@ -1,13 +1,16 @@
 import styles from './routing.module.css';
+import React from "react";
+import Tabss from './vtab/vtab';
 
 function R1() {
+
+
+
   return (
       <div1 className={styles.boxe}>
-        <div className={styles.leftb}>
-          진료 희망자
-        </div>
         <div className={styles.rightb}>
-          사람 목록
+          진료 희망자
+        <Tabss></Tabss>
         </div>
       </div1>
   );

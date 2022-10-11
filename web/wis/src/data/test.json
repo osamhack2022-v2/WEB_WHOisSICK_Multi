@@ -1,1 +1,7 @@
-["dldld","안녕json","dd"]
+{
+    "member":[
+    {"name":"서한유", "Classes":"상병","inter":"승인?o"},
+    {"name":"남혁", "Classes":"병장","inter":"승인?x"},
+    {"name":"정회륜", "Classes":"병장","inter":"승인?o"}
+    ]
+}

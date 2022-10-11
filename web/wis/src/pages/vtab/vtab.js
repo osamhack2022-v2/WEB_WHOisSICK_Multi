@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import memb from '../../data/test.json';
+import styles from './vtab.module.css';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,41 +41,30 @@ function a11yProps(index) {
 }
 
 export default function VerticalTabs() {
+  //memb.member[0].name="변경된 서한유";
   const [value, setValue] = React.useState(0);
 
   function mapFuncion(data, indexs) {
     return (
       <TabPanel value={value} index={indexs}>
-      {data.Classes}
-       {data.name}
+      {data.Classes+" "+data.name}
        <br/>
        {data.inter}
+       <br/>
+       {data.ok&&<div className={styles.okk}>승인</div>}
+       {!data.ok&&<div className={styles.nok}>거부</div>}
       </TabPanel>
     );
   }
   function maptab(data, indexs) {
     return (
-      <Tab label={data.name} {...a11yProps(indexs)} />
+      <Tab label={data.Classes+" "+data.name} {...a11yProps(indexs)} />
     );
   }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [member, setJoinList] = React.useState([
-    {'name':"서한유", 'Classes':"상병",'inter':"승인?o"},
-    {'name':"남혁", 'Classes':"병장",'inter':"승인?x"},
-    {'name':"정회륜", 'Classes':"병장",'inter':"승인?o"}
-  ]);
-  const addJoinPeople = (e) =>{
-    let name = e.target.value;
-    setJoinList([...member, name]);
-    };
-  const RemovePeople = (e) =>{
-    let name = e.target.value;
-    setJoinList(member.filter((e)=>(e !== name)))
-    };
-
   return (
     <Box
       sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 , width:"100%"}}

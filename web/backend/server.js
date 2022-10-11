@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
+const config = require('config');
 const mongourl = config.get('mongoURI');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -16,8 +17,8 @@ MongoClient.connect(mongourl, (err, client)=> {
     
     db = client.db('who_is_sick'); //whoissick데이터베이스 폴더에 연결
 
-    app.listen(PORT, ()=>{
-      console.log(`listening on ${PORT}`)
+    app.listen(4001, ()=>{
+      console.log(`listening on ${4001}`)
     });
   })
   
@@ -32,10 +33,19 @@ app.post('/sign-up', (req, res)=> {
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
         //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
         var userCount = result.totalUser;
-        db.collection('users').insertOne( {_id : userCount +1 ,군번 : req.body.servNum , 비밀번호 : req.body.password , 이름:req.body.name} , (err,result)=>{
-          console.log('저장완료')
-          db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
-            if(err) {return console.log(err);}
+        //비밀번호도 애초에 암호화해서 저장해둬야함.
+        db.collection('users').insertOne( {
+            _id : userCount +1 ,
+            군번 : req.body.servNum , 
+            비밀번호 : req.body.password , 
+            이름:req.body.name, 
+            병력:req.body.history 
+        } ,
+        (err,result)=>{
+            console.log('저장완료')
+            db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
+                if(err) {return console.log(err);
+            }
           })
         });
       });
@@ -59,6 +69,20 @@ app.post('/login', passport.authenticate('local',{
     res.redirect('/');
 })
 
+//진료신청탭
+app.get('/reservation', isLogin ,(req,res)=>{
+    res.render("진료신청탭");
+})
+
+app.get
+
+const isLogin = (req,res,next)=>{
+    if(req.user){
+        next()
+    } else{
+        res.sent("로그인한 사용자만 사용 가능합니다.");
+    }
+}
 
 //userlist라는 경로로 들어오면 DB에 저장된 유저 리스트 서버가 찾아줌.
 app.get('/userlist',(req,res)=>{
@@ -81,6 +105,7 @@ passport.use(new LocalStrategy({
       if (err) return done(err)
   
       if (!result) return done(null, false, { message: '등록되지 않은 군번입니다.' })
+      //이거 암호화 해야함.
       if (receivedPassword == result.pw) {
         return done(null, result)
       } else {
@@ -94,6 +119,8 @@ passport.use(new LocalStrategy({
     done(null, user.servNum)
   });
   
-  passport.deserializeUser((아이디, done) =>{
-    done(null, {})
+  passport.deserializeUser((id, done) =>{
+    db.collection('login').findOne({ servNum : id},(err,result)=>{
+        done(null, result)
+    })
   }); 

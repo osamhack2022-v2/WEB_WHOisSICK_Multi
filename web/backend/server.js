@@ -1,4 +1,5 @@
 const express = require('express');
+const argon2 = require('argon2');
 const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('config');
@@ -9,7 +10,8 @@ const session = require('express-session');
 
 const app = express();
 
-app.use(express.urlencoded({extended: true})) 
+app.use(express.json());
+app.use(express.urlencoded({extended: false})) 
 
 var db;
 MongoClient.connect(mongourl, (err, client)=> {
@@ -23,34 +25,40 @@ MongoClient.connect(mongourl, (err, client)=> {
   })
   
 //홈페이지
-app.use('/',(req,res)=>{
-    res.status(200).json({message : 'ok'});
+app.get('/',(req,res)=>{
+  //빌드 된 파일 홈.  
+  //res.sendFile(__dirname + '/web/wis/build/index.html');
 })
 
+
 //회원가입. 군번, 비밀번호, 이름 받아올 거임.
-app.post('/sign-up', (req, res)=> {
-    res.send('전송완료');
+app.post('/signup', async (req, res)=> {
+    console.log('전송완료');
+    const {servNum, password, name, ganbu } = req.body 
+    const hash = await argon2.hash(password);
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
         //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
         var userCount = result.totalUser;
         //비밀번호도 애초에 암호화해서 저장해둬야함.
         db.collection('users').insertOne( {
-            _id : userCount +1 ,
-            군번 : req.body.servNum , 
-            비밀번호 : req.body.password , 
-            이름:req.body.name, 
-            병력:req.body.history 
+            군번 : servNum , 
+            비밀번호 : hash , 
+            이름: name,
+            간부: ganbu,
+            병력: { }, //history 라는 변수 명으로 쓸 생각.
+            _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
         } ,
         (err,result)=>{
-            console.log('저장완료')
+            res.send('저장완료')
+            res.redirect('/');
             db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
                 if(err) {return console.log(err);
             }
           })
         });
       });
-});
 
+});
 
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
@@ -61,20 +69,36 @@ app.get('/login',(req,res)=>{
     res.render("로그인 페이지");
 })
 
-//로그인 페이지에서 뭔가 보내면 실행.
+//로그인 페이지에서 뭔가 보내면 실행. 세션 방식.
 app.post('/login', passport.authenticate('local',{
     failureRedirect : '/fail'
 }) ,(req,res)=>{
     //성공하면 기본 페이지로
     res.redirect('/');
 })
+//웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
+app.post('/login',async (req,res)=>{
+  const {servNum, password } =req.body;//군번이랑 비번 받아옴
+  db.collection('users').findOne({ servNum : servNum}, (err,result)=>{
+    const userdata = result;
+    res.send(json({ userdata }));
+  })
+  if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
+    res.status(403).send("회원가입 되지 않은 군번입니다.");
+    return;
+  }
+  //아르곤으로 암호화했으니 암호화 된 패스워드랑 지금 받은 패스워드 비교.
+  if(!(await argon2.verify(userdata.password,password))) {//userdata의 password와 들어온 애를 비교할 겁니다. 근데 암호화해서요
+    res.status(403).send("비밀번호가 틀립니다.");
+    return;
+  }
+  res.send("로그인 되었습니다.");
+})
 
 //진료신청탭
 app.get('/reservation', isLogin ,(req,res)=>{
     res.render("진료신청탭");
 })
-
-app.get
 
 const isLogin = (req,res,next)=>{
     if(req.user){
@@ -93,8 +117,16 @@ app.get('/userlist',(req,res)=>{
     })
 })
 
-//아이디 맞는지는 어케 앎?
-//얘가 앎 ㅋㅋ 받아온 거 DB랑 비교하는 로직
+app.get('userlist/:servNum',(req,res)=>{
+  const servNum = req.parms.servNum;//파라미터로 군번 받아오고
+  //그 군번과 일치하는 데이터를 DB에서 찾을 거임
+  db.collection('users').findOne({ servNum : servNum}, (err,result)=>{
+    const userdata = result;//일치하는 결과를 유저 데이터에 넣고
+    res.send(json({ userdata }));//유저 데이터는 제이슨 형식으로 보내줄 거임.
+  })//맞으면 유저 데이터 뱉어 줌.
+})
+
+//세션 방식 로그인 로직
 passport.use(new LocalStrategy({
     usernameField: 'servNum',
     passwordField: 'pw',

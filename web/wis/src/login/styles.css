@@ -43,8 +43,9 @@ a {
     position: absolute;
     width: 171px;
     height: 93px;
-    left: calc(50% - 171px/2 + 132.5px);
-    top: calc(50% - 93px/2 + 238.5px);
+    left: calc(50% - 172px/2 + 133.5px);
+    top: calc(50% - 48px/2 + 239px);
+
 
     font-family: 'Inter';
     font-style: normal;
@@ -52,6 +53,32 @@ a {
     font-size: 40px;
     line-height: 48px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+    border: 1px solid #000000;
+
+    background: #18F3BF;
+    border-radius: 20px;
+}
+
+#signUp {
+    position: absolute;
+    width: 172px;
+    height: 93px;
+    left: calc(50% - 172px/2 - 141.5px);
+    top: calc(50% - 48px/2 + 239px);
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    display: flex;
+    justify-content: center;
     align-items: center;
     text-align: center;
 

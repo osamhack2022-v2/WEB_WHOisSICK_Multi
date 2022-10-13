@@ -1,49 +1,89 @@
 import React from "react";
-import Button from "./Button";
+import { Checkbox, TextField, Button, FormControlLabel, Grid, Avatar, Box, Container } from "@mui/material";
+import {Typography} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
+import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-const loginValue = {};
+const MuiLoginForm = () => {
 
-const Input = ({text}) => {
-    const [value, changeId] = React.useState(0);
-    const onChanges = (event) => {
-        changeId(event.target.value);
-        if(event.target.id === "Id") {
-            loginValue[0] = event.target.value;
-        } else {
-            loginValue[1] = event.target.value;
-        }
+    const navigate = useNavigate();
+
+    const [values, setValues] = React.useState({
+        id: "",
+        password: ""
+    });
+    
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setValues({
+            ...values,
+            [name]:value
+        });
     }
-    return <div>
-        <input
-        value={value}
-        onChange={onChanges}
-        type="text" 
-        placeholder={text}
-        id={text}
-    />
-    </div> 
+
+    return (
+        <Container component="main" maxWidth="sm">
+            <Box
+            sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+            >
+                <Avatar sx={{m: 1, bgcolor:'secondary.main'}}>
+                <LockOutlinedIcon />
+                </Avatar>
+
+                <Typography component="h1" variant="h5" sx={{mb: 3}}>
+                    로그인
+                </Typography>
+
+                <TextField
+                margin="normal"
+                label="군번" 
+                required 
+                fullWidth
+                name="id"
+                autoFocus
+                onChange={handleChange}
+                />
+                <TextField
+                margin="normal"
+                label="비밀번호" 
+                type="password" 
+                required 
+                fullWidth
+                name="password"
+                autoComplete="current-password" 
+                onChange={handleChange}
+                />
+                <Grid container>
+                    <Grid item xs>
+                        <FormControlLabel
+                        control={<Checkbox value="remember" color="primary"/>}
+                        label="사용자 정보 저장"
+                        />
+                    </Grid>
+                    <Grid item sx={{mt: 1.2}}>
+                        <Link to="">비밀번호 찾기</Link>
+                        <sapn>  |  </sapn>
+                        <Link to="/r2">회원가입</Link>
+                    </Grid>
+                </Grid>
+                    <Button
+                    onClick={() => navigate('/r1')} 
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{mt: 2}}
+                    >
+                        로그인
+                    </Button>
+            </Box>
+        </Container>
+    )
 }
 
-const Select = () => {
-    const onChange = (event) => {
-        console.log(event.target.value);
-    }
-    return <select onChange={onChange}>
-        <option value="0">용사</option>
-        <option value="1">간부</option>
-    </select>
-}
-
-const MemorizedInput = React.memo(Input);
-
-const LoginForm = () => {
-    return <form>
-        <Select />
-        <MemorizedInput text="Id"/>
-        <MemorizedInput text="Password"/>
-        <Button text="Log In!" fontSize={40}/>
-    </form>
-}
-
-export default LoginForm;
-export {loginValue};
+export default MuiLoginForm;

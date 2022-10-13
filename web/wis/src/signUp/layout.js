@@ -1,66 +1,27 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import { Container } from '@mui/system';
 
-const Form = () => {
-    const [inputs, setInputs] = React.useState({
-        name: "",
-        age: "",
-        armyNum: "",
-        id: "",
-        password: "",
-    });
-
-    const onChangeInput = (event) => {
-        const { value, name } = event.target;
-        setInputs({
-            ...inputs,
-            [name]: value,
-        });
-    }
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-        const { value, name } = event.target;
-        setInputs({
-            ...inputs,
-            [name]: value,
-        });
-    }
-
-    return <form onSubmit={onSubmit}>
-        <p>
-            <label htmlFor="enterName">이름 </label>
-            <input 
-            id="enterName" 
-            placeholder="input your name"
-            name="name"
-            value={inputs.name}
-            onChange={onChangeInput}
-            ></input>
-            <sapn>test name : {inputs.name}</sapn>
-        </p>
-        <p>
-            <label htmlFor="enterAge">나이 </label>
-            <input id="enterAge" placeholder="input your age"></input>
-        </p>
-        <p>
-            <label htmlFor="enterArmyNum">군번 </label>
-            <input id="enterArmyNum" placeholder="input your armyNum"></input>
-        </p>
-        <p>
-            <label htmlFor="enterId">아이디 </label>
-            <input id="enterId" placeholder="input your id"></input>
-        </p>
-        <p>
-            <label htmlFor="enterPassword">비밀번호 </label>
-            <input id="enterPassword" placeholder="input your password"></input>
-        </p>
-        <p>
-            <label htmlFor="enterRePassword">비밀번호 재확인 </label>
-            <input id="enterRePassword" placeholder="input your password"></input>
-        </p>
-        <Link to="/">로그인</Link>
-    </form>
+export default function Variants() {
+  return (
+    <Container component="main" maxwidth="xs">
+        <Box
+        sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            '& > :not(style)': {
+            m: 0,
+            width: 128,
+            height: 128,
+            },
+        }}
+        >
+        <Paper variant="outlined" square />
+        <Paper variant="outlined" square />
+        </Box>
+    </Container>
+  );
 }
-
-export default Form;

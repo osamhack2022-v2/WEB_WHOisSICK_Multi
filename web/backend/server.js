@@ -1,5 +1,6 @@
 const express = require('express');
 const argon2 = require('argon2');
+const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
@@ -7,15 +8,12 @@ const MongoClient = require('mongodb').MongoClient;
 const config = require('config');
 const mongourl = config.get('mongoURI');
 const { validUser } = require('./middleware/auth');
-/*세션 방식 구현시 필요한 애들.
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
-*/
+
+dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({}));
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false})) 
 
@@ -25,15 +23,16 @@ MongoClient.connect(mongourl, (err, client)=> {
     
     db = client.db('who_is_sick'); //whoissick데이터베이스 폴더에 연결
 
-    app.listen(4001, ()=>{
-      console.log(`listening on ${4001}`)
+    app.listen(process.env.PORT, ()=>{
+      console.log(`listening on ${process.env.PORT}`)
     });
+    console.log("서버파일 안 ",db);
+
 })
-  
 //홈페이지
 app.get('/',(req,res)=>{
-  //빌드 된 파일 홈.  
-  //res.sendFile(__dirname + '/web/wis/build/index.html');
+  //빌드 된 파일 홈. 
+  res.send(db.json());
 })
 
 
@@ -42,6 +41,7 @@ app.post('/signup', async (req, res)=> {
     console.log('전송완료');
     const {servNum, password, name, ganbu } = req.body 
     const hash = await argon2.hash(password);
+
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
         //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
         var userCount = result.totalUser;
@@ -65,24 +65,11 @@ app.post('/signup', async (req, res)=> {
       });
 
 });
-/*
-app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
-app.use(passport.initialize());
-app.use(passport.session()); 
-*/
+
 //로그인 페이지로 접속하기.
 app.get('/login',(req,res)=>{
     res.render("로그인 페이지");
 })
-
-/*로그인 페이지에서 뭔가 보내면 실행. 세션 방식.
-app.post('/login', passport.authenticate('local',{
-    failureRedirect : '/fail'
-}) ,(req,res)=>{
-    //성공하면 기본 페이지로
-    res.redirect('/');
-})
-*/
 
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
 app.post('/login',async (req,res)=>{
@@ -110,11 +97,6 @@ app.post('/login',async (req,res)=>{
 
 //진료신청탭 로그인 한 사람만 들어갈 수 있게 할 거임.
 
-/* 얘는 세션 방식일 때  
-app.get('/reservation', isLogin ,(req,res)=>{
-  res.render("진료신청탭");
-})*/
-
 //얘는 json web token 방식일 때
 app.get('/reservation' , validUser ,(req,res)=>{
   res.send("인증된 사용자만 볼 수 있는 진료신청 탭");
@@ -124,17 +106,6 @@ app.get('/reservation' , validUser ,(req,res)=>{
 app.post('/reservation' , (req,res)=>{
 
 })
-
-
-/*세션 방식으로 구현할 때 필요한 친구.
-const isLogin = (req,res,next)=>{
-    if(req.user){
-        next()
-    } else{
-        res.sent("로그인한 사용자만 사용 가능합니다.");
-    }
-}
-*/
 
 //userlist라는 경로로 들어오면 DB에 저장된 유저 리스트 서버가 찾아줌.
 app.get('/userlist',(req,res)=>{
@@ -153,34 +124,3 @@ app.get('userlist/:servNum',(req,res)=>{
     res.send(json({ userdata }));//유저 데이터는 제이슨 형식으로 보내줄 거임.
   })//맞으면 유저 데이터 뱉어 줌.
 })
-
-/*세션 방식 로그인 로직
-passport.use(new LocalStrategy({
-    usernameField: 'servNum',
-    passwordField: 'pw',
-    session: true,
-    passReqToCallback: false,
-  }, (receivedID, receivedPassword, done) => {
-    db.collection('login').findOne({ id: receivedID }, (err, result) => {
-      if (err) return done(err)
-  
-      if (!result) return done(null, false, { message: '등록되지 않은 군번입니다.' })
-      //이거 암호화 해야함.
-      if (receivedPassword == result.pw) {
-        return done(null, result)
-      } else {
-        return done(null, false, { message: '비밀번호가 다릅니다.' })
-      }
-    })
-  }));
-
-  //세션 방식이라 세션 만들어줄 거임
-  passport.serializeUser((user, done) => {
-    done(null, user.servNum)
-  });
-  
-  passport.deserializeUser((id, done) =>{
-    db.collection('login').findOne({ servNum : id},(err,result)=>{
-        done(null, result)
-    })
-  }); */

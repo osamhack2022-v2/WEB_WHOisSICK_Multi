@@ -56,7 +56,7 @@ export default function BasicTabs() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' ,display: 'flex'}}>
-        <img src={aplogo} alt="로고"/>
+        <img src={aplogo} alt="  "/>
         <Tabs sx={{ width: '750px' }} value={value} onChange={handleChange} aria-label="basic tabs example ">
           <Tab label="진료 희망자" {...a11yProps(0)} />
           <Tab label="진료 신청" {...a11yProps(1)} />

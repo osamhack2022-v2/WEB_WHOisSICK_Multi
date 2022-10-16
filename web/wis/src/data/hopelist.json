@@ -1,0 +1,7 @@
+{
+    "member":[
+    {"name":"서한유", "Classes":"상병","inter":"머리가 아파요 ","ok":true},
+    {"name":"남혁", "Classes":"병장","inter":"백엔드가 너무 어려워요","ok":false},
+    {"name":"정회륜", "Classes":"병장","inter":"힝","ok":true}
+    ]
+}

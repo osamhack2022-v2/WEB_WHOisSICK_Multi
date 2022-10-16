@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import memb from '../../data/test.json';
+import memb from '../../data/hopelist.json';
 import styles from './vtab.module.css';
 
 function TabPanel(props) {
@@ -46,13 +46,24 @@ export default function VerticalTabs() {
 
   function mapFuncion(data, indexs) {
     return (
-      <TabPanel value={value} index={indexs}>
-      {data.Classes+" "+data.name}
-       <br/>
-       {data.inter}
-       <br/>
-       {data.ok&&<div className={styles.okk}>승인</div>}
-       {!data.ok&&<div className={styles.nok}>거부</div>}
+      <TabPanel value={value} index={indexs} className={styles.pan}>
+        <div>
+          {data.Classes+" "+data.name}
+        </div>
+      
+       <div className={styles.boxbox}>
+        {data.inter}
+        <br/><br/><br/><br/><br/><br/>
+       </div>
+      
+
+       <div className={styles.up}/>
+
+       <div className={styles.outer}>
+        {data.ok&&<div className={styles.okk}>승인</div>}
+        {!data.ok&&<div className={styles.nok}>거부</div>}        
+       </div>
+
       </TabPanel>
     );
   }
@@ -78,14 +89,6 @@ export default function VerticalTabs() {
         sx={{ borderRight: 1, borderColor: 'divider' }}
       >
         {memb.member.map(maptab)}
-  
-        {/*<Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} />
-        <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} />*/}
 
       </Tabs>
 

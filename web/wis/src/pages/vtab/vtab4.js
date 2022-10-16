@@ -59,7 +59,7 @@ export default function VerticalTabs() {
 
   function mapFuncion(data, indexs) {
     return (
-      <TabPanel value={value} index={indexs} className={styles.pan}>
+      <TabPanel key={data.sn} value={value} index={indexs} className={styles.pan}>
 
        {data.inter.map(tracky)}
 

@@ -66,16 +66,16 @@ export default function BasicTabs() {
         <div className={styles.wfill} />
         <Link to="/">로그아웃</Link>
       </Box>
-      <TabPanel value={value} index={0}>
+      <TabPanel key={0} value={value} index={0}>
         <R1 />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel key={1} value={value} index={1}>
         <R2 />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel key={2} value={value} index={2}>
         <R3 />
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      <TabPanel key={3} value={value} index={3}>
         <R4 />
       </TabPanel>
     </Box>

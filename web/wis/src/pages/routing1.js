@@ -7,12 +7,12 @@ function R1() {
 
 
   return (
-      <div1 className={styles.boxe}>
+      <div className={styles.boxe}>
         <div className={styles.rightb}>
           진료 희망자
         <Tabss></Tabss>
         </div>
-      </div1>
+      </div>
   );
 }
 

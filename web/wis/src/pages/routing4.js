@@ -1,6 +1,6 @@
 import styles from './Layout.module.css';
 import React from "react";
-import Tabss from './vtab/vtab';
+import Tabss from './vtab/vtab4';
 //tab 수정
 
 

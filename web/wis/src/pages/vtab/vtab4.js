@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import memb from '../../data/hopelist.json';
+import memb from '../../data/traking.json';
 import styles from './vtab.module.css';
 
 function TabPanel(props) {
@@ -41,28 +41,27 @@ function a11yProps(index) {
 }
 
 export default function VerticalTabs() {
-  //memb.member[0].name="변경된 서한유";
+
   const [value, setValue] = React.useState(0);
+
+  function tracky(data, indexs) {
+    return (
+       <div className={styles.boxunder}>
+        {indexs+1}
+        <br/>
+        {data}
+        <br/>
+       </div>
+      
+    );
+  }
+
 
   function mapFuncion(data, indexs) {
     return (
       <TabPanel value={value} index={indexs} className={styles.pan}>
-        <div>
-          {data.Classes+" "+data.name}
-        </div>
-      
-       <div className={styles.boxbox}>
-        {data.inter}
-        <br/><br/><br/><br/><br/><br/>
-       </div>
-      
 
-       <div className={styles.up}/>
-
-       <div className={styles.outer}>
-        {data.ok&&<div className={styles.okk}>승인</div>}
-        {!data.ok&&<div className={styles.nok}>거부</div>}        
-       </div>
+       {data.inter.map(tracky)}
 
       </TabPanel>
     );

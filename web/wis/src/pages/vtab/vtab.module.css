@@ -1,9 +1,37 @@
 .okk {
     font-weight:bolder;
-    color:greenyellow;
+    color:rgb(0, 253, 13);
     }
 
 .nok {
     font-weight:bolder;
     color:red;
     }
+
+.oran {
+    font-weight:bolder;
+    color:rgb(255, 145, 0);
+    }
+
+
+.name{
+    width:100%;
+    border-bottom: solid 1px rgb(187, 187, 187);
+}
+.boxbox{
+    border: solid 1px rgb(187, 187, 187);
+}
+.boxunder{
+    border-bottom: solid 1px rgb(187, 187, 187);
+}
+.pan{
+    width:100%;
+}
+.outer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .up {
+    height: 200px;
+  }

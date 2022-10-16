@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import memb from '../../data/hopelist.json';
+import memb from '../../data/resultlist.json';
 import styles from './vtab.module.css';
 
 function TabPanel(props) {
@@ -41,7 +41,7 @@ function a11yProps(index) {
 }
 
 export default function VerticalTabs() {
-  //memb.member[0].name="변경된 서한유";
+
   const [value, setValue] = React.useState(0);
 
   function mapFuncion(data, indexs) {
@@ -60,8 +60,8 @@ export default function VerticalTabs() {
        <div className={styles.up}/>
 
        <div className={styles.outer}>
-        {data.ok&&<div className={styles.okk}>승인</div>}
-        {!data.ok&&<div className={styles.nok}>거부</div>}        
+        {data.ok&&<div className={styles.okk}>진료 완료</div>}
+        {!data.ok&&<div className={styles.oran}>진료 중</div>}        
        </div>
 
       </TabPanel>

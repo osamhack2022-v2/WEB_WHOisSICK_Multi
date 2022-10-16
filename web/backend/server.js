@@ -16,6 +16,13 @@ const app = express();
 app.use(express.json({}));
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false})) 
+//코스설정 대충 해놨는데 일단 되는거 확인하면 다른 것도 하겠음
+app.use(cors({
+  methods : "GET, POST, PUT, DELETE",
+  credentials: true,
+}));
+
+
 
 var db;
 MongoClient.connect(mongourl, (err, client)=> {
@@ -32,7 +39,7 @@ MongoClient.connect(mongourl, (err, client)=> {
 //홈페이지
 app.get('/',(req,res)=>{
   //빌드 된 파일 홈. 
-  res.send(db.json());
+  res.status(200).json({message:'ok'});
 })
 
 

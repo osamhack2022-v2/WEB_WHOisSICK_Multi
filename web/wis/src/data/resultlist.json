@@ -1,6 +1,6 @@
 {
     "member":[
-    {"name":"서한유", "Classes":"상병","inter":"두통약 처방 ","ok":true},
-    {"name":"정회륜", "Classes":"병장","inter":"2주뒤 재진 신청","ok":true}
+    {"name":"서한유", "sn":"22-76015383","Classes":"상병","inter":"두통약 처방 ","ok":true,"hospital":"내과","day":"10/14"},
+    {"name":"정회륜", "sn":"21-12015385","Classes":"병장","inter":"2주뒤 재진 신청","ok":true,"hospital":"사과","day":"10/13"}
     ]
 }

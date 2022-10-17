@@ -47,9 +47,11 @@ export default function VerticalTabs() {
   function tracky(data, indexs) {
     return (
        <div className={styles.boxunder}>
-        {indexs+1}
+        {data.day}
         <br/>
-        {data}
+        {" 진료과: "+data.hospital}
+        <br/>
+        {data.inter}
         <br/>
        </div>
       
@@ -59,7 +61,7 @@ export default function VerticalTabs() {
 
   function mapFuncion(data, indexs) {
     return (
-      <TabPanel value={value} index={indexs} className={styles.pan}>
+      <TabPanel key={data.sn} value={value} index={indexs} className={styles.pan}>
 
        {data.inter.map(tracky)}
 

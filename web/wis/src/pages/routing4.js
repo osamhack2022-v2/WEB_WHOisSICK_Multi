@@ -6,12 +6,12 @@ import Tabss from './vtab/vtab4';
 
 function R4() {
   return (
-    <div1 className={styles.boxe}>
+    <div className={styles.boxe}>
       <div className={styles.rightb}>
         추적 관리
         <Tabss></Tabss>
       </div>
-    </div1>
+    </div>
   );
 }
 

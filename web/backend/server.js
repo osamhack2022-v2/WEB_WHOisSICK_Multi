@@ -39,9 +39,25 @@ MongoClient.connect(mongourl, (err, client)=> {
 //홈페이지
 app.get('/',(req,res)=>{
   //빌드 된 파일 홈. 
+  res.header("Access-Control-Allow-Origin", "*");
   res.status(200).json({message:'ok'});
 })
 
+app.get('/test', async (req,res) => {
+  try{
+    res.header("Access-Control-Allow-Origin", "*");
+    const pool = await poolPromise;
+    
+    const result = await pool.request()
+         .input('B', sql.Numeric, 2)
+         .execute('KJS_TEST_PROCEDURE');
+        
+    res.send(JSON.stringify(result));
+  } catch(err) {
+    res.status(500);
+    res.send(err.message);
+  }
+});
 
 //회원가입. 군번, 비밀번호, 이름 받아올 거임.
 app.post('/signup', async (req, res)=> {

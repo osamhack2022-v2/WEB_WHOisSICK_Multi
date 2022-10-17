@@ -56,7 +56,7 @@ export default function SignUpIndexV2(){
             <Grid item>
                 <Link to="/">로그인</Link>
                  <sapn>  |  </sapn>
-                <Link to="/r2">회원가입 </Link>
+                <Link to="/signup-select">회원가입 </Link>
             </Grid>
         </Grid>
 

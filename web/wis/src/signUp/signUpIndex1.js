@@ -57,7 +57,7 @@ export default function Variants() {
             }}>
             <Typography variant="h6" component="h6" sx={{mb:3, borderBottom: 1}}>간부 회원 가입</Typography>
             <img src={signUpIconV1} alt="  " />
-            <Button variant="contained" sx={{mt:3}} onClick={() => navigate('/r4')} >간부 회원가입</Button> 
+            <Button variant="contained" sx={{mt:3}} onClick={() => navigate('/signup-cadre')} >간부 회원가입</Button> 
           </Grid>
         </ Paper>
 
@@ -71,7 +71,7 @@ export default function Variants() {
             }}>
             <Typography variant="h6" component="h6" sx={{mb:3, borderBottom: 1}}>용사 회원 가입</Typography>
             <img src={signUpIconV2} alt="  " />
-            <Button variant="contained" sx={{mt:3}} onClick={() => navigate('/r3')} >용사 회원가입</Button> 
+            <Button variant="contained" sx={{mt:3}} onClick={() => navigate('/signup-private')} >용사 회원가입</Button> 
           </Grid>
         </Paper>
 

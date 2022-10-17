@@ -47,9 +47,11 @@ export default function VerticalTabs() {
   function tracky(data, indexs) {
     return (
        <div className={styles.boxunder}>
-        {indexs+1}
+        {data.day}
         <br/>
-        {data}
+        {" 진료과: "+data.hospital}
+        <br/>
+        {data.inter}
         <br/>
        </div>
       

@@ -4,7 +4,6 @@ import LoginForm from './logInForm';
 function Login() {
   return (
     <div>
-      
       <LoginForm />
     </div>
   );

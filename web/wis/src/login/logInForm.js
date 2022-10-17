@@ -8,12 +8,10 @@ import { useNavigate } from "react-router-dom";
 const MuiLoginForm = () => {
 
     const navigate = useNavigate();
-
     const [values, setValues] = React.useState({
         id: "",
         password: ""
     });
-    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setValues({
@@ -21,6 +19,19 @@ const MuiLoginForm = () => {
             [name]:value
         });
     }
+
+    fetch("http://127.0.0.1:5000/")
+    .then((response) => {
+        if(response.ok) {
+            return response.json();
+        }  
+        throw new Error('Network response was not ok.');
+    }).then((data) => {
+       console.log(JSON.stringify(data));
+    }).catch((error) => {
+        console.log(`error: ${error}`)
+    });
+
 
     return (
         <Container component="main" maxWidth="sm">

@@ -8,12 +8,12 @@ import { useNavigate } from "react-router-dom";
 const MuiLoginForm = () => {
 
     const navigate = useNavigate();
-
+    //얘량
     const [values, setValues] = React.useState({
         id: "",
         password: ""
     });
-    
+    //얘는 서버랑 통신할 때 필요 없을 듯.
     const handleChange = (event) => {
         const { name, value } = event.target;
         setValues({
@@ -21,6 +21,32 @@ const MuiLoginForm = () => {
             [name]:value
         });
     }
+
+    fetch("http://127.0.0.1:5000/")
+    .then((response) => {
+        if(response.ok) {
+            return response.json();
+        }  
+        throw new Error('Network response was not ok.');
+    }).then((data) => {
+       console.log(JSON.stringify(data));
+       setTodolist(data)
+    }).catch((error) => {
+        console.log(`error: ${error}`)
+    });
+
+    const onSubmitHandler = (event) => {
+        const  name = event.target.name.value;
+        const  done = event.target.done.value;
+        fetch("http://127.0.0.1:5000/",{
+            method: "POST",
+            body: JSON.stringify({
+                name, 
+                done,
+            })
+        })
+    }
+
 
     return (
         <Container component="main" maxWidth="sm">
@@ -47,7 +73,7 @@ const MuiLoginForm = () => {
                 fullWidth
                 name="id"
                 autoFocus
-                onChange={handleChange}
+                onChange={onSubmitHandler}
                 />
                 <TextField
                 margin="normal"
@@ -57,7 +83,7 @@ const MuiLoginForm = () => {
                 fullWidth
                 name="password"
                 autoComplete="current-password" 
-                onChange={handleChange}
+                onChange={onSubmitHandler}
                 />
                 <Grid container>
                     <Grid item xs>

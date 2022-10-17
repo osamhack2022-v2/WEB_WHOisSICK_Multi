@@ -11,8 +11,8 @@ import "./login/styles.css";
 
 //r3가 용사 r4가 간부
 function App() {
-    //여기부터
-    fetch("https://localhost:5000/")
+    /*여기부터
+    fetch("http://127.0.0.1:5000/")
     .then((response) => {
         if(response.ok) {
             return response.json();
@@ -23,7 +23,7 @@ function App() {
     }).catch((error) => {
         console.log(`error: ${error}`)
     });
-    //여기까지 패치 되는지 확인용.
+    여기까지 패치 되는지 확인용.*/
     return (
         <Routes>
             <Route path="/" element={<Login />} />

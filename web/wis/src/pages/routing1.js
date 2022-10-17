@@ -3,9 +3,6 @@ import React from "react";
 import Tabss from './vtab/vtab';
 
 function R1() {
-
-
-
   return (
       <div1 className={styles.boxe}>
         <div className={styles.rightb}>

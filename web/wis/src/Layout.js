@@ -14,6 +14,7 @@ import R2 from './pages/routing2';
 import R3 from './pages/routing3';
 import R4 from './pages/routing4';
 import aplogo from './data/aplogo.png';
+import "./App.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,8 +65,8 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' ,display: 'flex'}}>
-        <img src={aplogo} alt="  "/>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex'}}>
+        <img class="image" src={aplogo} alt="  "/>
         <Tabs sx={{ width: '750px'}} value={value} onChange={handleChange} aria-label="basic tabs example ">
           <Tab label="진료 희망자" {...a11yProps(0)} />
           <Tab label="진료 신청" {...a11yProps(1)} />

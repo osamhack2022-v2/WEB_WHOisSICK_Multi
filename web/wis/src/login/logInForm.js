@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Checkbox, TextField, Button, FormControlLabel, Grid, Avatar, Box, Container } from "@mui/material";
 import {Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+
+function App() {
+
+    //데이터 받아오기
+    useEffect(() => {
+        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/')
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+    }, []);
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/login', {
+            method: 'POST',
+            headers: {
+                'content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                //데이터 값 넣어주기
+            }),
+        });
+    }
+}
 
 const MuiLoginForm = () => {
 
@@ -21,6 +44,22 @@ const MuiLoginForm = () => {
             [name]:value
         });
     }
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        const id = values.id;
+        const password = values.password;
+        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/login', {
+            method: 'POST',
+            headers: {
+                'content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id,
+                password,
+            }),
+        });
+    };
 
     return (
         <Container component="main" maxWidth="sm">
@@ -80,6 +119,16 @@ const MuiLoginForm = () => {
                     sx={{mt: 2}}
                     >
                         로그인
+                    </Button>
+
+                    <Button
+                    onClick={onSubmitHandler} 
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{mt: 5}}
+                    >
+                        값 테스트
                     </Button>
             </Box>
         </Container>

@@ -4,3 +4,9 @@
     box-sizing: border-box;
     flex: 1;
   }
+
+  .image{
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+  }

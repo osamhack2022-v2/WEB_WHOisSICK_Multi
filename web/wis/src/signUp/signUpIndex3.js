@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Grid, TextField, Typography, Button } from '@mui/material';
 import aplogo from '../data/aplogo.png';
 import { Link } from 'react-router-dom';
-import "./layout.css";
 import { Container } from '@mui/system';
 import { useNavigate } from "react-router-dom";
+import "./layout.css";
 
 //간부 페이지
 export default function SignUpIndexV2(){
@@ -24,6 +24,27 @@ export default function SignUpIndexV2(){
             [name]:value
         });
     }
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        const id = values.id;
+        const password = values.password;
+        const name = values.name;
+        const ganbu = values.ganbu;
+        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/signup', {
+            method: 'POST',
+            headers: {
+                'content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id,
+                password,
+                name,
+                ganbu,
+            }),
+        });
+    };
+
 
     return (
     <Container component="main" maxWidth>
@@ -99,7 +120,7 @@ export default function SignUpIndexV2(){
             />
 
             <Button
-                onClick={() => navigate('/')} 
+                onClick={onSubmitHandler} 
                 fullWidth
                 variant="contained"
                 size="large"

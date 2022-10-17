@@ -14,10 +14,10 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/r1" element={<R1 />} />
-            <Route path="/r2" element={<R2 />} />
-            <Route path="/r3" element={<R3 />} />
-            <Route path="/r4" element={<R4 />} />
+            <Route path="/main" element={<R1 />} />
+            <Route path="/signup-select" element={<R2 />} />
+            <Route path="/signup-private" element={<R3 />} />
+            <Route path="/signup-cadre" element={<R4 />} />
         </Routes>
     );
 }

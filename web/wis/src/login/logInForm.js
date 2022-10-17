@@ -69,11 +69,11 @@ const MuiLoginForm = () => {
                     <Grid item sx={{mt: 1.2}}>
                         <Link to="">비밀번호 찾기</Link>
                         <sapn>  |  </sapn>
-                        <Link to="/r2">회원가입</Link>
+                        <Link to="/signup-select">회원가입</Link>
                     </Grid>
                 </Grid>
                     <Button
-                    onClick={() => navigate('/r1')} 
+                    onClick={() => navigate('/main')} 
                     fullWidth
                     variant="contained"
                     size="large"

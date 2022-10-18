@@ -95,7 +95,7 @@ app.get('/login',(req,res)=>{
 })
 
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
-app.post('/login',async (req,res)=>{
+app.post('/',async (req,res)=>{
   const {servNum, password } =req.body;//군번이랑 비번 받아옴
   db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
     const userdata = result;

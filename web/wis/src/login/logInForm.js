@@ -9,14 +9,14 @@ function App() {
 
     //데이터 받아오기
     useEffect(() => {
-        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/')
+        fetch('http://127.0.0.1:5000/')
         .then((response) => response.json())
         .then((data) => console.log(data));
     }, []);
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/login', {
+        fetch('http://127.0.0.1:5000/', {
             method: 'POST',
             headers: {
                 'content-Type': 'application/json',
@@ -47,7 +47,7 @@ const MuiLoginForm = () => {
         event.preventDefault();
         const id = values.id;
         const password = values.password;
-        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/login', {
+        fetch('http://127.0.0.1:5000/', {
             method: 'POST',
             headers: {
                 'content-Type': 'application/json',

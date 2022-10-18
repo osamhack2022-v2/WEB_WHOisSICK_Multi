@@ -33,8 +33,6 @@ MongoClient.connect(mongourl, (err, client)=> {
     app.listen(process.env.PORT, ()=>{
       console.log(`listening on ${process.env.PORT}`)
     });
-    console.log("서버파일 안 ",db);
-
 })
 //홈페이지
 app.get('/',(req,res)=>{
@@ -128,7 +126,6 @@ app.post('/',(req,res)=>{
   console.log(req.body)
   db.collection('users').findOne({ servNum : id}, async (err,result)=>{
     const userdata = result;
-    console.log(result);
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
       console.log("회원가입 되지 않은 군번입니다.");
       res.status(403).send("회원가입 되지 않은 군번입니다.");
@@ -143,9 +140,11 @@ app.post('/',(req,res)=>{
     //로그인한 이용자만 쓸 수 있게 하기.
       const access_token = jwt.sign({id}, 'dkaghzl')//암호키로 암호화해주기.
       res.cookie('accesstoken',access_token,{
+        httpOnly : true
     });
-    
-    res.send(JSON({ userdata }));//로그인 됐으면 유저 데이터 뱉어주기 확인용.
+
+
+    res.status(200).res(userdata );//로그인 됐으면 유저 데이터 뱉어주기 확인용.
   })
 })
 

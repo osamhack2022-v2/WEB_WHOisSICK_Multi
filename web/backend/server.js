@@ -60,7 +60,7 @@ app.get('/test', async (req,res) => {
 });
 
 //회원가입. 군번, 비밀번호, 이름 받아올 거임.
-app.post('/signup', async (req, res)=> {
+app.post('/signup-private', async (req, res)=> {
     console.log('전송완료');
     const {servNum, password, name, ganbu } = req.body 
     const hash = await argon2.hash(password);
@@ -73,7 +73,7 @@ app.post('/signup', async (req, res)=> {
             군번 : servNum , 
             비밀번호 : hash , 
             이름: name,
-            간부: ganbu,
+            간부: false,
             병력: { }, //history 라는 변수 명으로 쓸 생각.
             _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
         } ,
@@ -86,7 +86,35 @@ app.post('/signup', async (req, res)=> {
           })
         });
       });
+});
 
+//간부 회원가입. 군번, 비밀번호, 이름 받아올 거임.
+app.post('/signup-cadre', async (req, res)=> {
+    console.log('전송완료');
+    const {servNum, password, name, ganbu } = req.body 
+    const hash = await argon2.hash(password);
+
+    db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
+        //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
+        var userCount = result.totalUser;
+        //비밀번호도 애초에 암호화해서 저장해둬야함.
+        db.collection('users').insertOne( {
+            servNum : servNum , 
+            password : hash , 
+            name: name,
+            cadre: true,
+            history: { }, //history 라는 변수 명으로 쓸 생각.
+            _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
+        } ,
+        (err,result)=>{
+            res.send('저장완료')
+            res.redirect('/');
+            db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
+                if(err) {return console.log(err);
+            }
+          })
+        });
+      });
 });
 
 //로그인 페이지로 접속하기.
@@ -95,26 +123,29 @@ app.get('/login',(req,res)=>{
 })
 
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
-app.post('/',async (req,res)=>{
-  const {servNum, password } =req.body;//군번이랑 비번 받아옴
-  db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
+app.post('/',(req,res)=>{
+  const {id, password } =req.body;//군번이랑 비번 받아옴
+  console.log(req.body)
+  db.collection('users').findOne({ servNum : id}, async (err,result)=>{
     const userdata = result;
+    console.log(result);
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
+      console.log("회원가입 되지 않은 군번입니다.");
       res.status(403).send("회원가입 되지 않은 군번입니다.");
       return;
     }
     //아르곤으로 암호화했으니 암호화 된 패스워드랑 지금 받은 패스워드 비교.
-    if(!(await argon2.verify(userdata.password,password))) {//userdata의 password와 들어온 애를 비교할 겁니다. 근데 암호화해서요
+    if(!await (argon2.verify(userdata.password,password))) {//userdata의 password와 들어온 애를 비교할 겁니다. 근데 암호화해서요
+      console.log("비밀번호 틀림")
       res.status(403).send("비밀번호가 틀립니다.");
       return;
     }
     //로그인한 이용자만 쓸 수 있게 하기.
-    const access_token = jwt.sign({servNum}, 'dkaghzl')//암호키로 암호화해주기.
-    res.cookie('내가 만든 액세스토큰 쿠키',access_token,{
-      httpOnly:true,
+      const access_token = jwt.sign({id}, 'dkaghzl')//암호키로 암호화해주기.
+      res.cookie('accesstoken',access_token,{
     });
     
-    res.send(json({ userdata}));//로그인 됐으면 유저 데이터 뱉어주기 확인용.
+    res.send(JSON({ userdata }));//로그인 됐으면 유저 데이터 뱉어주기 확인용.
   })
 })
 

@@ -31,7 +31,7 @@ export default function SignUpIndexV2(){
         const password = values.password;
         const name = values.name;
         const ganbu = values.ganbu;
-        fetch('https://osamhack2022-web-whoissick-multi-4ww6jgw94gw3jxwx-3000.githubpreview.dev/signup', {
+        fetch('http://127.0.0.1:5000/signup', {
             method: 'POST',
             headers: {
                 'content-Type': 'application/json',

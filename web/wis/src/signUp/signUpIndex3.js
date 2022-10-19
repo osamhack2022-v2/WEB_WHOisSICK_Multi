@@ -3,12 +3,12 @@ import { Grid, TextField, Typography, Button } from '@mui/material';
 import aplogo from '../data/aplogo.png';
 import { Link } from 'react-router-dom';
 import { Container } from '@mui/system';
-import { useNavigate } from "react-router-dom";
+//mport { useNavigate } from "react-router-dom";
 import "./layout.css";
 
 //간부 페이지
 export default function SignUpIndexV2(){
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const [values, setValues] = React.useState({
         id: "",

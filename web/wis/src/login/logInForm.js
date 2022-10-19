@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Checkbox, TextField, Button, FormControlLabel, Grid, Avatar, Box, Container } from "@mui/material";
 import {Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
-function App() {
+/*function App() {
 
     //데이터 받아오기
     useEffect(() => {
@@ -26,7 +26,7 @@ function App() {
             }),
         });
     }
-}
+}*/
 
 const MuiLoginForm = () => {
 
@@ -127,6 +127,16 @@ const MuiLoginForm = () => {
                     sx={{mt: 5}}
                     >
                         값 테스트
+                    </Button>
+
+                    <Button
+                    onClick={() => navigate('/r1')} 
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{mt: 2}}
+                    >
+                        관리자
                     </Button>
             </Box>
         </Container>

@@ -35,3 +35,14 @@
   .up {
     height: 200px;
   }
+
+  .sero{
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+
+  }
+  .mb{
+    margin-bottom:200px;
+  }

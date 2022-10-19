@@ -11,7 +11,7 @@ export default function SignUpIndexV2(){
     const navigate = useNavigate();
 
     const [values, setValues] = React.useState({
-        id: "",
+        servNum: "",
         password: "",
         name: "",
         ganbu: false
@@ -67,7 +67,7 @@ export default function SignUpIndexV2(){
             margin="normal"
             label="군번" 
             required 
-            name="id"
+            name="servNum"
             autoFocus
             onChange={handleChange} 
             variant="standard"

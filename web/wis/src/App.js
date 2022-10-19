@@ -5,6 +5,7 @@ import R1 from './pages/mainpage';
 import R2 from './signUp/signUpIndex1';
 import R3 from './signUp/signUpIndex2';
 import R4 from './signUp/signUpIndex3';
+import R5 from './admin/admin';
 
 import "./login/styles.css";
 //import "./signUp/layout.css";
@@ -31,6 +32,7 @@ function App() {
             <Route path="/signup-select" element={<R2 />} />
             <Route path="/signup-private" element={<R3 />} />
             <Route path="/signup-cadre" element={<R4 />} />
+            <Route path="/r1" element={<R5 />} />
         </Routes>
     );
 }

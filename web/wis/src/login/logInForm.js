@@ -4,7 +4,6 @@ import {Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import DataPickUp from "./Test";
 
 /*function App() {
 
@@ -62,7 +61,6 @@ const MuiLoginForm = () => {
 
     return (
         <Container component="main" maxWidth="sm">
-            <DataPickUp />
             <Box
             sx={{
                 marginTop: 8,
@@ -129,6 +127,16 @@ const MuiLoginForm = () => {
                     sx={{mt: 5}}
                     >
                         값 테스트
+                    </Button>
+
+                    <Button
+                    onClick={() => navigate('/r1')} 
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{mt: 2}}
+                    >
+                        관리자
                     </Button>
             </Box>
         </Container>

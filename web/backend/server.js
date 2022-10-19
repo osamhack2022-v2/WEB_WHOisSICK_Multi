@@ -117,6 +117,10 @@ app.post('/signup-cadre', async (req, res)=> {
       });
 });
 
+app.get('/secure_data', validUser ,(req, res)=>{
+  res.send("인증된 사용자만 쓸 수 있는 API")
+})
+
 //로그인 페이지로 접속하기.
 app.get('/login',(req,res)=>{
     res.render("로그인 페이지");

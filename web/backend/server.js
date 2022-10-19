@@ -68,12 +68,12 @@ app.post('/signup-private', async (req, res)=> {
         var userCount = result.totalUser;
         //비밀번호도 애초에 암호화해서 저장해둬야함.
         db.collection('users').insertOne( {
-            군번 : servNum , 
-            비밀번호 : hash , 
-            이름: name,
-            간부: false,
-            병력: { }, //history 라는 변수 명으로 쓸 생각.
-            _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
+          servNum : servNum , 
+          password : hash , 
+          name: name,
+          cadre: false,
+          history: { }, //history 라는 변수 명으로 쓸 생각.
+          _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
         } ,
         (err,result)=>{
             db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{

@@ -31,7 +31,7 @@ export default function SignUpIndexV2(){
         const password = values.password;
         const name = values.name;
         const ganbu = values.ganbu;
-        fetch('http://127.0.0.1:5000/signup', {
+        fetch('http://127.0.0.1:5000/signup-cadre', {
             method: 'POST',
             headers: {
                 'content-Type': 'application/json',

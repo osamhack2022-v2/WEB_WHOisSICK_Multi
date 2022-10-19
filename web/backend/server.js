@@ -68,19 +68,20 @@ app.post('/signup-private', async (req, res)=> {
         var userCount = result.totalUser;
         //비밀번호도 애초에 암호화해서 저장해둬야함.
         db.collection('users').insertOne( {
-            군번 : servNum , 
-            비밀번호 : hash , 
-            이름: name,
-            간부: false,
-            병력: { }, //history 라는 변수 명으로 쓸 생각.
-            _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
+          servNum : servNum , 
+          password : hash , 
+          name: name,
+          cadre: false,
+          history: { }, //history 라는 변수 명으로 쓸 생각.
+          _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
         } ,
         (err,result)=>{
-            res.send('저장완료')
-            res.redirect('/');
             db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
                 if(err) {return console.log(err);
             }
+            res.write('저장완료');
+            res.redirect('/');
+            res.end();
           })
         });
       });
@@ -105,15 +106,20 @@ app.post('/signup-cadre', async (req, res)=> {
             _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
         } ,
         (err,result)=>{
-            res.send('저장완료')
-            res.redirect('/');
             db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
                 if(err) {return console.log(err);
             }
+            res.write('저장완료');
+            res.redirect('/');
+            res.end();
           })
         });
       });
 });
+
+app.get('/secure_data', validUser ,(req, res)=>{
+  res.send("인증된 사용자만 쓸 수 있는 API")
+})
 
 //로그인 페이지로 접속하기.
 app.get('/login',(req,res)=>{
@@ -123,7 +129,6 @@ app.get('/login',(req,res)=>{
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
 app.post('/',(req,res)=>{
   const {id, password } =req.body;//군번이랑 비번 받아옴
-  console.log(req.body)
   db.collection('users').findOne({ servNum : id}, async (err,result)=>{
     const userdata = result;
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
@@ -143,8 +148,9 @@ app.post('/',(req,res)=>{
         httpOnly : true
     });
 
-
-    res.status(200).res(userdata );//로그인 됐으면 유저 데이터 뱉어주기 확인용.
+    console.log(userdata);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.status(200).json({userdata});
   })
 })
 

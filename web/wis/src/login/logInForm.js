@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Checkbox, TextField, Button, FormControlLabel, Grid, Avatar, Box, Container } from "@mui/material";
 import {Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import DataPickUp from "./Test";
 
-function App() {
+/*function App() {
 
     //데이터 받아오기
     useEffect(() => {
@@ -26,7 +27,7 @@ function App() {
             }),
         });
     }
-}
+}*/
 
 const MuiLoginForm = () => {
 
@@ -61,6 +62,7 @@ const MuiLoginForm = () => {
 
     return (
         <Container component="main" maxWidth="sm">
+            <DataPickUp />
             <Box
             sx={{
                 marginTop: 8,

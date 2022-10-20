@@ -139,7 +139,7 @@ Row.propTypes = {
 
 export default function CollapsibleTable() {
   const [userList, setUserList] = React.useState(null);
-  const [userList2, setUserList2] = React.useState(null);
+  //const [userList2, setUserList2] = React.useState(null);
 
   function getUserListPrivate () {
 
@@ -149,11 +149,11 @@ export default function CollapsibleTable() {
         "content-type" : "application/json"
       }
     }
-    fetch('http://127.0.0.1:5000/signup-private', reqOtion)
+    fetch('http://127.0.0.1:5000/main', reqOtion)
     .then((response) => response.json())
     .then((data) => setUserList(data));
   }
-
+  /*
   function getUserListCadre () {
 
     let reqOtion = {
@@ -165,9 +165,9 @@ export default function CollapsibleTable() {
     fetch('http://127.0.0.1:5000/signup-cadre', reqOtion)
     .then((response) => response.json())
     .then((data) => setUserList2(data));
-  }
+  }*/
 
-  getUserListCadre();
+  //getUserListCadre();
   getUserListPrivate();
 
   return (
@@ -187,9 +187,6 @@ export default function CollapsibleTable() {
             </TableHead>
             <TableBody>
             {userList.map((row) => (
-                <Row key={row.name} row={row} />
-            ))}
-            {userList2.map((row) => (
                 <Row key={row.name} row={row} />
             ))}
             </TableBody>

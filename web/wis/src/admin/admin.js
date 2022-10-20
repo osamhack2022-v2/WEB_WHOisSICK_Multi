@@ -113,19 +113,18 @@ Row.propTypes = {
   row: PropTypes.shape({
     name: PropTypes.string.isRequired,
     classes: PropTypes.string.isRequired,
-    servNum: PropTypes.string.isRequired,
-
-    history: PropTypes.arrayOf(
+    sn: PropTypes.string.isRequired,
+    inter: PropTypes.string.isRequired,
+    ok: PropTypes.bool.isRequired,
+    
+    /*history: PropTypes.arrayOf(
       PropTypes.shape({
         amount: PropTypes.number.isRequired,
         customerId: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
       }),
     ).isRequired,
-
-    id: PropTypes.string.isRequired,
-    ganbu: PropTypes.bool.isRequired,
-    condition: PropTypes.string.isRequired,
+    */
   }).isRequired,
 };
 

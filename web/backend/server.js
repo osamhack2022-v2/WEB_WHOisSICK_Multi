@@ -126,6 +126,13 @@ app.get('/login',(req,res)=>{
     res.render("로그인 페이지");
 })
 
+app.get('/signup-cadre',(req,res)=>{
+  db.collection('users').find().toArray((err,result)=>{
+    console.log(result);
+    res.send(result);
+  })
+})
+
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
 app.post('/',(req,res)=>{
   const {id, password } =req.body;//군번이랑 비번 받아옴

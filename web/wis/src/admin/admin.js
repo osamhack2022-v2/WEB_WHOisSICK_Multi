@@ -57,14 +57,13 @@ import { Container } from '@mui/system';
 */
 
 /*
-function createData(id, name, servNum, classes, condition, ganbu) {
+function createData(name, sn, classes, inter, ok) {
   return {
-    id,
     name,
-    servNum,
+    sn,
     classes,
-    condition,
-    ganbu,
+    inter,
+    ok,
     history: [
       {
         date: '2020-01-05',
@@ -101,9 +100,9 @@ function Row(props) {
           {row.name}
         </TableCell>
         <TableCell align="right">{row.sn}</TableCell>
-        <TableCell align="right">{row.Classes}</TableCell>
+        <TableCell align="right">{row.classes}</TableCell>
         <TableCell align="right">{row.inter}</TableCell>
-        <TableCell align="right">{row.ok}</TableCell>
+        <TableCell align="right">{row.ok ? 1 : 2}</TableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -129,16 +128,15 @@ Row.propTypes = {
 };
 
 
-
-/*const rows = [
-  createData('ID', '이름', '군번', '계급', '진료상태', 재진여부),
-  createData('634d66ae7ce1b5b851678c45', '남혁', '21-76043383', '병장', '진료중인듯?', false),
-  createData('634d669d7ce1b5b8516785e3', '서한유', '22-76015383', '상병', '진료완료', false),
-];*/
-
+/*
+const rows = [
+  createData('남혁', '21', '병장', '진료중인듯?', false),
+  createData('서한유', '22', '상병',  '진료완료', false),
+];
+*/
 export default function CollapsibleTable() {
+  
   const [userList, setUserList] = React.useState(null);
-  //const [userList2, setUserList2] = React.useState(null);
 
   function getUserListPrivate () {
 
@@ -152,21 +150,7 @@ export default function CollapsibleTable() {
     .then((response) => response.json())
     .then((data) => setUserList(data));
   }
-  /*
-  function getUserListCadre () {
-
-    let reqOtion = {
-      method : "get",
-      headers : {
-        "content-type" : "application/json"
-      }
-    }
-    fetch('http://127.0.0.1:5000/signup-cadre', reqOtion)
-    .then((response) => response.json())
-    .then((data) => setUserList2(data));
-  }*/
-
-  //getUserListCadre();
+  
   getUserListPrivate();
 
   return (

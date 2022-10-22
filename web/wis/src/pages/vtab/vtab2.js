@@ -3,13 +3,23 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import styles from './vtab.module.css';
 import Box from '@mui/material/Box';
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function MultilineTextFields() {
+
+  const minDate = dayjs('2020-01-01T00:00:00.000');
+  const maxDate = dayjs('2034-01-01T00:00:00.000');
+
   const [value, setValue] = React.useState('Controlled');
+  const [date, setDate] = React.useState(dayjs('2022-04-07'));
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
   return (
     <Box
     component="form"
@@ -20,12 +30,21 @@ export default function MultilineTextFields() {
     autoComplete="off"
   >
     <div>
-        <TextField
-          id="date"
-          label="날짜"
-          placeholder="xx/xx"
-          multiline
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          label="진료희망날짜"
+          openTo="year"
+          views={['year', 'month', 'day']}
+          value={date}
+          minDate={minDate}
+          maxDate={maxDate}
+          mask={"____-__-__"}
+          onChange={(newValue) => {
+            setDate(newValue);
+          }}
+          renderInput={(params) => <TextField {...params} />}
         />
+      </LocalizationProvider>
     </div>
     <div>
         <TextField

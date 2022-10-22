@@ -1,7 +1,6 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import styles from './vtab.module.css';
 import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,8 +11,6 @@ export default function MultilineTextFields() {
 
   const minDate = dayjs('2020-01-01T00:00:00.000');
   const maxDate = dayjs('2034-01-01T00:00:00.000');
-
-  const [value, setValue] = React.useState('Controlled');
 
   const [dates, setdate] = React.useState(dayjs('2022-04-07'));
 

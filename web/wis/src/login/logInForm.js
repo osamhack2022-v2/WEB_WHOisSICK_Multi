@@ -128,16 +128,6 @@ const MuiLoginForm = () => {
                     >
                         값 테스트
                     </Button>
-
-                    <Button
-                    onClick={() => navigate('/admin')} 
-                    fullWidth
-                    variant="contained"
-                    size="large"
-                    sx={{mt: 2}}
-                    >
-                        관리자
-                    </Button>
             </Box>
         </Container>
     )

@@ -7,7 +7,8 @@ import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 
 import styles from './Layout.module.css';
-import R1 from './routing1';
+//import R1 from './routing1';
+import R1 from '../admin/adminHospiter';
 import R2 from './routing2';
 import R3 from './routing3';
 import R4 from './routing4';

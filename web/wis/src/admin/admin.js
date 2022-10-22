@@ -5,7 +5,7 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -13,48 +13,10 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { styled } from '@mui/material/styles';
 
-import AdminAddbar from './adminAddbar';
+//import AdminAddbar from './adminAddbar';
 import { Container } from '@mui/system';
-/*
-이전까지 환자 진료기록 넣는 테이블
-<TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                진료기록
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>날짜</TableCell>
-                    <TableCell>진료과</TableCell>
-                    <TableCell align="right">처방약 여부</TableCell>
-                    <TableCell align="right">재진 여부</TableCell>
-                  </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.ganbu * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-*/
 
 /*
 function createData(name, sn, classes, inter, ok) {
@@ -85,8 +47,8 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
+      <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <StyledTableCell>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -94,14 +56,14 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </TableCell>
+        </StyledTableCell>
 
-        <TableCell component="th" scope="row">
+        <StyledTableCell component="th" scope="row">
           {row.name}
-        </TableCell>
-        <TableCell align="right">{row.sn}</TableCell>
-        <TableCell align="right">{row.Classes}</TableCell>
-      </TableRow>
+        </StyledTableCell>
+        <StyledTableCell align="right">{row.sn}</StyledTableCell>
+        <StyledTableCell align="right">{row.Classes}</StyledTableCell>
+      </StyledTableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -112,21 +74,21 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>날짜</TableCell>
-                    <TableCell>진료과</TableCell>
-                    <TableCell align="right">처방 내용</TableCell>
+                    <StyledTableCell>날짜</StyledTableCell>
+                    <StyledTableCell align="right">진료과</StyledTableCell>
+                    <StyledTableCell align="right">처방 내용</StyledTableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   {row.inter.map((historyRow) => (
-                    <TableRow key={historyRow.inter}>
-                      <TableCell component="th" scope="row">
+                    <StyledTableRow key={historyRow.inter}>
+                      <StyledTableCell component="th" scope="row">
                         {historyRow.day}
-                      </TableCell>
-                      <TableCell align="right">{historyRow.hospital}</TableCell>
-                      <TableCell align="right">{historyRow.inter}</TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                      <StyledTableCell align="right">{historyRow.hospital}</StyledTableCell>
+                      <StyledTableCell align="right">{historyRow.inter}</StyledTableCell>
+                    </StyledTableRow>
                   ))}
                 </TableBody>
               </Table>
@@ -146,7 +108,7 @@ Row.propTypes = {
     
     inter: PropTypes.arrayOf(
       PropTypes.shape({
-        hospital: PropTypes.number.isRequired,
+        hospital: PropTypes.string.isRequired,
         day: PropTypes.string.isRequired,
         inter: PropTypes.string.isRequired,
       }),
@@ -161,7 +123,27 @@ const rows = [
   createData('서한유', '22', '상병',  '진료완료', false),
 ];
 */
-export default function CollapsibleTable() {
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+export default function AdminTracker() {
   
   const [userList, setUserList] = React.useState(null);
 
@@ -181,18 +163,14 @@ export default function CollapsibleTable() {
   getUserListPrivate();
 
   return (
-    <Container component='main'>
-        <AdminAddbar />
+    <Container component='main' maxWidth>
         <TableContainer component={Paper}>
         <Table aria-label="군인 병원 기록">
             <TableHead>
             <TableRow>
-                <TableCell />
-                <TableCell>이름</TableCell>
-                <TableCell align="right">군번</TableCell>
-                <TableCell align="right">계급</TableCell>
-                <TableCell align="right">내용</TableCell>
-                <TableCell align="right">진료여부</TableCell>
+                <StyledTableCell>이름</StyledTableCell>
+                <StyledTableCell align="right">군번</StyledTableCell>
+                <StyledTableCell align="right">계급</StyledTableCell>
             </TableRow>
             </TableHead>
             <TableBody>

@@ -32,7 +32,7 @@ function App() {
             <Route path="/signup-select" element={<R2 />} />
             <Route path="/signup-private" element={<R3 />} />
             <Route path="/signup-cadre" element={<R4 />} />
-            <Route path="/r1" element={<R5 />} />
+            <Route path="/admin" element={<R5 />} />
         </Routes>
     );
 }

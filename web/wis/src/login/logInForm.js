@@ -130,7 +130,7 @@ const MuiLoginForm = () => {
                     </Button>
 
                     <Button
-                    onClick={() => navigate('/r1')} 
+                    onClick={() => navigate('/admin')} 
                     fullWidth
                     variant="contained"
                     size="large"

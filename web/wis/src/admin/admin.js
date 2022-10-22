@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-//import Box from '@mui/material/Box';
-//import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,7 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-//import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -100,9 +100,38 @@ function Row(props) {
           {row.name}
         </TableCell>
         <TableCell align="right">{row.sn}</TableCell>
-        <TableCell align="right">{row.classes}</TableCell>
-        <TableCell align="right">{row.inter}</TableCell>
-        <TableCell align="right">{row.ok ? 1 : 2}</TableCell>
+        <TableCell align="right">{row.Classes}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                진료기록
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>날짜</TableCell>
+                    <TableCell>진료과</TableCell>
+                    <TableCell align="right">처방 내용</TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {row.inter.map((historyRow) => (
+                    <TableRow key={historyRow.day}>
+                      <TableCell component="th" scope="row">
+                        {historyRow.hospital}
+                      </TableCell>
+                      <TableCell align="right">{historyRow.inter}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -111,19 +140,16 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    classes: PropTypes.string.isRequired,
+    Classes: PropTypes.string.isRequired,
     sn: PropTypes.string.isRequired,
-    inter: PropTypes.string.isRequired,
-    ok: PropTypes.bool.isRequired,
     
-    /*history: PropTypes.arrayOf(
+    inter: PropTypes.arrayOf(
       PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
+        hospital: PropTypes.number.isRequired,
+        day: PropTypes.string.isRequired,
+        inter: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    */
   }).isRequired,
 };
 
@@ -169,7 +195,7 @@ export default function CollapsibleTable() {
             </TableRow>
             </TableHead>
             <TableBody>
-            {userList.map((row) => (
+            {userList && userList.map((row) => (
                 <Row key={row.name} row={row} />
             ))}
             </TableBody>

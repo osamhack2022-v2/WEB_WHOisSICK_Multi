@@ -11,9 +11,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import AdbIcon from '@mui/icons-material/AddBox';
 
-const pages = ['개같은', '유해차단', '사이트'];
+const pages = [];
 const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {

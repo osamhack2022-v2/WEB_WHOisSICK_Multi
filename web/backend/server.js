@@ -123,18 +123,16 @@ app.get('/secure_data', validUser ,(req, res)=>{
 app.post('/',(req,res)=>{
   const {id, password } =req.body;//군번이랑 비번 받아옴
   res.header("Access-Control-Allow-Origin", "*");
-  db.collection('users').findOne({ servNum : id}, async (err,result)=>{
+    db.collection('users').findOne({ servNum : id}, async (err,result)=>{
     const userdata = result;
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
       console.log("회원가입 되지 않은 군번입니다.");
-      res.status(403).send("회원가입 되지 않은 군번입니다.");
-      return;
+      return res.status(403).send("회원가입 되지 않은 군번입니다.");
     }
     //아르곤으로 암호화했으니 암호화 된 패스워드랑 지금 받은 패스워드 비교.
     if(!await (argon2.verify(userdata.password,password))) {//userdata의 password와 들어온 애를 비교할 겁니다. 근데 암호화해서요
       console.log("비밀번호 틀림")
-      res.status(403).send("비밀번호가 틀립니다.");
-      return;
+      return res.status(403).send("비밀번호가 틀립니다.");
     }
     //로그인한 이용자만 쓸 수 있게 하기.
       const access_token = jwt.sign({id}, 'dkaghzl')//암호키로 암호화해주기.

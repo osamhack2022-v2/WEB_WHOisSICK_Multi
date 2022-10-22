@@ -79,9 +79,7 @@ app.post('/signup-private', async (req, res)=> {
             db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
                 if(err) {return console.log(err);
             }
-            res.write('저장완료');
-            res.redirect('/');
-            res.end();
+            return res.send("saved");
           })
         });
       });
@@ -109,9 +107,7 @@ app.post('/signup-cadre', async (req, res)=> {
             db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
                 if(err) {return console.log(err);
             }
-            res.write('저장완료');
-            res.redirect('/');
-            res.end();
+            return res.send("saved");
           })
         });
       });
@@ -154,17 +150,56 @@ app.post('/',(req,res)=>{
   })
 })
 
-//진료신청탭 로그인 한 사람만 들어갈 수 있게 할 거임.
 
-//얘는 json web token 방식일 때
-app.get('/reservation' , validUser ,(req,res)=>{
-  res.send("인증된 사용자만 볼 수 있는 진료신청 탭");
+app.get('/main', (req,res)=>{
+  res.header("Access-Control-Allow-Origin", "*");
+  db.collection('traking').find().toArray((err,result)=>{
+    console.log(result);
+    res.send(result);
+  })
 })
 
-//등록된 사용자가 맞으면 이제 병력을 포스팅하게 만들어주기 위함.
-app.post('/reservation' , (req,res)=>{
 
-})
+app.post('/main', (req, res)=> {
+  res.header("Access-Control-Allow-Origin", "*");
+  const { day, hospital, inter } =req.body;
+  const {access_token} = req.cookies;
+  if(!access_token){
+    res.status(401).send("accesstoken이 없습니다.")
+  }
+  try {
+    const { servNum } = jwt.verify(access_token,'dkaghzl')
+    db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
+     const userdata = result;//디코딩한 군번으로 해당유저 찾고
+     const { servNum, name, Classes } = userdata;
+ 
+    db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
+        var interCount = result.totalinter;
+        db.collection('hopelist').insertOne( {
+           servNum : servNum , 
+           name: name,
+           Classes: Classes,
+           inter : inter,
+           ok: false,
+           hospital : hospital,
+           day : day, 
+           _id : interCount +1 ,
+         } ,
+         (err,result)=>{
+             db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalinter:1}},(err,result)=>{
+                 if(err) {return console.log(err);
+             }
+             res.send("saved");
+           })
+         });
+       });
+    if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
+       throw "userdata가 없습니다.";
+    }})
+  } catch (err) {
+    res.status(401).send("유효한 accesstoken이 아닙니다.");
+  }
+});
 
 //userlist라는 경로로 들어오면 DB에 저장된 유저 리스트 서버가 찾아줌.
 app.get('/userlist',(req,res)=>{

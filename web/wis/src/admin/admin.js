@@ -120,10 +120,11 @@ function Row(props) {
 
                 <TableBody>
                   {row.inter.map((historyRow) => (
-                    <TableRow key={historyRow.day}>
+                    <TableRow key={historyRow.inter}>
                       <TableCell component="th" scope="row">
-                        {historyRow.hospital}
+                        {historyRow.day}
                       </TableCell>
+                      <TableCell align="right">{historyRow.hospital}</TableCell>
                       <TableCell align="right">{historyRow.inter}</TableCell>
                     </TableRow>
                   ))}

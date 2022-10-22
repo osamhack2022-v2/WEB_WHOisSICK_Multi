@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('config');
+const path = require('path');
 const mongourl = config.get('mongoURI');
 const { validUser } = require('./middleware/auth');
 
@@ -62,7 +63,7 @@ app.post('/signup-private', async (req, res)=> {
     console.log('전송완료');
     const {servNum, password, name, ganbu } = req.body 
     const hash = await argon2.hash(password);
-
+    res.header("Access-Control-Allow-Origin", "*");
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
         //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
         var userCount = result.totalUser;
@@ -90,7 +91,7 @@ app.post('/signup-cadre', async (req, res)=> {
     console.log('전송완료');
     const {servNum, password, name, ganbu } = req.body 
     const hash = await argon2.hash(password);
-
+    res.header("Access-Control-Allow-Origin", "*");
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
         //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
         var userCount = result.totalUser;
@@ -117,35 +118,29 @@ app.get('/secure_data', validUser ,(req, res)=>{
   res.send("인증된 사용자만 쓸 수 있는 API")
 })
 
-//로그인 페이지로 접속하기.
-app.get('/login',(req,res)=>{
-    res.render("로그인 페이지");
-})
 
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
 app.post('/',(req,res)=>{
-  const {id, password } =req.body;//군번이랑 비번 받아옴
-  db.collection('users').findOne({ servNum : id}, async (err,result)=>{
+  const {servNum, password } =req.body;//군번이랑 비번 받아옴
+  console.log(servNum, password);
+
+  db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
     const userdata = result;
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
       console.log("회원가입 되지 않은 군번입니다.");
-      res.status(403).send("회원가입 되지 않은 군번입니다.");
-      return;
+      return res.status(403).send("회원가입 되지 않은 군번입니다.");
     }
     //아르곤으로 암호화했으니 암호화 된 패스워드랑 지금 받은 패스워드 비교.
-    if(!await (argon2.verify(userdata.password,password))) {//userdata의 password와 들어온 애를 비교할 겁니다. 근데 암호화해서요
+    if(! await (argon2.verify(userdata.password ,password))) {//userdata의 password와 들어온 애를 비교할 겁니다. 근데 암호화해서요
       console.log("비밀번호 틀림")
-      res.status(403).send("비밀번호가 틀립니다.");
-      return;
+      return res.status(403).send("비밀번호가 틀립니다.");
     }
     //로그인한 이용자만 쓸 수 있게 하기.
-      const access_token = jwt.sign({id}, 'dkaghzl')//암호키로 암호화해주기.
+      const access_token = jwt.sign({servNum}, 'dkaghzl')//암호키로 암호화해주기.
       res.cookie('accesstoken',access_token,{
         httpOnly : true
     });
-
-    console.log(userdata);
-    res.header("Access-Control-Allow-Origin", "*");
+    console.log(userdata);    
     res.status(200).json({userdata});
   })
 })
@@ -161,9 +156,9 @@ app.get('/main', (req,res)=>{
 
 
 app.post('/main', (req, res)=> {
-  res.header("Access-Control-Allow-Origin", "*");
   const { day, hospital, inter } =req.body;
   const {access_token} = req.cookies;
+  res.header("Access-Control-Allow-Origin", "*");
   if(!access_token){
     res.status(401).send("accesstoken이 없습니다.")
   }
@@ -216,5 +211,5 @@ app.get('userlist/:servNum',(req,res)=>{
   db.collection('users').findOne({ servNum : servNum}, (err,result)=>{
     const userdata = result;//일치하는 결과를 유저 데이터에 넣고
     res.send(json({ userdata }));//유저 데이터는 제이슨 형식으로 보내줄 거임.
-  })//맞으면 유저 데이터 뱉어 줌.
+  })//맞으면 유저 데이터 뱉어 줌.s
 })

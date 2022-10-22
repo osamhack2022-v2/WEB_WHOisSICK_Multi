@@ -27,7 +27,7 @@ export default function SignUpIndexV2(){
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        const id = values.id;
+        const servNum = values.id;
         const password = values.password;
         const name = values.name;
         const ganbu = values.ganbu;
@@ -37,7 +37,7 @@ export default function SignUpIndexV2(){
                 'content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id,
+                servNum,
                 password,
                 name,
                 ganbu,

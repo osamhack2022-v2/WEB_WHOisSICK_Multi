@@ -45,7 +45,7 @@ const MuiLoginForm = () => {
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        const id = values.id;
+        const servNum = values.id;
         const password = values.password;
         fetch('http://127.0.0.1:5000/', {
             method: 'POST',
@@ -53,7 +53,7 @@ const MuiLoginForm = () => {
                 'content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id,
+                servNum,
                 password,
             }),
         });

@@ -15,8 +15,9 @@ export default function MultilineTextFields() {
 
   const [value, setValue] = React.useState('Controlled');
 
+  const [dates, setdate] = React.useState(dayjs('2022-04-07'));
+
   const [values, setValues] = React.useState({
-    date: "",
     hospital: "",
     inter: ""
 });
@@ -31,7 +32,7 @@ const handleChange = (event) => {
 
 const onSubmitHandler = (event) => {
   event.preventDefault();
-  const date = values.date;
+  const date = dates;
   const hospital = values.hospital;
   const inter = values.inter;
   fetch('http://127.0.0.1:5000/main', {
@@ -62,11 +63,13 @@ const onSubmitHandler = (event) => {
           label="진료희망날짜"
           openTo="year"
           views={['year', 'month', 'day']}
-          value={values.date}
+          value={dates}
           minDate={minDate}
           maxDate={maxDate}
           mask={"____-__-__"}
-          onChange={handleChange}
+          onChange={(newValue) => {
+            setdate(newValue);
+          }}
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
@@ -94,7 +97,7 @@ const onSubmitHandler = (event) => {
         variant="contained"
         size="large"
         sx={{mt: 2}}
-        onSubmit={onSubmitHandler}
+        onClick={onSubmitHandler}
         >
      제출
     </Button>

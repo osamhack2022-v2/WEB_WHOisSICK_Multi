@@ -2,7 +2,6 @@ import React from "react";
 import { Checkbox, TextField, Button, FormControlLabel, Grid, Box, Container } from "@mui/material";
 import {Typography} from "@mui/material";
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
 import Logo from '../data/logo.png';
 
 /*function App() {
@@ -30,7 +29,6 @@ import Logo from '../data/logo.png';
 
 const MuiLoginForm = () => {
 
-    const navigate = useNavigate();
     const [values, setValues] = React.useState({
         id: "",
         password: ""
@@ -58,7 +56,7 @@ const MuiLoginForm = () => {
                 password,
             }),
         });
-        
+        window.location.replace("/main");
     };
     return (
         <Container component="main" maxWidth="sm">
@@ -109,23 +107,13 @@ const MuiLoginForm = () => {
                     </Grid>
                 </Grid>
                     <Button
-                    onClick={() => navigate('/main')} 
+                    onClick={onSubmitHandler} 
                     fullWidth
                     variant="contained"
                     size="large"
                     sx={{mt: 2}}
                     >
                         로그인
-                    </Button>
-
-                    <Button
-                    onClick={onSubmitHandler} 
-                    fullWidth
-                    variant="contained"
-                    size="large"
-                    sx={{mt: 5}}
-                    >
-                        값 테스트
                     </Button>
             </Box>
         </Container>

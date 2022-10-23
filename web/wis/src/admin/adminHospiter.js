@@ -148,7 +148,7 @@ export default function AdminTracker() {
         "content-type" : "application/json"
       }
     }
-    fetch('http://127.0.0.1:5000/main', reqOtion)
+    fetch('http://127.0.0.1:5000/main/hopelist', reqOtion)
     .then((response) => response.json())
     .then((data) => setUserList(data));
   }

@@ -13,37 +13,26 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Button, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-//import AdminAddbar from './adminAddbar';
 import { Container } from '@mui/system';
 
-/*
-function createData(name, sn, classes, inter, ok) {
-  return {
-    name,
-    sn,
-    classes,
-    inter,
-    ok,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
-*/
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
+  const [okValue, setOkValue] = React.useState(row.ok);
+
+  const handleOkBoolean = (event) => {
+    if(event.target.innerText === "처방완료") {
+        setOkValue(1);
+    }
+
+    else if(event.target.innerText === "처방불가") {
+        setOkValue(0);
+    }
+}
 
   return (
     <React.Fragment>
@@ -63,33 +52,41 @@ function Row(props) {
         </StyledTableCell>
         <StyledTableCell align="right">{row.sn}</StyledTableCell>
         <StyledTableCell align="right">{row.Classes}</StyledTableCell>
+        <StyledTableCell align="right">
+            {okValue === 1 ? "처방완료" : (okValue === 2 ? "처방전" : "처방불가")}
+        </StyledTableCell>
       </StyledTableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                진료기록
+                진료결과
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>날짜</StyledTableCell>
-                    <StyledTableCell align="right">진료과</StyledTableCell>
-                    <StyledTableCell align="right">처방 내용</StyledTableCell>
+                    <StyledTableCell align="left">진료과</StyledTableCell>
+                    <StyledTableCell align="left">환자증상</StyledTableCell>
+                    <StyledTableCell align="right">처방여부</StyledTableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
-                  {row.inter.map((historyRow) => (
-                    <StyledTableRow key={historyRow.inter}>
+                    <StyledTableRow>
                       <StyledTableCell component="th" scope="row">
-                        {historyRow.day}
+                        {row.day}
                       </StyledTableCell>
-                      <StyledTableCell align="right">{historyRow.hospital}</StyledTableCell>
-                      <StyledTableCell align="right">{historyRow.inter}</StyledTableCell>
+                      <StyledTableCell align="left">{row.hospital}</StyledTableCell>
+                      <StyledTableCell align="left">{row.inter}</StyledTableCell>
+                      <StyledTableCell align="right">
+                        <Stack direction="row" spacing={1} align="right">
+                            <Button onClick={handleOkBoolean}>처방완료</Button>
+                            <Button onClick={handleOkBoolean} color="error">처방불가</Button>
+                        </Stack>
+                      </StyledTableCell>
                     </StyledTableRow>
-                  ))}
                 </TableBody>
               </Table>
             </Box>
@@ -105,14 +102,10 @@ Row.propTypes = {
     name: PropTypes.string.isRequired,
     Classes: PropTypes.string.isRequired,
     sn: PropTypes.string.isRequired,
-    
-    inter: PropTypes.arrayOf(
-      PropTypes.shape({
-        hospital: PropTypes.string.isRequired,
-        day: PropTypes.string.isRequired,
-        inter: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
+    ok: PropTypes.number.isRequired,
+    hospital: PropTypes.string.isRequired,
+    inter: PropTypes.string.isRequired,
+    day: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -155,7 +148,7 @@ export default function AdminTracker() {
         "content-type" : "application/json"
       }
     }
-    fetch('http://127.0.0.1:5000/main/traking', reqOtion)
+    fetch('http://127.0.0.1:5000/main/resultlist', reqOtion)
     .then((response) => response.json())
     .then((data) => setUserList(data));
   }
@@ -171,11 +164,12 @@ export default function AdminTracker() {
                 <StyledTableCell>이름</StyledTableCell>
                 <StyledTableCell align="right">군번</StyledTableCell>
                 <StyledTableCell align="right">계급</StyledTableCell>
+                <StyledTableCell align="right">승인여부</StyledTableCell>
             </TableRow>
             </TableHead>
             <TableBody>
             {userList && userList.map((row) => (
-                <Row key={row.name} row={row} />
+                <Row key={row.Classes} row={row} />
             ))}
             </TableBody>
         </Table>

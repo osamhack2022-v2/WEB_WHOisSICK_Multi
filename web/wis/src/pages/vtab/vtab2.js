@@ -33,6 +33,7 @@ const onSubmitHandler = (event) => {
   const hospital = values.hospital;
   const inter = values.inter;
   fetch('http://127.0.0.1:5000/main', {
+    credentials: 'include',    
       method: 'POST',
       headers: {
           'content-Type': 'application/json',

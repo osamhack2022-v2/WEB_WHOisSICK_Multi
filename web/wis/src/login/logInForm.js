@@ -48,6 +48,7 @@ const MuiLoginForm = () => {
         const servNum = values.id;
         const password = values.password;
         fetch('http://127.0.0.1:5000/', {
+            credentials: 'include',    
             method: 'POST',
             headers: {
                 'content-Type': 'application/json',

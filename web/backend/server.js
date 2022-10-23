@@ -20,6 +20,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended: false})) 
 //코스설정 대충 해놨는데 일단 되는거 확인하면 다른 것도 하겠음
 app.use(cors({
+  origin: "http://127.0.0.1:3000",
   methods : "GET, POST, PUT, DELETE",
   credentials: true,
 }));
@@ -39,7 +40,7 @@ MongoClient.connect(mongourl, (err, client)=> {
 //홈페이지
 app.get('/',(req,res)=>{
   //빌드 된 파일 홈. 
-  res.header("Access-Control-Allow-Origin", "*");
+  //res.header("Access-Control-Allow-Origin", "*");
   res.status(200).json({message:'ok'});
 })
 
@@ -49,7 +50,6 @@ app.post('/signup-private', async (req, res)=> {
     console.log('전송완료');
     const {servNum, password, name, ganbu } = req.body 
     const hash = await argon2.hash(password);
-    res.header("Access-Control-Allow-Origin", "*");
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
         //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
         var userCount = result.totalUser;
@@ -77,7 +77,6 @@ app.post('/signup-cadre', async (req, res)=> {
     console.log('전송완료');
     const {servNum, password, name, ganbu } = req.body 
     const hash = await argon2.hash(password);
-    res.header("Access-Control-Allow-Origin", "*");
     db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
         //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
         var userCount = result.totalUser;
@@ -108,7 +107,6 @@ app.get('/secure_data', validUser ,(req, res)=>{
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
 app.post('/',(req,res)=>{
   const {servNum, password } =req.body;//군번이랑 비번 받아옴
-
   db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
     const userdata = result;
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
@@ -131,7 +129,7 @@ app.post('/',(req,res)=>{
 
 
 app.get('/main', (req,res)=>{
-  res.header("Access-Control-Allow-Origin", "*");
+  //res.header("Access-Control-Allow-Origin", "*");
   db.collection('traking').find().toArray((err,result)=>{
     console.log(result);
     res.send(result);
@@ -140,20 +138,19 @@ app.get('/main', (req,res)=>{
 
 
 app.post('/main', (req, res)=> {
-  const { day, hospital, inter } =req.body;
+  const { date, hospital, inter } =req.body;
   const {access_token} = req.cookies;
-  res.header("Access-Control-Allow-Origin", "*");
+  console.log(hospital,inter);
   if(!access_token){
     res.status(401).send("accesstoken이 없습니다.")
   }
   try {
     const { servNum } = jwt.verify(access_token,'dkaghzl')
     db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
-     const userdata = result;//디코딩한 군번으로 해당유저 찾고
-     const { servNum, name, Classes } = userdata;
- 
-    db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
-        var interCount = result.totalinter;
+      const userdata = result;//디코딩한 군번으로 해당유저 찾고
+      const { servNum, name, Classes } = userdata;
+      db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
+        var interCount = result.totalInter;
         db.collection('hopelist').insertOne( {
            servNum : servNum , 
            name: name,
@@ -161,11 +158,11 @@ app.post('/main', (req, res)=> {
            inter : inter,
            ok: false,
            hospital : hospital,
-           day : day, 
+           day : date, 
            _id : interCount +1 ,
          } ,
          (err,result)=>{
-             db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalinter:1}},(err,result)=>{
+             db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
                  if(err) {return console.log(err);
              }
              res.send("saved");

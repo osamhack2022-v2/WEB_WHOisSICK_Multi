@@ -76,6 +76,7 @@ const onSubmitHandler = (event) => {
           id="ho"
           label="진료과"
           placeholder="예)정형외과"
+          name="hospital"
           onChange={handleChange}
           multiline
         />
@@ -86,6 +87,7 @@ const onSubmitHandler = (event) => {
           label="신청 내용"
           multiline
           rows={12}
+          name="inter"
           onChange={handleChange}
         />
     </div>

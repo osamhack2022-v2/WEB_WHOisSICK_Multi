@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, TextField, Typography, Button } from '@mui/material';
-import aplogo from '../data/aplogo.png';
+import Logo from '../data/logo.png';
 import { Link } from 'react-router-dom';
 import "./layout.css";
 import { Container } from '@mui/system';
@@ -29,7 +29,7 @@ export default function SignUpIndexV2(){
     <Container component="main" maxWidth>
         <Grid container sx={{borderBottom: 1, borderBottomColor: 'grey.500'}}>
             <Grid item xs>
-                <img class="image" src={aplogo} alt=' ' />
+                <img class="image" src={Logo} alt=' ' />
             </Grid>
 
             <Grid item>
@@ -49,7 +49,7 @@ export default function SignUpIndexV2(){
             alignItems: 'center',
             justifyContent: "center",}}
         >
-            <img src={aplogo} alt="  "/>
+            <img class="image" src={Logo} alt='  ' />
         <Typography variant="h5" component="h5">용사 회원가입</Typography>
         </Grid>
 

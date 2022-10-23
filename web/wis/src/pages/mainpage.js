@@ -12,7 +12,8 @@ import R1 from '../admin/adminHospiter';
 import R2 from './routing2';
 import R3 from './routing3';
 import R4 from './routing4';
-import aplogo from '../data/aplogo.png';
+import Logo from '../data/logo.png';
+import { Grid } from '@mui/material';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,15 +58,19 @@ export default function BasicTabs() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' ,display: 'flex'}}>
-        <img src={aplogo} alt="로고"/>
+        <img class="image" src={Logo} alt="로고"/>
+        <Grid item xs>
         <Tabs sx={{ width: '750px' }} value={value} onChange={handleChange} aria-label="basic tabs example ">
           <Tab label="진료 희망자" {...a11yProps(0)} />
           <Tab label="진료 신청" {...a11yProps(1)} />
           <Tab label="조치 내역" {...a11yProps(2)} />
           <Tab label="추적 관리" {...a11yProps(3)} />
         </Tabs>
+        </Grid>
         <div className={styles.wfill} />
+        <Grid item>
         <Link to="/">로그아웃</Link>
+        </Grid>
       </Box>
       <TabPanel key={0} value={value} index={0}>
         <R1 />

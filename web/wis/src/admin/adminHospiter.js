@@ -61,7 +61,7 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                진료기록
+                환자희망사항
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
@@ -81,7 +81,7 @@ function Row(props) {
                       <StyledTableCell align="left">{row.hospital}</StyledTableCell>
                       <StyledTableCell align="left">{row.inter}</StyledTableCell>
                       <StyledTableCell align="right">
-                        <Stack direction="row" spacing={1}>
+                        <Stack direction="row" spacing={1} align="right">
                             <Button onClick={handleOkBoolean}>승인</Button>
                             <Button onClick={handleOkBoolean} color="error">미승인</Button>
                         </Stack>

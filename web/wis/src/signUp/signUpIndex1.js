@@ -4,7 +4,7 @@ import { Container} from '@mui/system';
 import { Typography, Button, Grid } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 
-import aplogo from '../data/aplogo.png';
+import Logo from '../data/logo.png';
 import signUpIconV1 from '../data/간부.png';
 import signUpIconV2 from '../data/용사.png';
 
@@ -26,7 +26,7 @@ export default function Variants() {
         justifyContent: "center",}}
       >
          
-        <img src={aplogo} alt="  "/>
+         <img class="image" src={Logo} alt='  ' />
         <Typography variant="h5" component="h5">회원가입 유형 선택</Typography>
       </Grid>
 

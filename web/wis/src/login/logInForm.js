@@ -1,9 +1,9 @@
 import React from "react";
-import { Checkbox, TextField, Button, FormControlLabel, Grid, Avatar, Box, Container } from "@mui/material";
+import { Checkbox, TextField, Button, FormControlLabel, Grid, Box, Container } from "@mui/material";
 import {Typography} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import Logo from '../data/logo.png';
 
 /*function App() {
 
@@ -69,9 +69,7 @@ const MuiLoginForm = () => {
                 alignItems: 'center',
             }}
             >
-                <Avatar sx={{m: 1, bgcolor:'secondary.main'}}>
-                <LockOutlinedIcon />
-                </Avatar>
+                <img class="image" src={Logo} alt='  ' />
 
                 <Typography component="h1" variant="h5" sx={{mb: 3}}>
                     로그인

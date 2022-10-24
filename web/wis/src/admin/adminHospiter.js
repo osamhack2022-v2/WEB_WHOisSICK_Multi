@@ -72,7 +72,6 @@ function Row(props) {
                     <StyledTableCell align="right">승인버튼</StyledTableCell>
                   </TableRow>
                 </TableHead>
-
                 <TableBody>
                     <StyledTableRow>
                       <StyledTableCell component="th" scope="row">

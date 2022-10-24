@@ -4,29 +4,6 @@ import {Typography} from "@mui/material";
 import { Link } from 'react-router-dom';
 import Logo from '../data/logo.png';
 
-/*function App() {
-
-    //데이터 받아오기
-    useEffect(() => {
-        fetch('http://127.0.0.1:5000/')
-        .then((response) => response.json())
-        .then((data) => console.log(data));
-    }, []);
-
-    const onSubmitHandler = (event) => {
-        event.preventDefault();
-        fetch('http://127.0.0.1:5000/', {
-            method: 'POST',
-            headers: {
-                'content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                //데이터 값 넣어주기
-            }),
-        });
-    }
-}*/
-
 const MuiLoginForm = () => {
 
     const [values, setValues] = React.useState({
@@ -58,6 +35,8 @@ const MuiLoginForm = () => {
         });
         window.location.replace("/main");
     };
+
+    
     return (
         <Container component="main" maxWidth="sm">
             <Box

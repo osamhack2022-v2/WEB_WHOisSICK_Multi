@@ -25,25 +25,18 @@ app.use(cors({
   credentials: true,
 }));
 
-
-
 var db;
 MongoClient.connect(mongourl, (err, client)=> {
     if (err) return console.log(err);
-    
     db = client.db('who_is_sick'); //whoissick데이터베이스 폴더에 연결
-
     app.listen(process.env.PORT, ()=>{
       console.log(`listening on ${process.env.PORT}`)
     });
 })
-//홈페이지
+
 app.get('/',(req,res)=>{
-  //빌드 된 파일 홈. 
-  //res.header("Access-Control-Allow-Origin", "*");
   res.status(200).json({message:'ok'});
 })
-
 
 //회원가입. 군번, 비밀번호, 이름 받아올 거임.
 app.post('/signup-private', async (req, res)=> {
@@ -98,11 +91,6 @@ app.post('/signup-cadre', async (req, res)=> {
         });
       });
 });
-
-app.get('/secure_data', validUser ,(req, res)=>{
-  res.send("인증된 사용자만 쓸 수 있는 API")
-})
-
 
 //웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
 app.post('/',(req,res)=>{
@@ -177,20 +165,14 @@ app.post('/main', (req, res)=> {
   }
 });
 
-//userlist라는 경로로 들어오면 DB에 저장된 유저 리스트 서버가 찾아줌.
-app.get('/userlist',(req,res)=>{
-    db.collection('users').find().toArray((err,result)=>{
-        console.log(result);
-        //응답을 렌더해줄 페이지(뷰)
-        res.render('', { 사용자 : res});
-    })
+app.get('/main/resultlist',(req,res)=>{
+  db.collection('resultlist').find().toArray((err,result)=>{
+    console.log(result);
+    res.send(result);
+  })
 })
 
-app.get('userlist/:servNum',(req,res)=>{
-  const servNum = req.parms.servNum;//파라미터로 군번 받아오고
-  //그 군번과 일치하는 데이터를 DB에서 찾을 거임
-  db.collection('users').findOne({ servNum : servNum}, (err,result)=>{
-    const userdata = result;//일치하는 결과를 유저 데이터에 넣고
-    res.send(json({ userdata }));//유저 데이터는 제이슨 형식으로 보내줄 거임.
-  })//맞으면 유저 데이터 뱉어 줌.s
+app.get('/main/traking',validUser,(req,res)=>{
+  
+  res.send("로그인 성공");
 })

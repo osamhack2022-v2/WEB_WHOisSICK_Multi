@@ -1,7 +1,6 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import {Button, Container, Grid} from '@mui/material';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -47,16 +46,16 @@ const onSubmitHandler = (event) => {
 };
 
   return (
-    <Box
-    component="form"
-    sx={{
-      '& .MuiTextField-root': { m: 1, width: '50ch' }
-    }}
-    noValidate
-    autoComplete="off"
-  >
-    <div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <Container component="main" maxWidth="sm">
+        <Grid
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'row',
+          mt : 6
+      }}
+        >
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="진료희망날짜"
           openTo="year"
@@ -71,36 +70,47 @@ const onSubmitHandler = (event) => {
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
-    </div>
-    <div>
+      </Grid>
+
+      <Grid
+            container
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: "center",
+            }}
+      >
         <TextField
+          fullWidth
           id="ho"
           label="진료과"
           placeholder="예)정형외과"
           name="hospital"
+          sx={{mt : 3}}
           onChange={handleChange}
           multiline
         />
-    </div>
-    <div>
         <TextField
           id="cont"
           label="신청 내용"
           multiline
           rows={12}
           name="inter"
+          fullWidth
+          sx={{mt : 3}}
           onChange={handleChange}
         />
-    </div>
     <Button
         fullWidth
         variant="contained"
         size="large"
-        sx={{mt: 2}}
+        sx={{mt: 3}}
         onClick={onSubmitHandler}
         >
      제출
     </Button>
-    </Box>
+    </Grid>
+    </Container>
   );
 }

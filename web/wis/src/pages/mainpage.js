@@ -68,7 +68,12 @@ export default function BasicTabs() {
         </Tabs>
         </Grid>
         <div className={styles.wfill} />
-        <Grid item>
+        <Grid
+         item
+         sx={{
+          display: 'flex',
+          alignItems: 'center',
+         }}>
         <Link to="/">로그아웃</Link>
         </Grid>
       </Box>

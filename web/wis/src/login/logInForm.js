@@ -3,8 +3,11 @@ import { Checkbox, TextField, Button, FormControlLabel, Grid, Box, Container } f
 import {Typography} from "@mui/material";
 import { Link } from 'react-router-dom';
 import Logo from '../data/logo.png';
+import { useNavigate } from "react-router-dom";
 
 const MuiLoginForm = () => {
+
+    const navigate = useNavigate();
 
     const [values, setValues] = React.useState({
         id: "",
@@ -103,6 +106,16 @@ const MuiLoginForm = () => {
                     sx={{mt: 2}}
                     >
                         로그인
+                    </Button>
+
+                    <Button
+                    onClick={() => navigate("/main")} 
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{mt: 2}}
+                    >
+                        일단 이동해
                     </Button>
             </Box>
         </Container>

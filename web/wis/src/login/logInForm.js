@@ -32,8 +32,18 @@ const MuiLoginForm = () => {
                 servNum,
                 password,
             }),
-        });
-        window.location.replace("/main");
+        })
+        .then((res)=>{
+            console.log( "그 결과는~~?",res);
+            if(res === "로그인 성공")
+            {
+                window.location.replace("/main");
+                return ;
+            }
+            else { 
+                console.log("이프문이 작동 안 했네용 ㅠㅠ")
+            }
+        })
     };
 
     

@@ -123,7 +123,6 @@ app.get('/main', (req,res)=>{
   })
 })
 
-
 app.post('/main', (req, res)=> {
   const { date, hospital, inter, Classes } =req.body;//여기서 계급 받기로 수정하기로 함.
   const {access_token} = req.cookies;
@@ -206,7 +205,7 @@ app.post('/main', (req, res)=> {
   }
 });
 
-app.post('admin/hope',(req,res)=>{
+app.post('/admin/hope',(req,res)=>{
   const {findId,clicked} =req.body;
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
     const findSn = result.servNum;
@@ -247,6 +246,10 @@ app.post('admin/hope',(req,res)=>{
       }
     })
   })
+})
+
+app.post('/admin/result',(req,res)=>{
+
 })
 
 app.get('/main/hopelist',(req,res)=>{

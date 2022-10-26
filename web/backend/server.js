@@ -117,7 +117,6 @@ app.post('/',(req,res)=>{
 
 
 app.get('/main', (req,res)=>{
-  //res.header("Access-Control-Allow-Origin", "*");
   db.collection('traking').find().toArray((err,result)=>{
     console.log(result);
     res.send(result);
@@ -175,6 +174,12 @@ app.post('/main', (req, res)=> {
     res.status(401).send("유효한 accesstoken이 아닙니다.");
   }
 });
+
+app.get('/main/hopelist',(req,res)=>{
+  db.collection('hopelist').find().toArray((err,result)=>{
+    res.send(result);
+  })
+})
 
 app.get('/main/hopelist',(req,res)=>{
   db.collection('hopelist').find().toArray((err,result)=>{

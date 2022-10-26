@@ -117,7 +117,6 @@ app.post('/',(req,res)=>{
 
 
 app.get('/main', (req,res)=>{
-  //res.header("Access-Control-Allow-Origin", "*");
   db.collection('traking').find().toArray((err,result)=>{
     console.log(result);
     res.send(result);
@@ -128,7 +127,6 @@ app.get('/main', (req,res)=>{
 app.post('/main', (req, res)=> {
   const { date, hospital, inter } =req.body;
   const {access_token} = req.cookies;
-  console.log(hospital,inter);
   if(!access_token){
     res.status(401).send("accesstoken이 없습니다.")
   }
@@ -137,24 +135,20 @@ app.post('/main', (req, res)=> {
     db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
       const userdata = result;//디코딩한 군번으로 해당유저 찾고
       const { servNum, name, Classes } = userdata;
-      db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
-        var interCount = result.totalInter;
         db.collection('hopelist').insertOne( {
            servNum : servNum , 
            name: name,
            Classes: Classes,
            inter : inter,
-           ok: false,
+           ok: 0,
            hospital : hospital,
            day : date, 
-           _id : interCount +1 ,
          } ,
          (err,result)=>{
              db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
                  if(err) {return console.log(err);
              }
              res.send("saved");
-           })
          });
        });
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
@@ -166,22 +160,19 @@ app.post('/main', (req, res)=> {
 });
 
 app.get('/main/hopelist',(req,res)=>{
-  db.collection('resultlist').find().toArray((err,result)=>{
-    console.log(result);
+  db.collection('hopelist').find().toArray((err,result)=>{
     res.send(result);
   })
 })
 
 app.get('/main/resultlist',(req,res)=>{
   db.collection('resultlist').find().toArray((err,result)=>{
-    console.log(result);
     res.send(result);
   })
 })
 
 app.get('/main/traking',(req,res)=>{
-  db.collection('resultlist').find().toArray((err,result)=>{
-    console.log(result);
+  db.collection('traking').find().toArray((err,result)=>{
     res.send(result);
   })
 })

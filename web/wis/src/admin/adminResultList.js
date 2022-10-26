@@ -66,10 +66,10 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>날짜</StyledTableCell>
-                    <StyledTableCell align="left">진료과</StyledTableCell>
-                    <StyledTableCell align="left">환자증상</StyledTableCell>
-                    <StyledTableCell align="right">처방여부</StyledTableCell>
+                    <TableCell>날짜</TableCell>
+                    <TableCell align="left">진료과</TableCell>
+                    <TableCell align="left">환자증상</TableCell>
+                    <TableCell align="right">처방여부</TableCell>
                   </TableRow>
                 </TableHead>
 
@@ -161,6 +161,7 @@ export default function AdminTracker() {
         <Table aria-label="군인 병원 기록">
             <TableHead>
             <TableRow>
+                <StyledTableCell/>
                 <StyledTableCell>이름</StyledTableCell>
                 <StyledTableCell align="right">군번</StyledTableCell>
                 <StyledTableCell align="right">계급</StyledTableCell>

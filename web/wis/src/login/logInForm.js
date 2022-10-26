@@ -51,20 +51,18 @@ const MuiLoginForm = () => {
 
     
     return (
-        <Container component="main" maxWidth="sm">
+        <Container component="main" maxWidth="xs">
             <Box
             sx={{
-                marginTop: 8,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                mt : 10
             }}
             >
                 <img class="image" src={Logo} alt='  ' />
 
-                <Typography component="h1" variant="h5" sx={{mb: 3}}>
-                    로그인
-                </Typography>
+                <Typography component="h1" variant="h5">로그인</Typography>
 
                 <TextField
                 margin="normal"
@@ -113,7 +111,7 @@ const MuiLoginForm = () => {
                     fullWidth
                     variant="contained"
                     size="large"
-                    sx={{mt: 2}}
+                    sx={{mt: 2, mb : 3}}
                     >
                         일단 이동해
                     </Button>

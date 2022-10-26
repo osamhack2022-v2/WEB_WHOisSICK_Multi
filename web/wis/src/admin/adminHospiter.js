@@ -23,7 +23,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
 
   const [okValue, setOkValue] = React.useState(row.ok);
-
+  //승인과 미승인일 경우 포스트 요청하는걸 여기다 넣을 거임
   const handleOkBoolean = (event) => {
     if(event.target.innerText === "승인") {
         setOkValue(1);
@@ -37,7 +37,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <StyledTableCell>
+        <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -45,7 +45,7 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </StyledTableCell>
+        </TableCell>
 
         <StyledTableCell component="th" scope="row">
           {row.name}
@@ -66,10 +66,10 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>날짜</StyledTableCell>
-                    <StyledTableCell align="left">진료과</StyledTableCell>
-                    <StyledTableCell align="left">환자증상</StyledTableCell>
-                    <StyledTableCell align="right">승인버튼</StyledTableCell>
+                    <TableCell>날짜</TableCell>
+                    <TableCell align="left">진료과</TableCell>
+                    <TableCell align="left">환자증상</TableCell>
+                    <TableCell align="right">승인버튼</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -80,9 +80,9 @@ function Row(props) {
                       <StyledTableCell align="left">{row.hospital}</StyledTableCell>
                       <StyledTableCell align="left">{row.inter}</StyledTableCell>
                       <StyledTableCell align="right">
-                        <Stack direction="row" spacing={1} align="right">
-                            <Button onClick={handleOkBoolean}>승인</Button>
-                            <Button onClick={handleOkBoolean} color="error">미승인</Button>
+                        <Stack direction="row-reverse" spacing={1} align="right">
+                          <Button onClick={handleOkBoolean} color="error">미승인</Button>
+                          <Button onClick={handleOkBoolean}>승인</Button>
                         </Stack>
                       </StyledTableCell>
                     </StyledTableRow>
@@ -109,12 +109,26 @@ Row.propTypes = {
 };
 
 
-/*
+function createData(name, sn, Classes, inter, ok, hospital, day) {
+  return {
+    name,
+    sn,
+    Classes,
+    inter,
+    ok,
+    hospital,
+    day,
+  };
+}
+
 const rows = [
-  createData('남혁', '21', '병장', '진료중인듯?', false),
-  createData('서한유', '22', '상병',  '진료완료', false),
+  createData('남혁', '21-12351', '병장', '머리가 아파요', 2, '내과', '10/12'),
+  createData('서한유', '22-54245', '상병',  '마음이 아파요', 2, '안과', '10/30'),
+  createData('정회륜', '21-2244245', '병장',  '위가 아파요', 2, '내과', '11/30'),
+  createData('국동희', '22-36345', '상병',  '어디아프니', 2, '사과', '12/30'),
+  createData('수병쉨', '22-612344', '짬찌',  '시간이안가요', 2, '국방부', '1/30'),
 ];
-*/
+
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
@@ -136,7 +150,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export default function AdminTracker() {
-  
+  /*
   const [userList, setUserList] = React.useState(null);
 
   function getUserListPrivate () {
@@ -153,13 +167,14 @@ export default function AdminTracker() {
   }
   
   getUserListPrivate();
-
+  */
   return (
     <Container component='main' maxWidth>
         <TableContainer component={Paper}>
         <Table aria-label="군인 병원 기록">
             <TableHead>
             <TableRow>
+                <StyledTableCell/>
                 <StyledTableCell>이름</StyledTableCell>
                 <StyledTableCell align="right">군번</StyledTableCell>
                 <StyledTableCell align="right">계급</StyledTableCell>
@@ -167,8 +182,8 @@ export default function AdminTracker() {
             </TableRow>
             </TableHead>
             <TableBody>
-            {userList && userList.map((row) => (
-                <Row key={row.Classes} row={row} />
+            {rows && rows.map((row) => (
+                <Row key={row.name} row={row} />
             ))}
             </TableBody>
         </Table>

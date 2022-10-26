@@ -1,10 +1,23 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import {Button, Container, Grid} from '@mui/material';
+import {Button, Container, Grid, Box, Paper} from '@mui/material';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Modal from 'react-modal';
+
+import ExplainBox from './vtab2Explain';
+import './vtab.module.css';
+
+/*
+const Img = styled('img')({
+  margin: 'auto',
+  display: 'block',
+  maxWidth: '100%',
+  maxHeight: '100%',
+});
+*/
 
 export default function MultilineTextFields() {
 
@@ -12,6 +25,7 @@ export default function MultilineTextFields() {
   const maxDate = dayjs('2034-01-01T00:00:00.000');
 
   const [dates, setdate] = React.useState(dayjs('2022-04-07'));
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   const [values, setValues] = React.useState({
     hospital: "",
@@ -46,13 +60,26 @@ const onSubmitHandler = (event) => {
 };
 
   return (
-    <Container component="main" maxWidth="sm">
-        <Grid
+    <Container component="main" maxWidth>
+      <ExplainBox />
+      <Button onClick={()=> setModalIsOpen(true)}>모델 테스트</Button>
+      <Modal className='container' isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+        <Grid sx={{mt : 20}}></Grid>
+      <Paper
+      sx={{
+        p: 2,
+        margin: 'auto',
+        maxWidth: 500,
+        flexGrow: 1,
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+      }}
+      >
+      <Grid
         sx={{
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'row',
-          mt : 6
       }}
         >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -73,13 +100,12 @@ const onSubmitHandler = (event) => {
       </Grid>
 
       <Grid
-            container
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: "center",
-            }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: "center",
+          }}
       >
         <TextField
           fullWidth
@@ -101,16 +127,19 @@ const onSubmitHandler = (event) => {
           sx={{mt : 3}}
           onChange={handleChange}
         />
-    <Button
-        fullWidth
-        variant="contained"
-        size="large"
-        sx={{mt: 3}}
-        onClick={onSubmitHandler}
-        >
-     제출
-    </Button>
+        <Button
+            fullWidth
+            variant="contained"
+            size="large"
+            sx={{mt: 3}}
+            onClick={onSubmitHandler}
+            >
+        제출
+        </Button>
+        <Box sx={{mt : 3}} />
     </Grid>
+      </Paper>
+      </Modal>
     </Container>
   );
 }

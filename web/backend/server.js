@@ -206,6 +206,49 @@ app.post('/main', (req, res)=> {
   }
 });
 
+app.post('admin/hope',(req,res)=>{
+  const {findId,clicked} =req.body;
+  db.collection('hopelist').findOne({_id:findId},(err,result)=>{
+    const findSn = result.servNum;
+    db.collection('traking').findOne({sn :findSn},(err,result)=>{
+      const userdata = result;
+      const {origin, Classes, inter, hospital,date } =userdata;
+      if(clicked === 1)
+      {
+        db.collection('traking').updateOne(
+          { $push: { 
+            history: { 
+              origin: origin,//origin값은 유지.
+              ok:1,
+              Classes : Classes,
+              inter: inter,
+              hospital: hospital,
+              date : date,
+            } 
+          } 
+        })
+        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});
+      }
+      else if(clicked ===2)
+      {
+        db.collection('traking').updateOne(
+          { $push: { 
+            history: { 
+              origin: origin,//origin값은 유지.
+              ok : 2,
+              Classes : Classes,
+              inter: inter,
+              hospital: hospital,
+              date : date,
+            } 
+          } 
+        })
+        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 2}});
+      }
+    })
+  })
+})
+
 app.get('/main/hopelist',(req,res)=>{
   db.collection('hopelist').find().toArray((err,result)=>{
     res.send(result);

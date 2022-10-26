@@ -32,10 +32,15 @@ export default function SignUpIndexV2(){
                 <img class="image" src={Logo} alt=' ' />
             </Grid>
 
-            <Grid item>
-                <Link to="/">로그인</Link>
+            <Grid item
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: "center",}}>
+                <Link to="/">로그인  </Link>
                  <sapn>  |  </sapn>
-                <Link to="/signup-select">회원가입 </Link>
+                <Link to="/signup-select">  회원가입 </Link>
             </Grid>
         </Grid>
 

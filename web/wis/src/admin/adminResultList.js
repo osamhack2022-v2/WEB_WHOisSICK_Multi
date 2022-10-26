@@ -21,8 +21,13 @@ import { Container } from '@mui/system';
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [interText, setInter] = React.useState(row.inter);
 
   const [okValue, setOkValue] = React.useState(row.ok);
+  
+  const handleInterText = (event) => {
+    setInter(event.target.value);
+  }
 
   const handleOkBoolean = (event) => {
     if(event.target.innerText === "처방완료") {
@@ -79,11 +84,11 @@ function Row(props) {
                         {row.day}
                       </StyledTableCell>
                       <StyledTableCell align="left">{row.hospital}</StyledTableCell>
-                      <StyledTableCell align="left">{row.inter}</StyledTableCell>
+                      <StyledTableCell align="left">{interText}</StyledTableCell>
                       <StyledTableCell align="right">
-                        <Stack direction="row" spacing={1} align="right">
-                            <Button onClick={handleOkBoolean}>처방완료</Button>
+                        <Stack direction="row-reverse" spacing={1} align="right">
                             <Button onClick={handleOkBoolean} color="error">처방불가</Button>
+                            <Button onClick={handleOkBoolean}>처방완료</Button>
                         </Stack>
                       </StyledTableCell>
                     </StyledTableRow>
@@ -143,6 +148,7 @@ export default function AdminTracker() {
   function getUserListPrivate () {
 
     let reqOtion = {
+      credentials: 'include',
       method : "get",
       headers : {
         "content-type" : "application/json"

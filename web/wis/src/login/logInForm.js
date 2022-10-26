@@ -37,14 +37,14 @@ const MuiLoginForm = () => {
             }),
         })
         .then((res)=>{
-            console.log( "그 결과는~~?",res);
-            if(res === "로그인 성공")
+            if(res.status === 200)
             {
                 window.location.replace("/main");
                 return ;
             }
             else { 
-                console.log("이프문이 작동 안 했네용 ㅠㅠ")
+                window.location.replace("/");
+                return;
             }
         })
     };

@@ -26,11 +26,45 @@ function Row(props) {
   //승인과 미승인일 경우 포스트 요청하는걸 여기다 넣을 거임
   const handleOkBoolean = (event) => {
     if(event.target.innerText === "승인") {
-        setOkValue(1);
+      setOkValue(1);
+      const name = row.name;
+      const sn = row.sn;
+      const Classes = row.Classes;
+      const ok = okValue;
+      const hospital = row.hospital;
+      const day = row.day;
+      fetch('http://127.0.0.1:5000/main/resultlist', {
+          credentials: 'include',    
+          method: 'POST',
+          headers: {
+              'content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            sn,
+            Classes,
+            ok,
+            hospital,
+            day,
+          }),
+      })
     }
 
     else if(event.target.innerText === "미승인") {
-        setOkValue(0);
+      setOkValue(0);
+      const _id = row._id;
+      const ok = okValue;
+      fetch('http://127.0.0.1:5000/main/traking', {
+          credentials: 'include',    
+          method: 'POST',
+          headers: {
+              'content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            _id,
+            ok,
+          }),
+      })
     }
 }
 
@@ -98,6 +132,7 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     Classes: PropTypes.string.isRequired,
     sn: PropTypes.string.isRequired,
@@ -108,7 +143,7 @@ Row.propTypes = {
   }).isRequired,
 };
 
-
+/*
 function createData(name, sn, Classes, inter, ok, hospital, day) {
   return {
     name,
@@ -128,6 +163,7 @@ const rows = [
   createData('국동희', '22-36345', '상병',  '어디아프니', 2, '사과', '12/30'),
   createData('수병쉨', '22-612344', '짬찌',  '시간이안가요', 2, '국방부', '1/30'),
 ];
+*/
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -150,12 +186,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export default function AdminTracker() {
-  /*
   const [userList, setUserList] = React.useState(null);
 
   function getUserListPrivate () {
 
     let reqOtion = {
+      credentials: 'include',
       method : "get",
       headers : {
         "content-type" : "application/json"
@@ -167,7 +203,6 @@ export default function AdminTracker() {
   }
   
   getUserListPrivate();
-  */
   return (
     <Container component='main' maxWidth>
         <TableContainer component={Paper}>
@@ -182,8 +217,8 @@ export default function AdminTracker() {
             </TableRow>
             </TableHead>
             <TableBody>
-            {rows && rows.map((row) => (
-                <Row key={row.name} row={row} />
+            {userList && userList.map((row) => (
+                <Row key={row._id} row={row} />
             ))}
             </TableBody>
         </Table>

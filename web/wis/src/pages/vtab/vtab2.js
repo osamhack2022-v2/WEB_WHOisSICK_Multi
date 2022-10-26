@@ -62,7 +62,21 @@ const onSubmitHandler = (event) => {
   return (
     <Container component="main" maxWidth>
       <ExplainBox />
-      <Button onClick={()=> setModalIsOpen(true)}>모델 테스트</Button>
+      <Container>
+      <Grid
+      sx={{
+        mt: 8, 
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: "center",}}>
+      <Button 
+      onClick={()=> setModalIsOpen(true)} 
+      variant="contained">
+      신청하기
+      </Button>
+      </Grid>
+      </Container>
       <Modal className='container' isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <Grid sx={{mt : 20}}></Grid>
       <Paper

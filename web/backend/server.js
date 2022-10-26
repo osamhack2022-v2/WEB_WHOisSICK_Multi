@@ -165,6 +165,13 @@ app.post('/main', (req, res)=> {
   }
 });
 
+app.get('/main/hopelist',(req,res)=>{
+  db.collection('resultlist').find().toArray((err,result)=>{
+    console.log(result);
+    res.send(result);
+  })
+})
+
 app.get('/main/resultlist',(req,res)=>{
   db.collection('resultlist').find().toArray((err,result)=>{
     console.log(result);
@@ -172,7 +179,9 @@ app.get('/main/resultlist',(req,res)=>{
   })
 })
 
-app.get('/main/traking',validUser,(req,res)=>{
-  
-  res.send("로그인 성공");
+app.get('/main/traking',(req,res)=>{
+  db.collection('resultlist').find().toArray((err,result)=>{
+    console.log(result);
+    res.send(result);
+  })
 })

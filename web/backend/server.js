@@ -126,9 +126,8 @@ app.get('/main', (req,res)=>{
 
 
 app.post('/main', (req, res)=> {
-  const { date, hospital, inter } =req.body;
+  const { date, hospital, inter, Classes } =req.body;//여기서 계급 받기로 수정하기로 함.
   const {access_token} = req.cookies;
-  console.log(hospital,inter);
   if(!access_token){
     res.status(401).send("accesstoken이 없습니다.")
   }
@@ -136,27 +135,39 @@ app.post('/main', (req, res)=> {
     const { servNum } = jwt.verify(access_token,'dkaghzl')
     db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
       const userdata = result;//디코딩한 군번으로 해당유저 찾고
-      const { servNum, name, Classes } = userdata;
-      db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
-        var interCount = result.totalInter;
+      const { servNum, name } = userdata;
         db.collection('hopelist').insertOne( {
-           servNum : servNum , 
+           servNum : servNum, 
            name: name,
            Classes: Classes,
            inter : inter,
-           ok: false,
+           ok: 0,
            hospital : hospital,
            day : date, 
-           _id : interCount +1 ,
          } ,
-         (err,result)=>{
-             db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
-                 if(err) {return console.log(err);
-             }
-             res.send("saved");
-           })
+         ()=>{
+          db.collection('traking').findOne({sn:servNum}, (err,result)=>{
+            if(!result)//추적일지가 만들어진 적 없다면 트래킹에 추가해주기.
+            {
+              db.collection('traking').insertOne({
+                name: name,
+                sn : servNum,
+                ok: 0,
+              })
+              db.collection('traking').updateOne(
+                { $push: { 
+                  history: { 
+                    
+                    Classes : Classes,
+                    inter: inter,
+                    hospital: hospital,
+                    date : date,
+                  } } }
+              )
+            }
+          })
          });
-       });
+         
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
        throw "userdata가 없습니다.";
     }})
@@ -165,14 +176,20 @@ app.post('/main', (req, res)=> {
   }
 });
 
-app.get('/main/resultlist',(req,res)=>{
-  db.collection('resultlist').find().toArray((err,result)=>{
-    console.log(result);
+app.get('/main/hopelist',(req,res)=>{
+  db.collection('hopelist').find().toArray((err,result)=>{
     res.send(result);
   })
 })
 
-app.get('/main/traking',validUser,(req,res)=>{
-  
-  res.send("로그인 성공");
+app.get('/main/resultlist',(req,res)=>{
+  db.collection('resultlist').find().toArray((err,result)=>{
+    res.send(result);
+  })
+})
+
+app.get('/main/traking',(req,res)=>{
+  db.collection('traking').find().toArray((err,result)=>{
+    res.send(result);
+  })
 })

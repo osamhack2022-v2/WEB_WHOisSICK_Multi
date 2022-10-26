@@ -143,8 +143,7 @@ app.post('/main', (req, res)=> {
            ok: 0,
            hospital : hospital,
            day : date, 
-         } ,
-         ()=>{
+         } ,  ()=>{
           db.collection('traking').findOne({sn:servNum}, (err,result)=>{
             if(!result)//추적일지가 만들어진 적 없다면 트래킹에 추가해주기.
             {
@@ -153,20 +152,52 @@ app.post('/main', (req, res)=> {
                 sn : servNum,
                 ok: 0,
               })
-              db.collection('traking').updateOne(
-                { $push: { 
-                  history: { 
-                    _id : 0,
-                    Classes : Classes,
-                    inter: inter,
-                    hospital: hospital,
-                    date : date,
+              db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
+                var interCount = result.totalInter;
+                db.collection('traking').updateOne(
+                  { $push: { 
+                    history: { 
+                      origin: interCount+1,
+                      Classes : Classes,
+                      inter: inter,
+                      hospital: hospital,
+                      date : date,
+                    } 
                   } 
-                } 
-              })
+                },(err,result)=>{
+                  db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
+                      if(err) 
+                        return console.log(err);
+                  })
+                })
+              });
             }
-          })
-         });
+            else
+            {//있으면 그냥 오리진 넘버만 다르게 해서 올려주기.
+              db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
+                var interCount = result.totalInter;
+                db.collection('traking').updateOne(
+                  { $push: { 
+                    history: { 
+                      origin: interCount+1,
+                      Classes : Classes,
+                      inter: inter,
+                      hospital: hospital,
+                      date : date,
+                    } 
+                  } 
+                },(err,result)=>{
+                  db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
+                      if(err) 
+                        return console.log(err);
+                  })
+                })
+              });
+            }
+
+
+          });         
+        })
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
        throw "userdata가 없습니다.";
     }})
@@ -174,7 +205,6 @@ app.post('/main', (req, res)=> {
     res.status(401).send("유효한 accesstoken이 아닙니다.");
   }
 });
-
 
 app.get('/main/hopelist',(req,res)=>{
   db.collection('hopelist').find().toArray((err,result)=>{

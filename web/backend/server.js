@@ -156,17 +156,17 @@ app.post('/main', (req, res)=> {
               db.collection('traking').updateOne(
                 { $push: { 
                   history: { 
-                    
+                    _id : 0,
                     Classes : Classes,
                     inter: inter,
                     hospital: hospital,
                     date : date,
-                  } } }
-              )
+                  } 
+                } 
+              })
             }
           })
          });
-         
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
        throw "userdata가 없습니다.";
     }})
@@ -175,11 +175,6 @@ app.post('/main', (req, res)=> {
   }
 });
 
-app.get('/main/hopelist',(req,res)=>{
-  db.collection('hopelist').find().toArray((err,result)=>{
-    res.send(result);
-  })
-})
 
 app.get('/main/hopelist',(req,res)=>{
   db.collection('hopelist').find().toArray((err,result)=>{

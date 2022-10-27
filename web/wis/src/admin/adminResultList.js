@@ -43,9 +43,8 @@ function Row(props) {
       setOkValue(4);
     else 
       setOkValue(5);
-      
-      row.inter = value;
     
+      const inter = value;
       const _id = row._id;
       const ok = okValue;
       fetch('http://127.0.0.1:5000/main/traking', {
@@ -57,6 +56,7 @@ function Row(props) {
         body: JSON.stringify({
           _id,
           ok,
+          inter,
         }),
     })
 }
@@ -142,7 +142,7 @@ function Row(props) {
                                   <FormControlLabel
                                   checked={checked}
                                   control={<Checkbox value="재진여부" color="primary"/>}
-                                  label="재진"
+                                  label="재진여부 확인"
                                   onChange={handleChecked}
                                   />
                                 <Button 

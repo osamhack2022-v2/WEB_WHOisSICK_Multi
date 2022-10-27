@@ -10,6 +10,7 @@ const path = require('path');
 const mongourl = config.get('mongoURI');
 const { validUser } = require('./middleware/auth');
 const { access } = require('fs');
+const ObjectId = require('mongodb').ObjectId;
 
 dotenv.config();
 
@@ -200,16 +201,17 @@ app.post('/main', (req, res)=> {
 });
 
 app.post('/main/hope',(req,res)=>{
-  const {findId,clicked} =req.body;
+  const {_id,ok} =req.body;
+  const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{//아이디로 군번 찾고
     console.log(result);
     const findSn = result.servNum;
     db.collection('traking').findOne({sn :findSn},(err,result)=>{//군번으로 결과 찾고
       const userdata = result;
       const {origin, Classes, inter, hospital,name,date } =userdata;
-      if(clicked === 1)//승인
+      if(ok === 1)//승인
       {
-        db.collection('traking').updateOne({sn:servNum},
+        db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
               origin: origin,//오리진 유지,
@@ -221,7 +223,7 @@ app.post('/main/hope',(req,res)=>{
             } 
           } 
         })//업데이트 하고
-        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});//진료신청에도 업뎃해주고
+        db.collection('hopelist').updateOne({_id:toFind},{$set:{"ok" : 1}});//진료신청에도 업뎃해주고
         db.collection('resultlist').insertOne({//리절트리스트에도 추가해줘야 입력을 하겠죠?
           name: name,
           sn: findSn,
@@ -232,7 +234,7 @@ app.post('/main/hope',(req,res)=>{
           inter: "입력대기중",//입력 받으면 수정해주면 됨.
           day: "",//이것도 입력 받으면 수정.
         },(err,result)=>{//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
-          db.collection('traking').updateOne({sn:servNum},
+          db.collection('traking').updateOne({sn:findSn},
             { $push: { 
               history: { 
                 origin: origin,//오리진 유지,
@@ -247,9 +249,9 @@ app.post('/main/hope',(req,res)=>{
           })
         });
       }
-      else if(clicked ===0)//거절
+      else if(ok ===0)//거절
       {
-        db.collection('traking').updateOne({sn:servNum},
+        db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
               origin: origin,//오리진 유지,
@@ -269,13 +271,14 @@ app.post('/main/hope',(req,res)=>{
 
 //inter도 받을 거임. 그러면 그 inter와, 
 app.post('/main/result',(req,res)=>{
-  const {findId,clicked, inter} =req.body;
+  const {_id,ok, inter} =req.body;
+  const findId = ObjectId(_id);
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
     const findSn = result.servNum;
     db.collection('traking').findOne({sn :findSn},(err,result)=>{
       const userdata = result;
       const {origin, Classes ,hospital,date } =userdata;
-      if(clicked === 5)//완료
+      if(ok === 5)//완료
       {
         db.collection('traking').updateOne({sn:servNum},
           { $push: { 
@@ -298,7 +301,7 @@ app.post('/main/result',(req,res)=>{
           day : date,
         });
       }
-      else if(clicked === 4)//거절
+      else if(ok === 4)//거절
       {
         db.collection('traking').updateOne({sn:servNum},
           { $push: { 

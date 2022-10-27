@@ -228,10 +228,23 @@ app.post('/admin/hope',(req,res)=>{
           ok: 3,//대기.
           Classes : Classes,
           hospital: hospital,
+          symptom: inter,//아까 환자 증상으로 입력 받은 거.
           inter: "입력대기중",//입력 받으면 수정해주면 됨.
           day: "",//이것도 입력 받으면 수정.
-          symptom: inter,//아까 환자 증상으로 입력 받은 거.
-          inter: "",//새로 입력받을 내용. 역시 받으면 수정해줄 거임
+        },(err,result)=>{//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
+          db.collection('traking').updateOne({sn:servNum},
+            { $push: { 
+              history: { 
+                origin: origin,//오리진 유지,
+                ok: 3,
+                Classes : Classes,
+                hospital: hospital,
+                symptom: inter,//아까 환자 증상으로 입력 받은 거.
+                inter: "입력대기중",//입력 받으면 수정해주면 됨.
+                day: "",
+              } 
+            } 
+          })
         });
       }
       else if(clicked ===0)//거절

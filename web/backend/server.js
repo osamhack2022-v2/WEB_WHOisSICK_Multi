@@ -118,7 +118,6 @@ app.post('/',(req,res)=>{
 
 app.get('/main', (req,res)=>{
   db.collection('traking').find().toArray((err,result)=>{
-    console.log(result);
     res.send(result);
   })
 })
@@ -134,7 +133,7 @@ app.post('/main', (req, res)=> {
     db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
       const userdata = result;//디코딩한 군번으로 해당유저 찾고
       const { servNum, name } = userdata;
-        db.collection('hopelist').insertOne( {
+        db.collection('hopelist').insertOne({
            servNum : servNum, 
            name: name,
            Classes: Classes,
@@ -153,45 +152,43 @@ app.post('/main', (req, res)=> {
               })
               db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
                 var interCount = result.totalInter;
-                db.collection('traking').updateOne(
+                db.collection('traking').updateOne({sn:servNum},
                   { $push: { 
                     history: { 
-                      origin: interCount+1,
+                      origin: interCount +  1,
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
-                      date : date,
+                      date : date
                     } 
                   } 
-                },(err,result)=>{
-                  db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
-                      if(err) 
-                        return console.log(err);
-                  })
+                })
+                db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
+                  if(err) 
+                    return console.log(err);
                 })
               });
+              res.send("added");
             }
             else
             {//있으면 그냥 오리진 넘버만 다르게 해서 올려주기.
               db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
                 var interCount = result.totalInter;
-                db.collection('traking').updateOne(
-                  { $push: { 
+                db.collection('traking').updateOne({sn:servNum},
+                  { $push: {
                     history: { 
-                      origin: interCount+1,
+                      origin: interCount +  1,
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
-                      date : date,
-                    } 
-                  } 
-                },(err,result)=>{
-                  db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
-                      if(err) 
-                        return console.log(err);
-                  })
+                      date : date
+                    }}})
+                db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
+                  if(err) 
+                    return console.log(err);
                 })
               });
+              res.send("updated");
             }
 
 

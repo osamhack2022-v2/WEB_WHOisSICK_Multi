@@ -46,7 +46,7 @@ function Row(props) {
       setOkValue(0);
       const _id = row._id;
       const ok = okValue;
-      fetch('http://127.0.0.1:5000/admin/hope', {
+      fetch('http://127.0.0.1:5000/main/hope', {
           credentials: 'include',    
           method: 'POST',
           headers: {

@@ -156,6 +156,7 @@ app.post('/main', (req, res)=> {
                   { $push: { 
                     history: { 
                       origin: interCount +  1,
+                      ok:0,
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
@@ -178,6 +179,7 @@ app.post('/main', (req, res)=> {
                   { $push: {
                     history: { 
                       origin: interCount +  1,
+                      ok:0,
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
@@ -190,8 +192,6 @@ app.post('/main', (req, res)=> {
               });
               res.send("updated");
             }
-
-
           });         
         })
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
@@ -211,15 +211,15 @@ app.post('/admin/hope',(req,res)=>{
       const {origin, Classes, inter, hospital,date } =userdata;
       if(clicked === 1)
       {
-        db.collection('traking').updateOne(
+        db.collection('traking').updateOne({sn:servNum},
           { $push: { 
             history: { 
-              origin: origin,//origin값은 유지.
-              ok:1,
+              origin: origin,//오리진 유지,
+              ok: 1,
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : date,
+              date : date
             } 
           } 
         })
@@ -227,15 +227,15 @@ app.post('/admin/hope',(req,res)=>{
       }
       else if(clicked ===2)
       {
-        db.collection('traking').updateOne(
+        db.collection('traking').updateOne({sn:servNum},
           { $push: { 
             history: { 
-              origin: origin,//origin값은 유지.
-              ok : 2,
+              origin: origin,//오리진 유지,
+              ok: 2,
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : date,
+              date : date
             } 
           } 
         })

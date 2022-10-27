@@ -27,25 +27,17 @@ function Row(props) {
   const handleOkBoolean = (event) => {
     if(event.target.innerText === "승인") {
       setOkValue(1);
-      const name = row.name;
-      const sn = row.sn;
-      const Classes = row.Classes;
+      const _id = row._id;
       const ok = okValue;
-      const hospital = row.hospital;
-      const day = row.day;
-      fetch('http://127.0.0.1:5000/main/resultlist', {
+      fetch('http://127.0.0.1:5000/admin/hope', {
           credentials: 'include',    
           method: 'POST',
           headers: {
               'content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name,
-            sn,
-            Classes,
+            _id,
             ok,
-            hospital,
-            day,
           }),
       })
     }
@@ -54,7 +46,7 @@ function Row(props) {
       setOkValue(0);
       const _id = row._id;
       const ok = okValue;
-      fetch('http://127.0.0.1:5000/main/traking', {
+      fetch('http://127.0.0.1:5000/admin/hope', {
           credentials: 'include',    
           method: 'POST',
           headers: {

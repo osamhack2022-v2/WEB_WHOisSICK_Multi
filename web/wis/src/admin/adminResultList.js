@@ -47,7 +47,7 @@ function Row(props) {
       const inter = value;
       const _id = row._id;
       const ok = okValue;
-      fetch('http://127.0.0.1:5000/main/traking', {
+      fetch('http://127.0.0.1:5000/admin/result', {
         credentials: 'include',    
         method: 'POST',
         headers: {

@@ -6,8 +6,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Modal from 'react-modal';
+import Snackbar from '@mui/material/Snackbar';
 
 import ExplainBox from './vtab2Explain';
+import MuiAlert from '@mui/material/Alert';
 import './vtab.module.css';
 
 /*
@@ -19,6 +21,10 @@ const Img = styled('img')({
 });
 */
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function MultilineTextFields() {
 
   const minDate = dayjs('2020-01-01T00:00:00.000');
@@ -27,6 +33,24 @@ export default function MultilineTextFields() {
   const [dates, setdate] = React.useState(dayjs('2022-04-07'));
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
+  //snackBar start
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    else
+      setState({ open: false, vertical: 'top', horizontal: 'center',});
+  };
+
+  //snackBar end
   const [values, setValues] = React.useState({
     hospital: "",
     inter: "",
@@ -43,7 +67,7 @@ const handleChange = (event) => {
 
 const onSubmitHandler = (event) => {
   event.preventDefault();
-  const date = dates;
+  const date = dayjs(dates).format("YYYY-MM-DD");
   const hospital = values.hospital;
   const inter = values.inter;
   const Classes = values.Classes;
@@ -60,6 +84,8 @@ const onSubmitHandler = (event) => {
         inter,
       }),
   });
+  setState({ open: true, vertical: 'top', horizontal: 'center', });
+  setModalIsOpen(false);
 };
 
   return (
@@ -148,6 +174,7 @@ const onSubmitHandler = (event) => {
         <TextField
           id="cont"
           label="신청 내용"
+          placeholder="예) 오른쪽 귀가 자꾸 먹먹하고 잘 안들리는 경우가 많습니다. 또한 씻고 난 후 귀에서 진물이 나오는 경우가 종종 있습니다."
           multiline
           rows={12}
           name="inter"
@@ -168,6 +195,11 @@ const onSubmitHandler = (event) => {
     </Grid>
       </Paper>
       </Modal>
+      <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          제출에 성공하였습니다!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

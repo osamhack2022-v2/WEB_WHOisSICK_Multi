@@ -29,7 +29,8 @@ export default function MultilineTextFields() {
 
   const [values, setValues] = React.useState({
     hospital: "",
-    inter: ""
+    inter: "",
+    Classes: "",
 });
 
 const handleChange = (event) => {
@@ -45,6 +46,7 @@ const onSubmitHandler = (event) => {
   const date = dates;
   const hospital = values.hospital;
   const inter = values.inter;
+  const Classes = values.Classes;
   fetch('http://127.0.0.1:5000/main', {
     credentials: 'include',    
       method: 'POST',
@@ -53,6 +55,7 @@ const onSubmitHandler = (event) => {
       },
       body: JSON.stringify({
         date,
+        Classes,
         hospital,
         inter,
       }),
@@ -121,6 +124,17 @@ const onSubmitHandler = (event) => {
             justifyContent: "center",
           }}
       >
+        <TextField
+          fullWidth
+          id="classe"
+          label="계급"
+          placeholder="예)병장"
+          name="Classes"
+          sx={{mt : 3}}
+          onChange={handleChange}
+          multiline
+        />
+
         <TextField
           fullWidth
           id="ho"

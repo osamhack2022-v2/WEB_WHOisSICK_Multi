@@ -77,17 +77,19 @@ function Row(props) {
                     <TableCell>날짜</TableCell>
                     <TableCell align="right">진료과</TableCell>
                     <TableCell align="right">처방 내용</TableCell>
+                    <TableCell align="right">분류 상태</TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
-                  {row.inter.map((historyRow) => (
-                    <StyledTableRow key={historyRow.inter}>
+                  {row.history.map((historyRow) => (
+                    <StyledTableRow key={historyRow.origin}>
                       <StyledTableCell component="th" scope="row">
                         {historyRow.day}
                       </StyledTableCell>
                       <StyledTableCell align="right">{historyRow.hospital}</StyledTableCell>
                       <StyledTableCell align="right">{historyRow.inter}</StyledTableCell>
+                      <StyledTableCell align="right">{historyRow.ok}</StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -111,6 +113,7 @@ Row.propTypes = {
         hospital: PropTypes.string.isRequired,
         day: PropTypes.string.isRequired,
         inter: PropTypes.string.isRequired,
+        ok: PropTypes.number.isRequired,
       }),
     ).isRequired,
   }).isRequired,
@@ -177,7 +180,7 @@ export default function AdminTracker() {
             </TableHead>
             <TableBody>
             {userList && userList.map((row) => (
-                <Row key={row.name} row={row} />
+                <Row key={row._id} row={row} />
             ))}
             </TableBody>
         </Table>

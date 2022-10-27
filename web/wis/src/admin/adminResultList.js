@@ -13,30 +13,52 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Button, Stack } from '@mui/material';
+import { Button, Stack, Grid, TextField, FormControlLabel, Checkbox } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { Container } from '@mui/system';
+import Modal from 'react-modal';
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
-  const [interText, setInter] = React.useState(row.inter);
+  const [checked, setChecked] = React.useState(false);
 
-  const [okValue, setOkValue] = React.useState(row.ok);
+  const [okValue, setOkValue] = React.useState(3);
+
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
   
-  const handleInterText = (event) => {
-    setInter(event.target.value);
+  const [value, setValue] = React.useState();
+
+  const handleChecked = (event) => {
+    setChecked(event.target.checked);
   }
 
-  const handleOkBoolean = (event) => {
-    if(event.target.innerText === "처방완료") {
-        setOkValue(1);
-    }
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  }
 
-    else if(event.target.innerText === "처방불가") {
-        setOkValue(0);
-    }
+  const handleSudmit = () => {
+    if(checked)
+      setOkValue(4);
+    else 
+      setOkValue(5);
+      
+      row.inter = value;
+    
+      const _id = row._id;
+      const ok = okValue;
+      fetch('http://127.0.0.1:5000/main/traking', {
+        credentials: 'include',    
+        method: 'POST',
+        headers: {
+            'content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          _id,
+          ok,
+        }),
+    })
 }
 
   return (
@@ -58,7 +80,7 @@ function Row(props) {
         <StyledTableCell align="right">{row.sn}</StyledTableCell>
         <StyledTableCell align="right">{row.Classes}</StyledTableCell>
         <StyledTableCell align="right">
-            {okValue === 1 ? "처방완료" : (okValue === 2 ? "처방전" : "처방불가")}
+            {okValue === 3 ? "대기" : (okValue === 4 ? "재진" : "승인")}
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
@@ -84,11 +106,52 @@ function Row(props) {
                         {row.day}
                       </StyledTableCell>
                       <StyledTableCell align="left">{row.hospital}</StyledTableCell>
-                      <StyledTableCell align="left">{interText}</StyledTableCell>
+                      <StyledTableCell align="left">{value}</StyledTableCell>
                       <StyledTableCell align="right">
                         <Stack direction="row-reverse" spacing={1} align="right">
-                            <Button onClick={handleOkBoolean} color="error">처방불가</Button>
-                            <Button onClick={handleOkBoolean}>처방완료</Button>
+                            <Button onClick={()=> setModalIsOpen(true)}>처방입력</Button>
+                            <Modal className='container' isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+                            <Paper
+                                sx={{
+                                    p: 2,
+                                    margin: 'auto',
+                                    maxWidth: 500,
+                                    flexGrow: 1,
+                                    backgroundColor: (theme) =>
+                                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                                }}
+                                >
+                                <Grid
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}>
+                                    <TextField
+                                    id="cont"
+                                    label="신청 내용"
+                                    multiline
+                                    rows={12}
+                                    name="inter"
+                                    placeholder="두통약 처방"
+                                    fullWidth
+                                    sx={{mt : 3}}
+                                    value={value}
+                                    onChange={handleChange}
+                                    />
+                                  <FormControlLabel
+                                  checked={checked}
+                                  control={<Checkbox value="재진여부" color="primary"/>}
+                                  label="재진"
+                                  onChange={handleChecked}
+                                  />
+                                <Button 
+                                variant='contained' 
+                                onClick={handleSudmit}
+                                sx={{mt: 3}}>제출하기</Button>
+                                </Grid>
+                            </Paper>
+                            </Modal>
                         </Stack>
                       </StyledTableCell>
                     </StyledTableRow>
@@ -176,7 +239,7 @@ export default function AdminTracker() {
             </TableHead>
             <TableBody>
             {userList && userList.map((row) => (
-                <Row key={row.Classes} row={row} />
+                <Row key={row._id} row={row} />
             ))}
             </TableBody>
         </Table>

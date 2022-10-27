@@ -136,7 +136,7 @@ app.post('/main', (req, res)=> {
            name: name,
            Classes: Classes,
            inter : inter,
-           ok: 0,
+           ok: 2,
            hospital : hospital,
            day : date, 
          } ,  ()=>{
@@ -154,7 +154,7 @@ app.post('/main', (req, res)=> {
                   { $push: { 
                     history: { 
                       origin: interCount +  1,
-                      ok:0,
+                      ok: 2,
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
@@ -177,7 +177,7 @@ app.post('/main', (req, res)=> {
                   { $push: {
                     history: { 
                       origin: interCount +  1,
-                      ok:0,
+                      ok: 2,
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
@@ -206,8 +206,8 @@ app.post('/admin/hope',(req,res)=>{
     const findSn = result.servNum;
     db.collection('traking').findOne({sn :findSn},(err,result)=>{
       const userdata = result;
-      const {origin, Classes, inter, hospital,date } =userdata;
-      if(clicked === 1)
+      const {origin, Classes, inter, hospital,name,date } =userdata;
+      if(clicked === 1)//승인
       {
         db.collection('traking').updateOne({sn:servNum},
           { $push: { 
@@ -220,16 +220,27 @@ app.post('/admin/hope',(req,res)=>{
               date : date
             } 
           } 
-        })
-        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});
+        })//업데이트 하고
+        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});//진료신청에도 업뎃해주고
+        db.collection('resultlist').insertOne({//리절트리스트에도 추가해줘야 입력을 하겠죠?
+          name: name,
+          sn: findSn,
+          ok: 3,//대기.
+          Classes : Classes,
+          hospital: hospital,
+          inter: "입력대기중",//입력 받으면 수정해주면 됨.
+          day: "",//이것도 입력 받으면 수정.
+          symptom: inter,//아까 환자 증상으로 입력 받은 거.
+          inter: "",//새로 입력받을 내용. 역시 받으면 수정해줄 거임
+        });
       }
-      else if(clicked ===2)
+      else if(clicked ===0)//거절
       {
         db.collection('traking').updateOne({sn:servNum},
           { $push: { 
             history: { 
               origin: origin,//오리진 유지,
-              ok: 2,
+              ok: 0,
               Classes : Classes,
               inter: inter,
               hospital: hospital,
@@ -237,12 +248,13 @@ app.post('/admin/hope',(req,res)=>{
             } 
           } 
         })
-        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 2}});
+        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 0}});
       }
     })
   })
 })
 
+//inter도 받을 거임. 그러면 그 inter와, 
 app.post('/admin/result',(req,res)=>{
 
 })

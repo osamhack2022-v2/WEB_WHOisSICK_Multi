@@ -52,7 +52,6 @@ app.post('/signup-private', async (req, res)=> {
           password : hash , 
           name: name,
           cadre: false,
-          history: { }, //history 라는 변수 명으로 쓸 생각.
           _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
         } ,
         (err,result)=>{
@@ -79,7 +78,6 @@ app.post('/signup-cadre', async (req, res)=> {
             password : hash , 
             name: name,
             cadre: true,
-            history: { }, //history 라는 변수 명으로 쓸 생각.
             _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
         } ,
         (err,result)=>{

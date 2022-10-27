@@ -199,11 +199,12 @@ app.post('/main', (req, res)=> {
   }
 });
 
-app.post('/admin/hope',(req,res)=>{
+app.post('/main/hope',(req,res)=>{
   const {findId,clicked} =req.body;
-  db.collection('hopelist').findOne({_id:findId},(err,result)=>{
+  db.collection('hopelist').findOne({_id:findId},(err,result)=>{//아이디로 군번 찾고
+    console.log(result);
     const findSn = result.servNum;
-    db.collection('traking').findOne({sn :findSn},(err,result)=>{
+    db.collection('traking').findOne({sn :findSn},(err,result)=>{//군번으로 결과 찾고
       const userdata = result;
       const {origin, Classes, inter, hospital,name,date } =userdata;
       if(clicked === 1)//승인
@@ -267,7 +268,7 @@ app.post('/admin/hope',(req,res)=>{
 })
 
 //inter도 받을 거임. 그러면 그 inter와, 
-app.post('/admin/result',(req,res)=>{
+app.post('/main/result',(req,res)=>{
   const {findId,clicked, inter} =req.body;
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
     const findSn = result.servNum;
@@ -288,7 +289,14 @@ app.post('/admin/result',(req,res)=>{
             } 
           } 
         })//업데이트 하고
-        db.collection('resultlist').updateOne({_id:findId},{$set:{"ok" : 5}});
+        db.collection('resultlist').update({
+          _id:findId
+        },
+        {
+          ok: 5,
+          inter : inter,
+          day : date,
+        });
       }
       else if(clicked === 4)//거절
       {
@@ -304,7 +312,14 @@ app.post('/admin/result',(req,res)=>{
             } 
           } 
         })
-        db.collection('resultlist').updateOne({_id:findId},{$set:{"ok" : 4}});
+        db.collection('resultlist').update({
+          _id:findId
+        },
+        {
+          ok: 4,
+          inter : inter,
+          day : date,
+        });
       }
     })
   })

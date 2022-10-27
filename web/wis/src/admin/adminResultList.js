@@ -18,6 +18,12 @@ import { styled } from '@mui/material/styles';
 
 import { Container } from '@mui/system';
 import Modal from 'react-modal';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function Row(props) {
   const { row } = props;
@@ -29,7 +35,25 @@ function Row(props) {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   
   const [value, setValue] = React.useState();
+  //snackBar start
+  const [state, setState] = React.useState({
+    openSnack: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
 
+  const { vertical, horizontal, openSnack } = state;
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    else
+      setState({ open: false, vertical: 'top', horizontal: 'center',});
+  };
+
+  //snackBar end 
+  
   const handleChecked = (event) => {
     setChecked(event.target.checked);
   }
@@ -38,7 +62,8 @@ function Row(props) {
     setValue(event.target.value);
   }
 
-  const handleSudmit = () => {
+  const handleSudmit = (newState) => {
+    setState({ openSnack: true, ...newState });
     if(checked)
       setOkValue(4);
     else 
@@ -59,6 +84,7 @@ function Row(props) {
           inter,
         }),
     })
+    setModalIsOpen(false);
 }
 
   return (
@@ -147,11 +173,19 @@ function Row(props) {
                                   />
                                 <Button 
                                 variant='contained' 
-                                onClick={handleSudmit}
+                                onClick={handleSudmit({
+                                  vertical: 'top',
+                                  horizontal: 'center',
+                                })}
                                 sx={{mt: 3}}>제출하기</Button>
                                 </Grid>
                             </Paper>
                             </Modal>
+                            <Snackbar anchorOrigin={{ vertical, horizontal }} open={openSnack} autoHideDuration={2000} onClose={handleClose}>
+                              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                제출에 성공하였습니다!
+                              </Alert>
+                            </Snackbar>
                         </Stack>
                       </StyledTableCell>
                     </StyledTableRow>

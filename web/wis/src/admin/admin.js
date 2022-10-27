@@ -62,7 +62,6 @@ function Row(props) {
           {row.name}
         </StyledTableCell>
         <StyledTableCell align="right">{row.sn}</StyledTableCell>
-        <StyledTableCell align="right">{row.Classes}</StyledTableCell>
       </StyledTableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -105,7 +104,6 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    Classes: PropTypes.string.isRequired,
     sn: PropTypes.string.isRequired,
     
     inter: PropTypes.arrayOf(
@@ -175,7 +173,6 @@ export default function AdminTracker() {
                 <StyledTableCell/>
                 <StyledTableCell>이름</StyledTableCell>
                 <StyledTableCell align="right">군번</StyledTableCell>
-                <StyledTableCell align="right">계급</StyledTableCell>
             </TableRow>
             </TableHead>
             <TableBody>

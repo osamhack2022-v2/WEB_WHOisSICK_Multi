@@ -42,7 +42,7 @@ const MuiLoginForm = () => {
                 window.location.replace("/main");
                 return ;
             }
-            else { 
+            else {
                 window.location.replace("/");
                 return;
             }

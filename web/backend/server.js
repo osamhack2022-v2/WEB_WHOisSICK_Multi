@@ -113,7 +113,8 @@ app.post('/main', (req, res)=> {
            ok: 2,
            hospital : hospital,
            day : date, 
-         } ,  ()=>{
+         } ,  (err,result)=>{
+          const giveNewId = result.insertedId;
           db.collection('traking').findOne({sn:servNum}, (err,result)=>{
             if(!result)//추적일지가 만들어진 적 없다면 트래킹에 추가해주기.
             {
@@ -125,7 +126,7 @@ app.post('/main', (req, res)=> {
                 db.collection('traking').updateOne({sn:servNum},
                   { $push: { 
                     history: { 
-                      origin: ObjectId(),
+                      origin: giveNewId,
                       ok: 2,
                       Classes : Classes,
                       inter: inter,
@@ -141,7 +142,7 @@ app.post('/main', (req, res)=> {
                 db.collection('traking').updateOne({sn:servNum},
                   { $push: {
                     history: { 
-                      origin: ObjectId(),
+                      origin: giveNewId,
                       ok: 2,
                       Classes : Classes,
                       inter: inter,
@@ -238,7 +239,8 @@ app.post('/main/result',(req,res)=>{
   const {_id, ok, acceptTime, inter} =req.body;
   const findId = ObjectId(_id);
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
-    const findSn = result.servNum;
+    const findSn = result.sn;
+    console.log(result);
       const {origin, Classes ,hospital } = result;
       if(ok === 5)//완료
       {

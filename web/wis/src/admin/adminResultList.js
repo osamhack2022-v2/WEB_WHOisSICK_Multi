@@ -64,14 +64,19 @@ function Row(props) {
 
   const handleSudmit = (newState) => {
     setState({ openSnack: true, ...newState });
-    if(checked)
+
+    let ok = 3;
+    if(checked){
       setOkValue(4);
-    else 
+      ok = 4;
+    }
+    else {
       setOkValue(5);
+      ok = 5;
+    }
     
       const inter = value;
       const _id = row._id;
-      const ok = okValue;
       fetch('http://127.0.0.1:5000/main/result', {
         credentials: 'include',    
         method: 'POST',
@@ -256,7 +261,9 @@ export default function AdminTracker() {
     .then((data) => setUserList(data));
   }
   
-  getUserListPrivate();
+  React.useEffect(() => {
+    getUserListPrivate();
+  }, []);
 
   return (
     <Container component='main' maxWidth>

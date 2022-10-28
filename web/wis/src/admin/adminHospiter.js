@@ -28,7 +28,7 @@ function Row(props) {
     if(event.target.innerText === "승인") {
       setOkValue(1);
       const _id = row._id;
-      const ok = okValue;
+      const ok = 1;
       fetch('http://127.0.0.1:5000/main/hope', {
           credentials: 'include',    
           method: 'POST',
@@ -45,7 +45,7 @@ function Row(props) {
     else if(event.target.innerText === "미승인") {
       setOkValue(0);
       const _id = row._id;
-      const ok = okValue;
+      const ok = 0;
       fetch('http://127.0.0.1:5000/main/hope', {
           credentials: 'include',    
           method: 'POST',
@@ -194,7 +194,10 @@ export default function AdminTracker() {
     .then((data) => setUserList(data));
   }
   
-  getUserListPrivate();
+  React.useEffect(() => {
+    getUserListPrivate();
+  }, []);
+
   return (
     <Container component='main' maxWidth>
         <TableContainer component={Paper}>

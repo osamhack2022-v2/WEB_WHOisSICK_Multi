@@ -162,7 +162,9 @@ export default function AdminTracker() {
     .then((data) => setUserList(data));
   }
   
-  getUserListPrivate();
+  React.useEffect(() => {
+    getUserListPrivate();
+  }, []);
 
   return (
     <Container component='main' maxWidth>

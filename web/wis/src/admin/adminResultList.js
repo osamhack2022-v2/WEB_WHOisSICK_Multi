@@ -72,7 +72,8 @@ function Row(props) {
       const day = date.toLocaleDateString('ko-kr');
       const inter = value;
       const _id = row._id;
-      fetch('http://127.0.0.1:5000/main/result', {
+      React.usehandleSudmit(() => {
+        fetch('http://127.0.0.1:5000/main/result', {
         credentials: 'include',    
         method: 'POST',
         headers: {
@@ -85,7 +86,9 @@ function Row(props) {
           inter,
         }),
     })
+      })
     }
+
     else {
       setOkValue(5);
       const ok = 5;
@@ -93,7 +96,8 @@ function Row(props) {
       const day = date.toLocaleDateString('ko-kr');
       const inter = value;
       const _id = row._id;
-      fetch('http://127.0.0.1:5000/main/result', {
+      React.usehandleSudmit(() => {
+        fetch('http://127.0.0.1:5000/main/result', {
         credentials: 'include',    
         method: 'POST',
         headers: {
@@ -106,6 +110,7 @@ function Row(props) {
           inter,
         }),
     })
+      })
     }
     setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
     setModalIsOpen(false);

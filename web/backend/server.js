@@ -223,7 +223,7 @@ app.post('/main/hope',(req,res)=>{
             } 
           } 
         })//업데이트 하고
-        db.collection('hopelist').updateOne({_id:toFind},{$set:{"ok" : 1}});//진료신청에도 업뎃해주고
+        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});//진료신청에도 업뎃해주고
         db.collection('resultlist').insertOne({//리절트리스트에도 추가해줘야 입력을 하겠죠?
           name: name,
           sn: findSn,

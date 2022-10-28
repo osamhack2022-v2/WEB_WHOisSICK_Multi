@@ -44,7 +44,7 @@ app.get('/',(req,res)=>{
 app.post('/signup-private', async (req, res)=> {
     const {servNum, password, name } = req.body 
     const hash = await argon2.hash(password);
-        db.collection('users').insertOne( {
+    db.collection('users').insertOne( {
           servNum : servNum , 
           password : hash , 
           name: name,
@@ -57,7 +57,7 @@ app.post('/signup-private', async (req, res)=> {
 app.post('/signup-cadre', async (req, res)=> {
     const {servNum, password, name } = req.body 
     const hash = await argon2.hash(password);
-        db.collection('users').insertOne( {
+    db.collection('users').insertOne( {
             servNum : servNum , 
             password : hash , 
             name: name,
@@ -82,7 +82,6 @@ app.post('/',(req,res)=>{
     }
     //로그인한 이용자만 쓸 수 있게 하기.    
     const access_token = jwt.sign( { servNum }, 'dkaghzl')//암호키로 암호화해주기.
-    console.log(servNum);
     res.cookie('access_token', access_token);
 
     res.send("로그인 성공");
@@ -163,7 +162,7 @@ app.post('/main', (req, res)=> {
 });
 
 app.post('/main/hope',(req,res)=>{
-  const {_id,ok,acceptTime} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
+  const {_id, ok,acceptTime} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
   const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
     console.log(result);

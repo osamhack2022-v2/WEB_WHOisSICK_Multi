@@ -10,6 +10,7 @@ const path = require('path');
 const mongourl = config.get('mongoURI');
 const { validUser } = require('./middleware/auth');
 const { access } = require('fs');
+const { send } = require('process');
 const ObjectId = require('mongodb').ObjectId;
 
 dotenv.config();
@@ -41,57 +42,31 @@ app.get('/',(req,res)=>{
 
 //회원가입. 군번, 비밀번호, 이름 받아올 거임.
 app.post('/signup-private', async (req, res)=> {
-    console.log('전송완료');
-    const {servNum, password, name, ganbu } = req.body 
+    const {servNum, password, name } = req.body 
     const hash = await argon2.hash(password);
-    db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
-        //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
-        var userCount = result.totalUser;
-        //비밀번호도 애초에 암호화해서 저장해둬야함.
         db.collection('users').insertOne( {
           servNum : servNum , 
           password : hash , 
           name: name,
           cadre: false,
-          _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
-        } ,
-        (err,result)=>{
-            db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
-                if(err) {return console.log(err);
-            }
-            return res.send("saved");
-          })
         });
-      });
+    return res.send("user added");
 });
 
-//간부 회원가입. 군번, 비밀번호, 이름 받아올 거임.
+//간부 회원가입.
 app.post('/signup-cadre', async (req, res)=> {
-    console.log('전송완료');
-    const {servNum, password, name, ganbu } = req.body 
+    const {servNum, password, name } = req.body 
     const hash = await argon2.hash(password);
-    db.collection('usercounter').findOne({name : '유저수'}, (err, result)=>{
-        //_id는 1씩 늘려주면서 할 거임. 군번으로 해도 될 것 같긴 한데 그냥 했음.
-        var userCount = result.totalUser;
-        //비밀번호도 애초에 암호화해서 저장해둬야함.
         db.collection('users').insertOne( {
             servNum : servNum , 
             password : hash , 
             name: name,
             cadre: true,
-            _id : userCount +1 , //군번을 유니크하게 받는 방법 고안되면 아이디 안 쓸 수도.
-        } ,
-        (err,result)=>{
-            db.collection('usercounter').updateOne({name: '유저수'},{$inc : {totalUser:1}},(err,result)=>{
-                if(err) {return console.log(err);
-            }
-            return res.send("saved");
-          })
         });
-      });
+    return res.send("user added");
 });
 
-//웹토큰 방식으로 로그인 한다면.... 구현해보겠음 ㅠㅠ
+//웹토큰 방식으로 로그인
 app.post('/',(req,res)=>{
   const {servNum, password } =req.body;//군번이랑 비번 받아옴
   db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
@@ -121,12 +96,12 @@ app.get('/main', (req,res)=>{
 })
 
 app.post('/main', (req, res)=> {
-  const { date, hospital, inter, Classes } =req.body;//여기서 계급 받기로 수정하기로 함.
+  const { date, hospital, inter, Classes } =req.body;//여기서 계급 받기
   const {access_token} = req.cookies;
   if(!access_token){
     res.status(401).send("accesstoken이 없습니다.")
   }
-  try {
+  try {//대기가 2.
     const { servNum } = jwt.verify(access_token,'dkaghzl')
     db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
       const userdata = result;//디코딩한 군번으로 해당유저 찾고
@@ -146,14 +121,12 @@ app.post('/main', (req, res)=> {
               db.collection('traking').insertOne({
                 name: name,
                 sn : servNum,
-                ok: 0,
-              })
-              db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
-                var interCount = result.totalInter;
+                ok: 2,
+              })//그리고 Id만들어서 추가해주기.
                 db.collection('traking').updateOne({sn:servNum},
                   { $push: { 
                     history: { 
-                      origin: interCount +  1,
+                      origin: ObjectId(),
                       ok: 2,
                       Classes : Classes,
                       inter: inter,
@@ -161,32 +134,21 @@ app.post('/main', (req, res)=> {
                       date : date
                     } 
                   } 
-                })
-                db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
-                  if(err) 
-                    return console.log(err);
-                })
               });
               res.send("added");
             }
             else
-            {//있으면 그냥 오리진 넘버만 다르게 해서 올려주기.
-              db.collection('intercounter').findOne({name : '신청서수'}, (err, result)=>{
-                var interCount = result.totalInter;
+            {//있으면 다른 신청이라는 뜻이니 새 Id만 만들어서 추가해주기.
                 db.collection('traking').updateOne({sn:servNum},
                   { $push: {
                     history: { 
-                      origin: interCount +  1,
+                      origin: ObjectId(),
                       ok: 2,
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
                       date : date
-                    }}})
-                db.collection('intercounter').updateOne({name: '신청서수'},{$inc : {totalInter:1}},(err,result)=>{
-                  if(err) 
-                    return console.log(err);
-                })
+                    }}
               });
               res.send("updated");
             }
@@ -203,12 +165,11 @@ app.post('/main', (req, res)=> {
 app.post('/main/hope',(req,res)=>{
   const {_id,ok,acceptTime} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
   const findId = ObjectId(_id);
-  db.collection('hopelist').findOne({_id:findId},(err,result)=>{//아이디로 군번 찾고
+  db.collection('hopelist').findOne({_id:findId},(err,result)=>{
     console.log(result);
-    const findSn = result.servNum;
-    db.collection('traking').findOne({sn :findSn},(err,result)=>{//군번으로 결과 찾고
-      const userdata = result;
-      const {origin, Classes, inter, hospital,name,date } =userdata;
+    console.log(" 말고",ok);
+    const findSn = result.servNum;//아이디로 군번 찾고
+    const {origin, Classes, inter, hospital,name,date } = result;
       if(ok === 1)//승인
       {
         db.collection('traking').updateOne({sn:findSn},
@@ -224,7 +185,9 @@ app.post('/main/hope',(req,res)=>{
           } 
         })//업데이트 하고
         db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});//진료신청에도 업뎃해주고
-        db.collection('resultlist').insertOne({//리절트리스트에도 추가해줘야 입력을 하겠죠?
+        
+        //이부분부턴 리절트리스트로 넘어가는 부분.
+        db.collection('resultlist').insertOne({
           name: name,
           sn: findSn,
           ok: 3,//대기.
@@ -232,9 +195,9 @@ app.post('/main/hope',(req,res)=>{
           hospital: hospital,
           symptom: inter,//아까 환자 증상으로 입력 받은 거.
           inter: "입력대기중",//입력 받으면 수정해주면 됨.
-          day: acceptTime,//이것도 입력 받으면 수정.
-        },(err,result)=>{//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
-          db.collection('traking').updateOne({sn:findSn},
+          day: "acceptTime",//이것도 입력 받으면 수정.
+        })//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
+        db.collection('traking').updateOne({sn:findSn},
             { $push: { 
               history: { 
                 origin: origin,//오리진 유지,
@@ -243,11 +206,11 @@ app.post('/main/hope',(req,res)=>{
                 hospital: hospital,
                 symptom: inter,//아까 환자 증상으로 입력 받은 거.
                 inter: "입력대기중",//입력 받으면 수정해주면 됨.
-                day: acceptTime,
+                day: "acceptTime",//이역시 입받수.
               } 
             } 
-          })
         });
+
       }
       else if(ok ===0)//거절
       {
@@ -265,7 +228,9 @@ app.post('/main/hope',(req,res)=>{
         })
         db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 0}});
       }
-    })
+      else{
+        return res.send("아무것도 안 함");
+      }
   })
 })
 
@@ -275,12 +240,10 @@ app.post('/main/result',(req,res)=>{
   const findId = ObjectId(_id);
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
     const findSn = result.servNum;
-    db.collection('traking').findOne({sn :findSn},(err,result)=>{
-      const userdata = result;
-      const {origin, Classes ,hospital } =userdata;
+      const {origin, Classes ,hospital } = result;
       if(ok === 5)//완료
       {
-        db.collection('traking').updateOne({sn:servNum},
+        db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
               origin: origin,//오리진 유지,
@@ -292,9 +255,7 @@ app.post('/main/result',(req,res)=>{
             } 
           } 
         })//업데이트 하고
-        db.collection('resultlist').update({
-          _id:findId
-        },
+        db.collection('resultlist').update({_id:findId},
         {
           ok: 5,
           inter : inter,
@@ -303,7 +264,7 @@ app.post('/main/result',(req,res)=>{
       }
       else if(ok === 4)//거절
       {
-        db.collection('traking').updateOne({sn:servNum},
+        db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
               origin: origin,//오리진 유지,
@@ -315,9 +276,7 @@ app.post('/main/result',(req,res)=>{
             } 
           } 
         })
-        db.collection('resultlist').update({
-          _id:findId
-        },
+        db.collection('resultlist').update({_id:findId},
         {
           ok: 4,
           inter : inter,
@@ -325,7 +284,6 @@ app.post('/main/result',(req,res)=>{
         });
       }
     })
-  })
 })
 
 app.get('/main/hopelist',(req,res)=>{

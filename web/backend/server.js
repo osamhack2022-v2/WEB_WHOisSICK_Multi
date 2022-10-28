@@ -163,7 +163,7 @@ app.post('/main', (req, res)=> {
 });
 
 app.post('/main/hope',(req,res)=>{
-  const {_id, ok,acceptTime} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
+  const {_id, ok,day} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
   const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
     const arrayId = _id;//_id는 호프리스트의 스트링형 아이디니까.
@@ -180,7 +180,7 @@ app.post('/main/hope',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : "acceptTime",
+              date : day,
             } 
           } 
         })//업데이트 하고
@@ -196,7 +196,7 @@ app.post('/main/hope',(req,res)=>{
           hospital: hospital,
           symptom: inter,//아까 환자 증상으로 입력 받은 거.
           inter: "입력대기중",//입력 받으면 수정해주면 됨.
-          day: "acceptTime",//이것도 입력 받으면 수정.
+          day: day,//이것도 입력 받으면 수정.
         })//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
         db.collection('traking').updateOne({sn:findSn},
             { $push: { 
@@ -207,7 +207,7 @@ app.post('/main/hope',(req,res)=>{
                 hospital: hospital,
                 symptom: inter,//아까 환자 증상으로 입력 받은 거.
                 inter: "입력대기중",//입력 받으면 수정해주면 됨.
-                day: "acceptTime",//이역시 입받수.
+                day: day,//이역시 입받수.
               } 
             } 
         });
@@ -237,9 +237,11 @@ app.post('/main/hope',(req,res)=>{
 
 //inter도 받을 거임. 그러면 그 inter와, 
 app.post('/main/result',(req,res)=>{
-  const {_id, ok, acceptTime, inter} =req.body;
+  const {_id, ok, day, inter} =req.body;
   const findId = ObjectId(_id);
+  console.log(req.body);
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
+    console.log
     const findSn = result.sn;
     console.log(result);
       const {origin, Classes ,hospital } = result;
@@ -253,7 +255,7 @@ app.post('/main/result',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : acceptTime//date는 클릭 받은 시간으로.
+              date : day//date는 클릭 받은 시간으로.
             } 
           } 
         })//업데이트 하고
@@ -261,7 +263,7 @@ app.post('/main/result',(req,res)=>{
         {
           ok: 5,
           inter : inter,
-          day : acceptTime,
+          day : day,
         });
       }
       else if(ok === 4)//거절
@@ -274,7 +276,7 @@ app.post('/main/result',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : acceptTime
+              date : day
             } 
           } 
         })
@@ -282,7 +284,7 @@ app.post('/main/result',(req,res)=>{
         {
           ok: 4,
           inter : inter,
-          day : acceptTime,
+          day : day,
         });
       }
     })

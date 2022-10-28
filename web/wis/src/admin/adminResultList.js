@@ -34,7 +34,7 @@ function Row(props) {
 
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState(row.inter);
   //snackBar start
   const [state, setState] = React.useState({
     openSnack: false,
@@ -64,7 +64,6 @@ function Row(props) {
 
   const handleSudmit = (newState) => {
     setState({ openSnack: true, ...newState });
-
     let ok = 3;
     if(checked){
       setOkValue(4);
@@ -74,7 +73,6 @@ function Row(props) {
       setOkValue(5);
       ok = 5;
     }
-    
       const inter = value;
       const _id = row._id;
       fetch('http://127.0.0.1:5000/main/result', {
@@ -188,16 +186,16 @@ function Row(props) {
                                 </Grid>
                             </Paper>
                             </Modal>
-                            <Snackbar anchorOrigin={{ vertical, horizontal }} open={openSnack} autoHideDuration={2000} onClose={handleClose}>
-                              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                                제출에 성공하였습니다!
-                              </Alert>
-                            </Snackbar>
                         </Stack>
                       </StyledTableCell>
                     </StyledTableRow>
                 </TableBody>
               </Table>
+              <Snackbar anchorOrigin={{ vertical, horizontal }} open={openSnack} autoHideDuration={2000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                  제출에 성공하였습니다!
+                </Alert>
+              </Snackbar>
             </Box>
           </Collapse>
         </TableCell>

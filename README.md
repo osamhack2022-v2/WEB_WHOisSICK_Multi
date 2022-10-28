@@ -1,6 +1,11 @@
 # WEB_who_is_sick
 ![logo](/web/wis/src/data/logo.png)
 
+## 목차
+
+1. [프로잭트 소개](## 프로잭트 소개)
+2. [기능 설명](## 기능 설명)
+
 ## who_is_sick
 아픈 사람? - 소규모 환자 추적-관리 웹 애플리케이션
 

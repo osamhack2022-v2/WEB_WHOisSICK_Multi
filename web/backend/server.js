@@ -201,7 +201,7 @@ app.post('/main', (req, res)=> {
 });
 
 app.post('/main/hope',(req,res)=>{
-  const {_id,ok} =req.body;
+  const {_id,ok,acceptTime} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
   const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{//아이디로 군번 찾고
     console.log(result);
@@ -232,7 +232,7 @@ app.post('/main/hope',(req,res)=>{
           hospital: hospital,
           symptom: inter,//아까 환자 증상으로 입력 받은 거.
           inter: "입력대기중",//입력 받으면 수정해주면 됨.
-          day: "",//이것도 입력 받으면 수정.
+          day: acceptTime,//이것도 입력 받으면 수정.
         },(err,result)=>{//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
           db.collection('traking').updateOne({sn:findSn},
             { $push: { 
@@ -243,7 +243,7 @@ app.post('/main/hope',(req,res)=>{
                 hospital: hospital,
                 symptom: inter,//아까 환자 증상으로 입력 받은 거.
                 inter: "입력대기중",//입력 받으면 수정해주면 됨.
-                day: "",
+                day: acceptTime,
               } 
             } 
           })
@@ -271,13 +271,13 @@ app.post('/main/hope',(req,res)=>{
 
 //inter도 받을 거임. 그러면 그 inter와, 
 app.post('/main/result',(req,res)=>{
-  const {_id,ok, inter} =req.body;
+  const {_id, ok, acceptTime, inter} =req.body;
   const findId = ObjectId(_id);
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
     const findSn = result.servNum;
     db.collection('traking').findOne({sn :findSn},(err,result)=>{
       const userdata = result;
-      const {origin, Classes ,hospital,date } =userdata;
+      const {origin, Classes ,hospital } =userdata;
       if(ok === 5)//완료
       {
         db.collection('traking').updateOne({sn:servNum},
@@ -288,7 +288,7 @@ app.post('/main/result',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : date
+              date : acceptTime//date는 클릭 받은 시간으로.
             } 
           } 
         })//업데이트 하고
@@ -298,7 +298,7 @@ app.post('/main/result',(req,res)=>{
         {
           ok: 5,
           inter : inter,
-          day : date,
+          day : acceptTime,
         });
       }
       else if(ok === 4)//거절
@@ -311,7 +311,7 @@ app.post('/main/result',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : date
+              date : acceptTime
             } 
           } 
         })
@@ -321,7 +321,7 @@ app.post('/main/result',(req,res)=>{
         {
           ok: 4,
           inter : inter,
-          day : date,
+          day : acceptTime,
         });
       }
     })

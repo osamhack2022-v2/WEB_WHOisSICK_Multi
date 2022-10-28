@@ -167,6 +167,7 @@ export default function AdminTracker() {
 
   return (
     <Container component='main' maxWidth>
+      <React.Fragment>
         <TableContainer component={Paper}>
         <Table component="div" aria-label="군인 병원 기록">
             <TableHead>
@@ -183,6 +184,7 @@ export default function AdminTracker() {
             </TableBody>
         </Table>
         </TableContainer>
+      </React.Fragment>
     </Container>
   );
 }

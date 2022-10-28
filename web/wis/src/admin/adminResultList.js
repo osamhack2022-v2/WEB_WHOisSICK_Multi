@@ -65,16 +65,9 @@ function Row(props) {
 
   const handleSudmit = (event) => {
     event.preventDefault();
-    let ok = 3;
     if(checked){
       setOkValue(4);
-      ok = 4;
-    }
-    else {
-      setOkValue(5);
-      ok = 5;
-    }
-    
+      const ok = 4;
       const date = new Date();
       const day = date.toLocaleDateString('ko-kr');
       const inter = value;
@@ -92,6 +85,28 @@ function Row(props) {
           inter,
         }),
     })
+    }
+    else {
+      setOkValue(5);
+      const ok = 5;
+      const date = new Date();
+      const day = date.toLocaleDateString('ko-kr');
+      const inter = value;
+      const _id = row._id;
+      fetch('http://127.0.0.1:5000/main/result', {
+        credentials: 'include',    
+        method: 'POST',
+        headers: {
+            'content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          _id,
+          ok,
+          day,
+          inter,
+        }),
+    })
+    }
     setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
     setModalIsOpen(false);
 }

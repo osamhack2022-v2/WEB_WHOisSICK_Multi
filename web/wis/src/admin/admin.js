@@ -104,7 +104,6 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    sn: PropTypes.string.isRequired,
     
     inter: PropTypes.arrayOf(
       PropTypes.shape({

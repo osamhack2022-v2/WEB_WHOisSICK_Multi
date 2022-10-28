@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 
 //import R1 from './routing1';
-import R1 from '../admin/adminHospiter';
+import R1 from '../routing1';
 import R2 from './routing2';
 import R3 from './routing3';
 import R4 from './routing4';

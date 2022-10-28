@@ -113,7 +113,8 @@ app.post('/main', (req, res)=> {
            ok: 2,
            hospital : hospital,
            day : date, 
-         } ,  ()=>{
+         } ,  (err,result)=>{
+          const giveNewId = ObjectId(result.insertedId).str;
           db.collection('traking').findOne({sn:servNum}, (err,result)=>{
             if(!result)//추적일지가 만들어진 적 없다면 트래킹에 추가해주기.
             {
@@ -125,7 +126,7 @@ app.post('/main', (req, res)=> {
                 db.collection('traking').updateOne({sn:servNum},
                   { $push: { 
                     history: { 
-                      origin: ObjectId(),
+                      origin: giveNewId,
                       ok: 2,
                       Classes : Classes,
                       inter: inter,
@@ -141,7 +142,7 @@ app.post('/main', (req, res)=> {
                 db.collection('traking').updateOne({sn:servNum},
                   { $push: {
                     history: { 
-                      origin: ObjectId(),
+                      origin: giveNewId,
                       ok: 2,
                       Classes : Classes,
                       inter: inter,
@@ -162,24 +163,24 @@ app.post('/main', (req, res)=> {
 });
 
 app.post('/main/hope',(req,res)=>{
-  const {_id, ok,acceptTime} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
+  const {_id, ok,day} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
   const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
-    console.log(result);
+    const arrayId = _id;//_id는 호프리스트의 스트링형 아이디니까.
     console.log(" 말고",ok);
     const findSn = result.servNum;//아이디로 군번 찾고
-    const {origin, Classes, inter, hospital,name,date } = result;
+    const { Classes, inter, hospital,name,date } = result;
       if(ok === 1)//승인
       {
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: origin,//오리진 유지,
+              origin: _id,//오리진 유지,
               ok: 1,
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : date
+              date : day,
             } 
           } 
         })//업데이트 하고
@@ -190,22 +191,23 @@ app.post('/main/hope',(req,res)=>{
           name: name,
           sn: findSn,
           ok: 3,//대기.
+          origin: _id,
           Classes : Classes,
           hospital: hospital,
           symptom: inter,//아까 환자 증상으로 입력 받은 거.
           inter: "입력대기중",//입력 받으면 수정해주면 됨.
-          day: "acceptTime",//이것도 입력 받으면 수정.
+          day: day,//이것도 입력 받으면 수정.
         })//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
         db.collection('traking').updateOne({sn:findSn},
             { $push: { 
               history: { 
-                origin: origin,//오리진 유지,
+                origin: _id,//오리진 유지,
                 ok: 3,
                 Classes : Classes,
                 hospital: hospital,
                 symptom: inter,//아까 환자 증상으로 입력 받은 거.
                 inter: "입력대기중",//입력 받으면 수정해주면 됨.
-                day: "acceptTime",//이역시 입받수.
+                day: day,//이역시 입받수.
               } 
             } 
         });
@@ -216,7 +218,7 @@ app.post('/main/hope',(req,res)=>{
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: origin,//오리진 유지,
+              origin: _id,//오리진 유지,
               ok: 0,
               Classes : Classes,
               inter: inter,
@@ -235,10 +237,13 @@ app.post('/main/hope',(req,res)=>{
 
 //inter도 받을 거임. 그러면 그 inter와, 
 app.post('/main/result',(req,res)=>{
-  const {_id, ok, acceptTime, inter} =req.body;
+  const {_id, ok, day, inter} =req.body;
   const findId = ObjectId(_id);
+  console.log(req.body);
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
-    const findSn = result.servNum;
+    console.log
+    const findSn = result.sn;
+    console.log(result);
       const {origin, Classes ,hospital } = result;
       if(ok === 5)//완료
       {
@@ -250,7 +255,7 @@ app.post('/main/result',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : acceptTime//date는 클릭 받은 시간으로.
+              date : day//date는 클릭 받은 시간으로.
             } 
           } 
         })//업데이트 하고
@@ -258,7 +263,7 @@ app.post('/main/result',(req,res)=>{
         {
           ok: 5,
           inter : inter,
-          day : acceptTime,
+          day : day,
         });
       }
       else if(ok === 4)//거절
@@ -271,7 +276,7 @@ app.post('/main/result',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : acceptTime
+              date : day
             } 
           } 
         })
@@ -279,7 +284,7 @@ app.post('/main/result',(req,res)=>{
         {
           ok: 4,
           inter : inter,
-          day : acceptTime,
+          day : day,
         });
       }
     })

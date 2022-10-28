@@ -4,11 +4,9 @@ import Logo from '../data/logo.png';
 import { Link } from 'react-router-dom';
 import "./layout.css";
 import { Container } from '@mui/system';
-import { useNavigate } from "react-router-dom";
 
 //용사 페이지
 export default function SignUpIndexV2(){
-    const navigate = useNavigate();
 
     const [values, setValues] = React.useState({
         servNum: "",
@@ -24,6 +22,26 @@ export default function SignUpIndexV2(){
             [name]:value
         });
     }
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        const servNum = values.id;
+        const password = values.password;
+        const name = values.name;
+        const ganbu = values.ganbu;
+        fetch('http://127.0.0.1:5000/signup-private', {
+            method: 'POST',
+            headers: {
+                'content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                servNum,
+                password,
+                name,
+                ganbu,
+            }),
+        });
+    };
 
     return (
     <Container component="main" maxWidth>
@@ -104,7 +122,7 @@ export default function SignUpIndexV2(){
             />
 
             <Button
-                onClick={() => navigate('/')} 
+                onClick={onSubmitHandler} 
                 fullWidth
                 variant="contained"
                 size="large"

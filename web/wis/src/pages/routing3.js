@@ -5,10 +5,10 @@ import AdminResultList from '../admin/adminResultList';
 //t ab 수정
 function R3() {
   return (
-    <div>
+    <React.Fragment>
     <AdminResultList>
     </AdminResultList>
-    </div>
+    </React.Fragment>
   );
 }
 

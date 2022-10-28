@@ -28,6 +28,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
   const [checked, setChecked] = React.useState(false);
 
   const [okValue, setOkValue] = React.useState(3);
@@ -62,8 +63,8 @@ function Row(props) {
     setValue(event.target.value);
   }
 
-  const handleSudmit = (newState) => {
-    setState({ openSnack: true, ...newState });
+  const handleSudmit = (event) => {
+    event.preventDefault();
     let ok = 3;
     if(checked){
       setOkValue(4);
@@ -73,6 +74,9 @@ function Row(props) {
       setOkValue(5);
       ok = 5;
     }
+    
+      const date = new Date();
+      const day = date.toLocaleDateString('ko-kr');
       const inter = value;
       const _id = row._id;
       fetch('http://127.0.0.1:5000/main/result', {
@@ -84,9 +88,11 @@ function Row(props) {
         body: JSON.stringify({
           _id,
           ok,
+          day,
           inter,
         }),
     })
+    setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
     setModalIsOpen(false);
 }
 
@@ -178,24 +184,21 @@ function Row(props) {
                                   />
                                 <Button 
                                 variant='contained' 
-                                onClick={handleSudmit({
-                                  vertical: 'top',
-                                  horizontal: 'center',
-                                })}
+                                onClick={handleSudmit}
                                 sx={{mt: 3}}>제출하기</Button>
                                 </Grid>
                             </Paper>
                             </Modal>
+                            <Snackbar anchorOrigin={{ vertical, horizontal }} open={openSnack} autoHideDuration={2000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                              제출에 성공하였습니다!
+                            </Alert>
+                          </Snackbar>
                         </Stack>
                       </StyledTableCell>
                     </StyledTableRow>
                 </TableBody>
               </Table>
-              <Snackbar anchorOrigin={{ vertical, horizontal }} open={openSnack} autoHideDuration={2000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                  제출에 성공하였습니다!
-                </Alert>
-              </Snackbar>
             </Box>
           </Collapse>
         </TableCell>

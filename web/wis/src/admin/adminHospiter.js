@@ -27,6 +27,8 @@ function Row(props) {
   const handleOkBoolean = (event) => {
     if(event.target.innerText === "승인") {
       setOkValue(1);
+      const date = new Date();
+      const day = date.toLocaleDateString('ko-kr');
       const _id = row._id;
       const ok = 1;
       fetch('http://127.0.0.1:5000/main/hope', {
@@ -38,6 +40,7 @@ function Row(props) {
           body: JSON.stringify({
             _id,
             ok,
+            day,
           }),
       })
     }

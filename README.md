@@ -1,4 +1,5 @@
 # WEB_who_is_sick
+![logo](/web/wis/src/data/logo.png)
 
 ## who_is_sick
 아픈 사람? - 소규모 환자 추적-관리 웹 애플리케이션

@@ -127,6 +127,7 @@ function Row(props) {
                     <TableCell>날짜</TableCell>
                     <TableCell align="left">진료과</TableCell>
                     <TableCell align="left">환자증상</TableCell>
+                    <TableCell align="left">처방내용</TableCell>
                     <TableCell align="right">처방여부</TableCell>
                   </TableRow>
                 </TableHead>
@@ -137,6 +138,7 @@ function Row(props) {
                         {row.day}
                       </StyledTableCell>
                       <StyledTableCell align="left">{row.hospital}</StyledTableCell>
+                      <StyledTableCell align="left">{row.symptom}</StyledTableCell>
                       <StyledTableCell align="left">{value}</StyledTableCell>
                       <StyledTableCell align="right">
                         <Stack direction="row-reverse" spacing={1} align="right">
@@ -211,6 +213,7 @@ Row.propTypes = {
     sn: PropTypes.string.isRequired,
     ok: PropTypes.number.isRequired,
     hospital: PropTypes.string.isRequired,
+    symptom: PropTypes.string.isRequired,
     inter: PropTypes.string.isRequired,
     day: PropTypes.string.isRequired,
   }).isRequired,

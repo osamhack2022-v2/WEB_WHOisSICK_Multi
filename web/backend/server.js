@@ -114,7 +114,7 @@ app.post('/main', (req, res)=> {
            hospital : hospital,
            day : date, 
          } ,  (err,result)=>{
-          const giveNewId = str(result.insertedId);
+          const giveNewId = ObjectId(result.insertedId).str;
           db.collection('traking').findOne({sn:servNum}, (err,result)=>{
             if(!result)//추적일지가 만들어진 적 없다면 트래킹에 추가해주기.
             {
@@ -166,16 +166,16 @@ app.post('/main/hope',(req,res)=>{
   const {_id, ok,acceptTime} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
   const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
-    const arrayId = str(result.insertedId)
+    const arrayId = _id;//_id는 호프리스트의 스트링형 아이디니까.
     console.log(" 말고",ok);
     const findSn = result.servNum;//아이디로 군번 찾고
-    const {origin, Classes, inter, hospital,name,date } = result;
+    const { Classes, inter, hospital,name,date } = result;
       if(ok === 1)//승인
       {
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: arrayId,//오리진 유지,
+              origin: _id,//오리진 유지,
               ok: 1,
               Classes : Classes,
               inter: inter,
@@ -191,7 +191,7 @@ app.post('/main/hope',(req,res)=>{
           name: name,
           sn: findSn,
           ok: 3,//대기.
-       //   origin: arrayId,
+          origin: _id,
           Classes : Classes,
           hospital: hospital,
           symptom: inter,//아까 환자 증상으로 입력 받은 거.
@@ -201,7 +201,7 @@ app.post('/main/hope',(req,res)=>{
         db.collection('traking').updateOne({sn:findSn},
             { $push: { 
               history: { 
-                origin: arrayId,//오리진 유지,
+                origin: _id,//오리진 유지,
                 ok: 3,
                 Classes : Classes,
                 hospital: hospital,
@@ -218,7 +218,7 @@ app.post('/main/hope',(req,res)=>{
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: arrayId,//오리진 유지,
+              origin: _id,//오리진 유지,
               ok: 0,
               Classes : Classes,
               inter: inter,

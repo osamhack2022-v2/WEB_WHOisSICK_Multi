@@ -47,7 +47,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <StyledTableRow component="div" sx={{ '& > *': { borderBottom: 'unset' } }}>
         <StyledTableCell>
           <IconButton
             aria-label="expand row"
@@ -63,7 +63,7 @@ function Row(props) {
         </StyledTableCell>
         <StyledTableCell align="right">{row.sn}</StyledTableCell>
       </StyledTableRow>
-      <TableRow>
+      <TableRow component="div">
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -103,14 +103,14 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    
+    name: PropTypes.string,
+    sn: PropTypes.string,
     inter: PropTypes.arrayOf(
       PropTypes.shape({
-        hospital: PropTypes.string.isRequired,
-        day: PropTypes.string.isRequired,
-        inter: PropTypes.string.isRequired,
-        ok: PropTypes.number.isRequired,
+        hospital: PropTypes.string,
+        day: PropTypes.string,
+        inter: PropTypes.string,
+        ok: PropTypes.number,
       }),
     ).isRequired,
   }).isRequired,
@@ -168,7 +168,7 @@ export default function AdminTracker() {
   return (
     <Container component='main' maxWidth>
         <TableContainer component={Paper}>
-        <Table aria-label="군인 병원 기록">
+        <Table component="div" aria-label="군인 병원 기록">
             <TableHead>
             <TableRow>
                 <StyledTableCell/>

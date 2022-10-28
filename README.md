@@ -50,7 +50,7 @@ $ yarn start or npm run start
 - 남  혁 (skagur10@naver.com), Github Id: skagur10
 - 국동희 (luz0415@naver.com), Github Id: luz0415
 - 서한유 (hu8232@naver.com), Github Id: hu5768
-- 정회륜 (추가예정), Github Id: superjeong
+- 정회륜 (asss6868@naver.com), Github Id: superjeong
 
 ## 저작권 및 사용권 정보 (Copyleft / End User License)
  * [MIT](https://github.com/osam2020-WEB/Sample-ProjectName-TeamName/blob/master/license.md)

@@ -65,7 +65,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <StyledTableRow component="div" sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -85,7 +85,7 @@ function Row(props) {
             {okValue === 1 ? "승인" : (okValue === 2 ? "승인전" : "미승인")}
         </StyledTableCell>
       </StyledTableRow>
-      <TableRow>
+      <TableRow component="div">
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -204,7 +204,7 @@ export default function AdminTracker() {
   return (
     <Container component='main' maxWidth>
         <TableContainer component={Paper}>
-        <Table aria-label="군인 병원 기록">
+        <Table component="div" aria-label="군인 병원 기록">
             <TableHead>
             <TableRow>
                 <StyledTableCell/>

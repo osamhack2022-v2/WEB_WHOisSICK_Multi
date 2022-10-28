@@ -7,7 +7,9 @@ import AdminTracker from '../admin/admin'
 
 function R4() {
   return (
-        <AdminTracker></AdminTracker>
+    <div>
+    <AdminTracker></AdminTracker>
+    </div>
   );
 }
 

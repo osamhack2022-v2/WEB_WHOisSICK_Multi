@@ -60,7 +60,7 @@ const MuiLoginForm = () => {
                 mt : 10
             }}
             >
-                <img class="image" src={Logo} alt='  ' />
+                <img className="image" src={Logo} alt='  ' />
 
                 <Typography component="h1" variant="h5">로그인</Typography>
 

@@ -5,8 +5,10 @@ import AdminResultList from '../admin/adminResultList';
 //t ab 수정
 function R3() {
   return (
+    <div>
     <AdminResultList>
     </AdminResultList>
+    </div>
   );
 }
 

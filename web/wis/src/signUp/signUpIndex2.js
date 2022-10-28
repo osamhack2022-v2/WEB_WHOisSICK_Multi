@@ -54,7 +54,7 @@ export default function SignUpIndexV2(){
             alignItems: 'center',
             justifyContent: "center",}}
         >
-            <img class="image" src={Logo} alt='  ' />
+            <img className="image" src={Logo} alt='  ' />
         <Typography variant="h5" component="h5">용사 회원가입</Typography>
         </Grid>
 

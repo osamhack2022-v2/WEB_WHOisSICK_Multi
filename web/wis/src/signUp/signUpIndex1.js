@@ -26,7 +26,7 @@ export default function Variants() {
         justifyContent: "center",}}
       >
          
-         <img class="image" src={Logo} alt='  ' />
+         <img className="image" src={Logo} alt='  ' />
         <Typography variant="h5" component="h5">회원가입 유형 선택</Typography>
       </Grid>
 

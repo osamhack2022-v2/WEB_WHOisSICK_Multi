@@ -86,7 +86,7 @@ function Row(props) {
           inter,
         }),
     })
-      })
+      }, []);
     }
 
     else {
@@ -110,7 +110,7 @@ function Row(props) {
           inter,
         }),
     })
-      })
+      }, []);
     }
     setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
     setModalIsOpen(false);

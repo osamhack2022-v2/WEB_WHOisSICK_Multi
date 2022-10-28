@@ -56,6 +56,7 @@ export default function BasicTabs() {
   };
 
   return (
+    <React.Fragment>
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' ,display: 'flex'}}>
         <img className="image" src={Logo} alt="로고"/>
@@ -89,5 +90,6 @@ export default function BasicTabs() {
         <R4 />
       </TabPanel>
     </Box>
+    </React.Fragment>
   );
 }

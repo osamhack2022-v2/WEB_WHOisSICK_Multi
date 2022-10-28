@@ -3,9 +3,9 @@ import AdminTracker from '../admin/admin';
 
 function R1() {
   return (
-    <div>
+    <React.Fragment>
       <AdminTracker />
-    </div>
+    </React.Fragment>
   );
 }
 

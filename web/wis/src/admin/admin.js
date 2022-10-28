@@ -105,7 +105,7 @@ Row.propTypes = {
   row: PropTypes.shape({
     name: PropTypes.string,
     sn: PropTypes.string,
-    inter: PropTypes.arrayOf(
+    history: PropTypes.arrayOf(
       PropTypes.shape({
         hospital: PropTypes.string,
         day: PropTypes.string,

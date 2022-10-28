@@ -74,7 +74,7 @@ function Row(props) {
       ok = 5;
     }
       const inter = value;
-      const _id = row.origin;
+      const _id = row._id;
       fetch('http://127.0.0.1:5000/main/result', {
         credentials: 'include',    
         method: 'POST',
@@ -281,7 +281,7 @@ export default function AdminTracker() {
             </TableHead>
             <TableBody>
             {userList && userList.map((row) => (
-                <Row key={row.origin} row={row} />
+                <Row key={row._id} row={row} />
             ))}
             </TableBody>
         </Table>

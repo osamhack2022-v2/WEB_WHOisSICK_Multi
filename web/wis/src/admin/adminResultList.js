@@ -87,6 +87,8 @@ function Row(props) {
         }),
     })
       }, []);
+      setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
+      setModalIsOpen(false);
     }
 
     else {

@@ -10,7 +10,7 @@ const MuiLoginForm = () => {
     const navigate = useNavigate();
 
     const [values, setValues] = React.useState({
-        id: "",
+        sn: "",
         password: ""
     });
     const handleChange = (event) => {
@@ -23,7 +23,7 @@ const MuiLoginForm = () => {
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        const servNum = values.id;
+        const sn = values.sn;
         const password = values.password;
         fetch('http://127.0.0.1:5000/', {
             credentials: 'include',    
@@ -32,7 +32,7 @@ const MuiLoginForm = () => {
                 'content-Type': 'application/json',
             },
             body: JSON.stringify({
-                servNum,
+                sn,
                 password,
             }),
         })

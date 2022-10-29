@@ -5,10 +5,32 @@ import { Link } from 'react-router-dom';
 import { Container } from '@mui/system';
 //mport { useNavigate } from "react-router-dom";
 import "./layout.css";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
 //간부 페이지
 export default function SignUpIndexV2(){
     //const navigate = useNavigate();
+
+    const [state, setState] = React.useState({
+        openSnack: false,
+        vertical: 'top',
+        horizontal: 'center',
+      });
+    
+      const { vertical, horizontal, openSnack } = state;
+    
+      const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        else
+          setState({ open: false, vertical: 'top', horizontal: 'center',});
+      };
 
     const [values, setValues] = React.useState({
         sn: "",
@@ -43,6 +65,7 @@ export default function SignUpIndexV2(){
                 ganbu,
             }),
         });
+        setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
     };
 
 
@@ -134,7 +157,11 @@ export default function SignUpIndexV2(){
                     회원가입
                 </Button>
         </Container>
-
+        <Snackbar anchorOrigin={{ vertical, horizontal }} open={openSnack} autoHideDuration={2000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                회원가입에 성공하였습니다!
+            </Alert>
+        </Snackbar>
     </Container>
     );
 }

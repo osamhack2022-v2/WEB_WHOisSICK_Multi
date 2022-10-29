@@ -60,7 +60,7 @@ $ yarn start or npm run start
 ### 절대멀티
 |이름|Email|Github Id|파트|
 |--------|----------------|--------------------|----|
-|서한유 |hu8232@naver.com|hu5768||팀장/프론트엔드/UI,UX디자인|
+|서한유(팀장) |hu8232@naver.com|hu5768|프론트엔드/UI,UX디자인|
 |정회륜 |asss6868@naver.com|superjeong|프론트엔드/UI,UX디자인|
 |남  혁 |skagur10@naver.com|skagur10|백엔드|
 |국동희 |luz0415@naver.com|luz0415|파견으로 인한 하차|

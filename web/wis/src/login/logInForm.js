@@ -69,7 +69,7 @@ const MuiLoginForm = () => {
                 label="군번" 
                 required 
                 fullWidth
-                name="id"
+                name="sn"
                 autoFocus
                 onChange={handleChange}
                 />

@@ -1,10 +1,10 @@
 import React from "react";
-import AdminTracker from '../admin/admin';
+import AdminHospiter from '../admin/adminHospiter';
 
 function R1() {
   return (
     <React.Fragment>
-      <AdminTracker />
+      <AdminHospiter />
     </React.Fragment>
   );
 }

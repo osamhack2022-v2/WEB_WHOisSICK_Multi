@@ -31,16 +31,20 @@ function Row(props) {
 
   const [checked, setChecked] = React.useState(false);
 
-  const [okValue, setOkValue] = React.useState(3);
-
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   
-  const [value, setValue] = React.useState(row.inter);
   //snackBar start
   const [state, setState] = React.useState({
     openSnack: false,
     vertical: 'top',
     horizontal: 'center',
+  });
+
+  const [serverValues, setServerValue] = React.useState({
+    _id : row._id,
+    ok: 3,
+    day : "",
+    inter : "",
   });
 
   const { vertical, horizontal, openSnack } = state;
@@ -60,63 +64,51 @@ function Row(props) {
   }
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    const { name, value } = event.target;
+    setServerValue({
+        ...serverValues,
+        [name]:value
+    });
   }
 
   const handleSudmit = (event) => {
     event.preventDefault();
     if(checked){
-      setOkValue(4);
-      const ok = 4;
-      const date = new Date();
-      const day = date.toLocaleDateString('ko-kr');
-      const inter = value;
-      const _id = row._id;
-      React.usehandleSudmit(() => {
-        fetch('http://127.0.0.1:5000/main/result', {
-        credentials: 'include',    
-        method: 'POST',
-        headers: {
-            'content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          ok,
-          day,
-          inter,
-        }),
-    })
-      }, []);
-      setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
-      setModalIsOpen(false);
+      setServerValue({
+        ...serverValues,
+        ok:4
+    });
     }
 
     else {
-      setOkValue(5);
-      const ok = 5;
-      const date = new Date();
-      const day = date.toLocaleDateString('ko-kr');
-      const inter = value;
-      const _id = row._id;
-      React.usehandleSudmit(() => {
-        fetch('http://127.0.0.1:5000/main/result', {
-        credentials: 'include',    
-        method: 'POST',
-        headers: {
-            'content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          ok,
-          day,
-          inter,
-        }),
-    })
-      }, []);
+      setServerValue({
+        ...serverValues,
+        ok:5
+    });
     }
+
+    const date = new Date();
+    const dayString = date.toLocaleDateString('ko-kr');
+    setServerValue({
+      ...serverValues,
+      day:dayString
+  });
     setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
     setModalIsOpen(false);
 }
+
+React.usehandleSudmit(() => {
+  fetch('http://127.0.0.1:5000/main/result', {
+  credentials: 'include',    
+  method: 'POST',
+  headers: {
+      'content-Type': 'application/json',
+  },
+  body: JSON.stringify(
+    serverValues
+  ),
+})
+}, [serverValues.day]);
 
   return (
     <React.Fragment>
@@ -137,7 +129,7 @@ function Row(props) {
         <StyledTableCell align="right">{row.sn}</StyledTableCell>
         <StyledTableCell align="right">{row.Classes}</StyledTableCell>
         <StyledTableCell align="right">
-            {okValue === 3 ? "대기" : (okValue === 4 ? "재진" : "승인")}
+            {serverValues.ok === 3 ? "대기" : (serverValues.ok === 4 ? "재진" : "승인")}
         </StyledTableCell>
       </StyledTableRow>
       <TableRow component="div">
@@ -165,7 +157,7 @@ function Row(props) {
                       </StyledTableCell>
                       <StyledTableCell align="left">{row.hospital}</StyledTableCell>
                       <StyledTableCell align="left">{row.symptom}</StyledTableCell>
-                      <StyledTableCell align="left">{value}</StyledTableCell>
+                      <StyledTableCell align="left">{serverValues.inter}</StyledTableCell>
                       <StyledTableCell align="right">
                         <Stack direction="row-reverse" spacing={1} align="right">
                             <Button onClick={()=> setModalIsOpen(true)}>처방입력</Button>
@@ -195,7 +187,7 @@ function Row(props) {
                                     placeholder="두통약 처방"
                                     fullWidth
                                     sx={{mt : 3}}
-                                    value={value}
+                                    value={serverValues.value}
                                     onChange={handleChange}
                                     />
                                   <FormControlLabel

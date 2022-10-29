@@ -29,20 +29,15 @@
 ## 기술 스택 (Technique Used) 
 ### Server(back-end)
 
- |NodeJs 16.18.0|Express 4.18.2|MongoDB 6.0|
+ |[NodeJs 16.18.0](https://nodejs.org/ko/)|[Express 4.18.2](https://expressjs.com/ko/)|[MongoDB 6.0](https://www.mongodb.com/)|
  |:-------------------:|:--------------------:|:-------------------:|
- <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/220px-Node.js_logo.svg.png" height = 100>|<img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" height = 100>|<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" height = 100>
+ [<img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/220px-Node.js_logo.svg.png" height = 100>](https://nodejs.org/ko/)|[<img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" height = 100>](https://expressjs.com/ko/)|[<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" height = 100>](https://www.mongodb.com/)
 
- 
 ### Front-end
 
- |React Js 18.2.0|Meterial UI 4.11.5|
+ |[React Js 18.2.0](https://ko.reactjs.org/)|[Meterial UI 4.11.5](https://mui.com/)|
  |:-------------------:|:------------------:|
- <img src = "https://reactjs.org/logo-og.png" height = 200>|<img src ="https://mui.com/static/logo.png" height = 200>
-####React.js
- -  react.js, vue.js 등 사용한 front-end 프레임워크 
- -  UI framework
- - 기타 사용한 라이브러리
+ [<img src = "https://reactjs.org/logo-og.png" height = 200>](https://ko.reactjs.org/)|[<img src ="https://mui.com/static/logo.png" height = 200>](https://mui.com/)
 
 ## 설치 안내 (Installation Process)
 ```bash
@@ -63,11 +58,12 @@ $ yarn start or npm run start
  
 ## 팀 정보 (Team Information)
 ### 절대멀티
-- 남  혁 (skagur10@naver.com), Github Id: skagur10
-- 국동희 (luz0415@naver.com), Github Id: luz0415
-- 서한유 (hu8232@naver.com), Github Id: hu5768
-- 정회륜 (asss6868@naver.com), Github Id: superjeong
-
+|이름|Email|Github Id|
+|--------|----------------|--------------------|
+|남  혁 |skagur10@naver.com|skagur10|
+|국동희 |luz0415@naver.com|luz0415|
+|서한유 |hu8232@naver.com|hu5768|
+|정회륜 |asss6868@naver.com|superjeong|
 ## 저작권 및 사용권 정보 (Copyleft / End User License)
  * [MIT](https://github.com/osam2020-WEB/Sample-ProjectName-TeamName/blob/master/license.md)
 

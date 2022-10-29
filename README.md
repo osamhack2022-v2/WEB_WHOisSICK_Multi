@@ -28,14 +28,17 @@
 
 ## 기술 스택 (Technique Used) 
 ### Server(back-end)
- -  nodejs, php, java 등 서버 언어 버전 
- - express, laravel, sptring boot 등 사용한 프레임워크 
-####DataBase
- - mongoDB
- ![image](https://user-images.githubusercontent.com/101463561/198816745-9fd6786c-aa3a-400b-b521-89098d259cc5.png)
+
+ |NodeJs 16.18.0|Express 4.18.2|MongoDB 6.0|
+ |:-------------------:|:--------------------:|:-------------------:|
+ <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/220px-Node.js_logo.svg.png" height = 100>|<img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" height = 100>|<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" height = 100>
 
  
 ### Front-end
+
+ |React Js 18.2.0|Meterial UI 4.11.5|
+ |:-------------------:|:------------------:|
+ <img src = "https://reactjs.org/logo-og.png" height = 200>|<img src ="https://mui.com/static/logo.png" height = 200>
 ####React.js
  -  react.js, vue.js 등 사용한 front-end 프레임워크 
  -  UI framework

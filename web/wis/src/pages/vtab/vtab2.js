@@ -66,7 +66,6 @@ const handleChange = (event) => {
 }
 
 const onSubmitHandler = (event) => {
-  event.preventDefault();
   const date = dayjs(dates).format("YYYY-MM-DD");
   const hospital = values.hospital;
   const inter = values.inter;

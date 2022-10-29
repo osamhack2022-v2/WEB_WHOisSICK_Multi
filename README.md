@@ -20,17 +20,15 @@
 [아픈 사람?]은 이러한 환자들의 진료신청을 받아 의무대/외진 상태 점검, 병력 조회등을 효율적으로 관리하게 만들어주는 웹 애플리케이션입니다. 
 
 ## 기능 설명
+   
+ - 기능은 총 4가지 탭으로 구성되어 있습니다.
+<img src = "https://user-images.githubusercontent.com/101463561/198821954-a7f4b1fa-dd26-4e5c-8498-005b036c88b1.png" height = 40>
 
 기본인터페이스
 -----------------
  |로그인 : JsonWepToken 방식으로 로그인을 구현하였습니다.|회원가입 : 간부/병사를 구분하여 회원가입합니다.|
  |-----------------------------------|-----------------------|
 |<img src = "https://user-images.githubusercontent.com/101463561/198821356-0256f44e-3831-47d4-900c-59263f0bc49e.png" height = 300>|<img src = "https://user-images.githubusercontent.com/101463561/198821313-1fc23703-7731-4be2-93a8-4271bf371574.png" height = 300>|
-
-기능
------------------------
-기능은 총 4가지 탭으로 구성되어 있습니다.
- <img src = "https://user-images.githubusercontent.com/101463561/198821954-a7f4b1fa-dd26-4e5c-8498-005b036c88b1.png" height = 40>
 
 진료 희망자
 ---------------

@@ -163,7 +163,7 @@ app.post('/main', (req, res)=> {
 });
 
 app.post('/main/hope',(req,res)=>{
-  const {_id, ok,day} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
+  const {_id, ok, day} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
   const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
     const arrayId = _id;//_id는 호프리스트의 스트링형 아이디니까.
@@ -180,7 +180,7 @@ app.post('/main/hope',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : day,
+              date : date,
             } 
           } 
         })//업데이트 하고

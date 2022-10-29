@@ -8,6 +8,9 @@
 3. [컴퓨터 구성 / 필수 조건 안내 (Prerequisites)](#컴퓨터-구성--필수-조건-안내-prerequisites)
 4. [기술 스택](#기술-스택-technique-used)
 5. [설치 안내](#설치-안내-installation-process)
+6. [프로젝트 사용법](#프로젝트-사용법-getting-started)
+7. [팀 정보](#팀-정보-team-information)
+8. [저작권 및 사용권 정보](#저작권-및-사용권-정보-copyleft--end-user-license)
 
 ## who_is_sick
 아픈 사람? - 소규모 환자 추적-관리 웹 애플리케이션

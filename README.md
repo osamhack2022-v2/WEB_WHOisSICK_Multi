@@ -92,15 +92,10 @@ $ yarn start or npm run start
 ```
 
 ## 프로젝트 사용법 (Getting Started)
-**마크다운 문법을 이용하여 자유롭게 기재**
-
-잘 모를 경우
-구글 검색 - 마크다운 문법
-[https://post.naver.com/viewer/postView.nhn?volumeNo=24627214&memberNo=42458017](https://post.naver.com/viewer/postView.nhn?volumeNo=24627214&memberNo=42458017)
-
- 편한 마크다운 에디터를 찾아서 사용
- 샘플 에디터 [https://stackedit.io/app#](https://stackedit.io/app#)
- 
+front 켜는법) web->wis->에서 npmstart   
+![image](https://user-images.githubusercontent.com/55342653/198836996-e636394b-642b-4a71-a397-f48ee5ccfa37.png)   
+서버 켜는법) web->backend->에서 npmstart   
+![image](https://user-images.githubusercontent.com/55342653/198837019-02c59fb3-71ac-4cba-86db-fda72d9b5fcc.png)   
 ## 팀 정보 (Team Information)
 ### 절대멀티
 |이름|Email|Github Id|파트|

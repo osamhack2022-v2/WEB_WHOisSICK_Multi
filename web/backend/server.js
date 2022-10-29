@@ -241,12 +241,12 @@ app.post('/main/result',(req,res)=>{
   const findId = ObjectId(_id);
   console.log(req.body);
   db.collection('resultlist').findOne({_id:findId},(err,result)=>{
-    console.log
     const findSn = result.sn;
     console.log(result);
       const {origin, Classes ,hospital } = result;
       if(ok === 5)//완료
       {
+        console.log(result);
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
@@ -265,6 +265,7 @@ app.post('/main/result',(req,res)=>{
           inter : inter,
           day : day,
         });
+        res.send("done");
       }
       else if(ok === 4)//거절
       {
@@ -286,6 +287,10 @@ app.post('/main/result',(req,res)=>{
           inter : inter,
           day : day,
         });
+        res.send("return");
+      }
+      else{
+        res.send("아무데도 안 들어감.")
       }
     })
 })

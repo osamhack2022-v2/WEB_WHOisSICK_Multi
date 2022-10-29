@@ -20,7 +20,7 @@ const app = express();
 app.use(express.json({}));
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false})) 
-//코스설정 대충 해놨는데 일단 되는거 확인하면 다른 것도 하겠음
+//코스설정 대충 해놨는데 일단 되`는거 확인하면 다른 것도 하겠음
 app.use(cors({
   origin: "http://127.0.0.1:3000",
   methods : "GET, POST, PUT, DELETE",
@@ -42,10 +42,10 @@ app.get('/',(req,res)=>{
 
 //회원가입. 군번, 비밀번호, 이름 받아올 거임.
 app.post('/signup-private', async (req, res)=> {
-    const {servNum, password, name } = req.body 
+    const {sn, password, name } = req.body 
     const hash = await argon2.hash(password);
     db.collection('users').insertOne( {
-          servNum : servNum , 
+          sn : sn , 
           password : hash , 
           name: name,
           cadre: false,
@@ -55,10 +55,10 @@ app.post('/signup-private', async (req, res)=> {
 
 //간부 회원가입.
 app.post('/signup-cadre', async (req, res)=> {
-    const {servNum, password, name } = req.body 
+    const {sn, password, name } = req.body 
     const hash = await argon2.hash(password);
     db.collection('users').insertOne( {
-            servNum : servNum , 
+            sn : sn , 
             password : hash , 
             name: name,
             cadre: true,
@@ -68,8 +68,8 @@ app.post('/signup-cadre', async (req, res)=> {
 
 //웹토큰 방식으로 로그인
 app.post('/',(req,res)=>{
-  const {servNum, password } =req.body;//군번이랑 비번 받아옴
-  db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
+  const {sn, password } =req.body;//군번이랑 비번 받아옴
+  db.collection('users').findOne({ sn : sn}, async (err,result)=>{
     const userdata = result;
     if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
       res.status(403).send("회원가입 되지 않은 군번입니다.");
@@ -81,7 +81,7 @@ app.post('/',(req,res)=>{
       return;
     }
     //로그인한 이용자만 쓸 수 있게 하기.    
-    const access_token = jwt.sign( { servNum }, 'dkaghzl')//암호키로 암호화해주기.
+    const access_token = jwt.sign( { sn }, 'dkaghzl')//암호키로 암호화해주기.
     res.cookie('access_token', access_token);
 
     res.send("로그인 성공");
@@ -101,12 +101,12 @@ app.post('/main', (req, res)=> {
     res.status(401).send("accesstoken이 없습니다.")
   }
   try {//대기가 2.
-    const { servNum } = jwt.verify(access_token,'dkaghzl')
-    db.collection('users').findOne({ servNum : servNum}, async (err,result)=>{
+    const { sn } = jwt.verify(access_token,'dkaghzl')
+    db.collection('users').findOne({ sn : sn}, async (err,result)=>{
       const userdata = result;//디코딩한 군번으로 해당유저 찾고
-      const { servNum, name } = userdata;
+      const { sn, name } = userdata;
         db.collection('hopelist').insertOne({
-           servNum : servNum, 
+           sn : sn, 
            name: name,
            Classes: Classes,
            inter : inter,
@@ -115,15 +115,15 @@ app.post('/main', (req, res)=> {
            day : date, 
          } ,  (err,result)=>{
           const giveNewId = ObjectId(result.insertedId).str;
-          db.collection('traking').findOne({sn:servNum}, (err,result)=>{
+          db.collection('traking').findOne({sn:sn}, (err,result)=>{
             if(!result)//추적일지가 만들어진 적 없다면 트래킹에 추가해주기.
             {
               db.collection('traking').insertOne({
                 name: name,
-                sn : servNum,
+                sn : sn,
                 ok: 2,
               })//그리고 Id만들어서 추가해주기.
-                db.collection('traking').updateOne({sn:servNum},
+                db.collection('traking').updateOne({sn:sn},
                   { $push: { 
                     history: { 
                       origin: giveNewId,
@@ -139,7 +139,7 @@ app.post('/main', (req, res)=> {
             }
             else
             {//있으면 다른 신청이라는 뜻이니 새 Id만 만들어서 추가해주기.
-                db.collection('traking').updateOne({sn:servNum},
+                db.collection('traking').updateOne({sn:sn},
                   { $push: {
                     history: { 
                       origin: giveNewId,
@@ -168,14 +168,14 @@ app.post('/main/hope',(req,res)=>{
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
     const arrayId = _id;//_id는 호프리스트의 스트링형 아이디니까.
     console.log(" 말고",ok);
-    const findSn = result.servNum;//아이디로 군번 찾고
+    const findSn = result.sn;//아이디로 군번 찾고
     const { Classes, inter, hospital,name,date } = result;
       if(ok === 1)//승인
       {
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: _id,//오리진 유지,
+              origin: arrayId,//오리진 유지,
               ok: 1,
               Classes : Classes,
               inter: inter,
@@ -191,7 +191,7 @@ app.post('/main/hope',(req,res)=>{
           name: name,
           sn: findSn,
           ok: 3,//대기.
-          origin: _id,
+          origin: arrayId,
           Classes : Classes,
           hospital: hospital,
           symptom: inter,//아까 환자 증상으로 입력 받은 거.
@@ -201,7 +201,7 @@ app.post('/main/hope',(req,res)=>{
         db.collection('traking').updateOne({sn:findSn},
             { $push: { 
               history: { 
-                origin: _id,//오리진 유지,
+                origin: arrayId,//오리진 유지,
                 ok: 3,
                 Classes : Classes,
                 hospital: hospital,
@@ -218,7 +218,7 @@ app.post('/main/hope',(req,res)=>{
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: _id,//오리진 유지,
+              origin: arrayId,//오리진 유지,
               ok: 0,
               Classes : Classes,
               inter: inter,

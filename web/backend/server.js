@@ -89,7 +89,7 @@ app.post('/',(req,res)=>{
 })
 
 app.get('/main', (req,res)=>{
-  db.collection('traking').find().toArray((err,result)=>{
+  db.collection('hopelist').find().toArray((err,result)=>{
     res.send(result);
   })
 })

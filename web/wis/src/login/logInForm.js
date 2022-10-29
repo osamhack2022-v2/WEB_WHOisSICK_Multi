@@ -10,7 +10,7 @@ const MuiLoginForm = () => {
     const navigate = useNavigate();
 
     const [values, setValues] = React.useState({
-        id: "",
+        sn: "",
         password: ""
     });
     const handleChange = (event) => {

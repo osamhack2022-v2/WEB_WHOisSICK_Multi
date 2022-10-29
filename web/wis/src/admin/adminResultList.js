@@ -73,14 +73,14 @@ function Row(props) {
 
   const handleSudmit = (event) => {
     event.preventDefault();
-    if(checked){
+    if(checked === true){
       setServerValue({
         ...serverValues,
         ok:4
     });
     }
 
-    else {
+    else if(checked === false) {
       setServerValue({
         ...serverValues,
         ok:5
@@ -93,11 +93,7 @@ function Row(props) {
       ...serverValues,
       day:dayString
   });
-    setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
-    setModalIsOpen(false);
-}
 
-React.usehandleSudmit(() => {
   fetch('http://127.0.0.1:5000/main/result', {
   credentials: 'include',    
   method: 'POST',
@@ -108,7 +104,9 @@ React.usehandleSudmit(() => {
     serverValues
   ),
 })
-}, [serverValues.day]);
+    setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
+    setModalIsOpen(false);
+}
 
   return (
     <React.Fragment>
@@ -191,10 +189,8 @@ React.usehandleSudmit(() => {
                                     onChange={handleChange}
                                     />
                                   <FormControlLabel
-                                  checked={checked}
-                                  control={<Checkbox value="재진여부" color="primary"/>}
+                                  control={<Checkbox checked={checked} onChange={handleChecked} value="재진여부" color="primary"/>}
                                   label="재진여부 확인"
-                                  onChange={handleChecked}
                                   />
                                 <Button 
                                 variant='contained' 

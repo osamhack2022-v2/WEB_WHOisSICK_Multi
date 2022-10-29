@@ -64,7 +64,9 @@
  
 ## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 * ECMAScript 6 지원 브라우저 사용
-* 권장: Google Chrome 버젼 77 이상
+
+  <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png" height = 10>   권장: Google Chrome V77 이상 
+
 
 ## 기술 스택 (Technique Used) 
 ### Back-end(Server,DataBase)

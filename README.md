@@ -27,17 +27,20 @@
 * 권장: Google Chrome 버젼 77 이상
 
 ## 기술 스택 (Technique Used) 
-### Server(back-end)
+### Back-end(Server,DataBase)
 
  |[NodeJs 16.18.0](https://nodejs.org/ko/)|[Express 4.18.2](https://expressjs.com/ko/)|[MongoDB 6.0](https://www.mongodb.com/)|
  |:-------------------:|:--------------------:|:-------------------:|
  [<img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/220px-Node.js_logo.svg.png" height = 100>](https://nodejs.org/ko/)|[<img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" height = 100>](https://expressjs.com/ko/)|[<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" height = 100>](https://www.mongodb.com/)
+ |서버 구현 | 서버 구현 |NoSQL Database|
+
 
 ### Front-end
 
- |[React Js 18.2.0](https://ko.reactjs.org/)|[Meterial UI 4.11.5](https://mui.com/)|
- |:-------------------:|:------------------:|
- [<img src = "https://reactjs.org/logo-og.png" height = 200>](https://ko.reactjs.org/)|[<img src ="https://mui.com/static/logo.png" height = 200>](https://mui.com/)
+ |[React Js 18.2.0](https://ko.reactjs.org/)|[Figma](https://www.figma.com/)|[Meterial UI 4.11.5](https://mui.com/)|
+ |:-------------------:|:--:|:------------------:|
+ [<img src = "https://reactjs.org/logo-og.png" height = 200>](https://ko.reactjs.org/)|[<img src = "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" height = 200>](https://www.figma.com/)|[<img src ="https://mui.com/static/logo.png" height = 200>](https://mui.com/)
+ |CRA(Create-React-App)사용|UI/UX 퍼블리싱|UI/UX 프레임워크|
 
 ## 설치 안내 (Installation Process)
 ```bash

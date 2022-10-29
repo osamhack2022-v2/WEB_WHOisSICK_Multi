@@ -11,7 +11,7 @@ export default function SignUpIndexV2(){
     //const navigate = useNavigate();
 
     const [values, setValues] = React.useState({
-        id: "",
+        sn: "",
         password: "",
         name: "",
         ganbu: true
@@ -27,7 +27,7 @@ export default function SignUpIndexV2(){
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        const servNum = values.id;
+        const sn = values.sn;
         const password = values.password;
         const name = values.name;
         const ganbu = values.ganbu;
@@ -37,7 +37,7 @@ export default function SignUpIndexV2(){
                 'content-Type': 'application/json',
             },
             body: JSON.stringify({
-                servNum,
+                sn,
                 password,
                 name,
                 ganbu,
@@ -93,7 +93,7 @@ export default function SignUpIndexV2(){
             margin="normal"
             label="군번" 
             required 
-            name="id"
+            name="sn"
             autoFocus
             onChange={handleChange} 
             variant="standard"

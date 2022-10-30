@@ -42,8 +42,6 @@ function Row(props) {
 
   const [serverValues, setServerValue] = React.useState({
     _id : row._id,
-    ok: 3,
-    day : "",
     inter : "",
   });
 
@@ -97,11 +95,12 @@ function Row(props) {
     event.preventDefault();
 
     const date = new Date();
-    const dayString = date.toLocaleDateString('ko-kr');
-    setServerValue({
-      ...serverValues,
-      day:dayString
-  });
+    const day = date.toLocaleDateString('ko-kr');
+    let ok = 3;
+    if(checked)
+      ok = 4;
+    else
+      ok = 5;
 
   fetch('http://127.0.0.1:5000/main/result', {
   credentials: 'include',    
@@ -110,7 +109,10 @@ function Row(props) {
       'content-Type': 'application/json',
   },
   body: JSON.stringify(
-    serverValues
+    serverValues, {
+      day,
+      ok,
+    }
   ),
 })
     setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});

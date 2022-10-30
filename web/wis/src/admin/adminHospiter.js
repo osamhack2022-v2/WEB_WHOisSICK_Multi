@@ -22,7 +22,7 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
-  const [okValue, setOkValue] = React.useState(row.ok);
+  const [okValue, setOkValue] = React.useState(2);
   //승인과 미승인일 경우 포스트 요청하는걸 여기다 넣을 거임
   const handleOkBoolean = (event) => {
     if(event.target.innerText === "승인") {

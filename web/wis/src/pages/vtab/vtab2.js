@@ -66,7 +66,7 @@ const handleChange = (event) => {
 }
 
 const onSubmitHandler = (event) => {
-  const date = dayjs(dates).format("YYYY-MM-DD");
+  const day = dayjs(dates).format("YYYY-MM-DD");
   const hospital = values.hospital;
   const inter = values.inter;
   const Classes = values.Classes;
@@ -77,7 +77,7 @@ const onSubmitHandler = (event) => {
           'content-Type': 'application/json',
       },
       body: JSON.stringify({
-        date,
+        day,
         Classes,
         hospital,
         inter,

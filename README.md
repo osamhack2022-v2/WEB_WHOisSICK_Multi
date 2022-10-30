@@ -87,20 +87,25 @@
 # 설치 안내 (Installation Process)
 ```bash
 $ git clone https://github.com/osamhack2022-v2/WEB_WHOisSICK_Multi.git
+
 backend
 $ npm install argon2 concurrently config cookie-parser cors dotenv express jsonwebtoken mongoose nodemon
 $ npm run start
+
 frontend
 $ npx create-react-app
 $ npm install react styled-components web-vitals
 $ npm run start
 ```
+front) web->wis->에서 npmstart   
+<img src = "https://user-images.githubusercontent.com/55342653/198836996-e636394b-642b-4a71-a397-f48ee5ccfa37.png" width = 50%>   
+back) web->backend->에서 npmstart   
+<img src = "https://user-images.githubusercontent.com/55342653/198837019-02c59fb3-71ac-4cba-86db-fda72d9b5fcc.png" width = 50%>   
 
 # 프로젝트 사용법 (Getting Started)
-front 켜는법) web->wis->에서 npmstart   
-![image](https://user-images.githubusercontent.com/55342653/198836996-e636394b-642b-4a71-a397-f48ee5ccfa37.png)   
-서버 켜는법) web->backend->에서 npmstart   
-![image](https://user-images.githubusercontent.com/55342653/198837019-02c59fb3-71ac-4cba-86db-fda72d9b5fcc.png)   
+   1. 회원가입->로그인
+   2. [진료희망자][진료신청][조치내역][추적관리]
+   3. 각 탭에서 원하는 정보 확인,혹은 동작실행
 
 # 팀 정보 (Team Information)
 ## 절대멀티

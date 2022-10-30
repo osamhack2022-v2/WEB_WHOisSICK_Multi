@@ -59,11 +59,14 @@ function Row(props) {
 
   //snackBar end 
 
+  const handleChecked = (event) => {
+    setChecked(event.target.checked);
+  }
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setChecked(event.target.checked);
     if(name === "ok") {
-      if(event.target.checked) {
+      if(checked) {
         setServerValue({
           ...serverValues,
           [name]:4
@@ -189,7 +192,7 @@ function Row(props) {
                                     onChange={handleChange}
                                     />
                                   <FormControlLabel
-                                  control={<Checkbox checked={checked} onChange={handleChange} value="재진여부" color="primary" name='ok'/>}
+                                  control={<Checkbox checked={checked} onChange={handleChecked} value="재진여부" color="primary" name='ok'/>}
                                   label="재진여부 확인"
                                   />
                                 <Button 

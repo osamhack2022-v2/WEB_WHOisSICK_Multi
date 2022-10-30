@@ -22,13 +22,13 @@
 # 기능 설명
    
  - 기능은 총 4가지 탭으로 구성되어 있습니다.
-<img src = "https://user-images.githubusercontent.com/101463561/198821954-a7f4b1fa-dd26-4e5c-8498-005b036c88b1.png" height = 40>
+<img src = "https://user-images.githubusercontent.com/101463561/198821954-a7f4b1fa-dd26-4e5c-8498-005b036c88b1.png">
 
 ## 기본인터페이스
 -----------------
  |로그인 : JsonWepToken 방식으로 로그인을 구현하였습니다.|회원가입 : 간부/병사를 구분하여 회원가입합니다.|
  |-----------------------------------|-----------------------|
-|<img src = "https://user-images.githubusercontent.com/101463561/198821356-0256f44e-3831-47d4-900c-59263f0bc49e.png" height = 300>|<img src = "https://user-images.githubusercontent.com/101463561/198821313-1fc23703-7731-4be2-93a8-4271bf371574.png" height = 300>|
+|<img src = "https://user-images.githubusercontent.com/101463561/198821356-0256f44e-3831-47d4-900c-59263f0bc49e.png">|<img src = "https://user-images.githubusercontent.com/101463561/198821313-1fc23703-7731-4be2-93a8-4271bf371574.png" >|
 
 ## 진료 희망자
 ---------------
@@ -38,7 +38,7 @@
 ## 진료 신청서 
 ----------------------------
 증세,아픈 부위, 자가문진표등을 입력받아 입력받은 데이터를 추후 간부 계정으로 진료 희망자를 조회하였을 때 보여줍니다.
-|<img src = "https://user-images.githubusercontent.com/101463561/198821972-8a1ce5e2-caf0-44c6-aead-12dd153e3cab.png" height = 600>|<img src = "https://user-images.githubusercontent.com/101463561/198822083-ad07aa8a-bbc2-4c36-9aea-e05370b1294e.png" height = 600>|
+|<img src = "https://user-images.githubusercontent.com/101463561/198821972-8a1ce5e2-caf0-44c6-aead-12dd153e3cab.png" >|<img src = "https://user-images.githubusercontent.com/101463561/198822083-ad07aa8a-bbc2-4c36-9aea-e05370b1294e.png" >|
 |---|---|
  
 ## 환자조치내역
@@ -65,7 +65,7 @@
 # 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 * ECMAScript 6 지원 브라우저 사용
 
-  <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png" height = 10>   권장: Google Chrome V77 이상 
+  <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png" height = 10, width = 10>   권장: Google Chrome V77 이상 
 
 
 # 기술 스택 (Technique Used) 
@@ -73,7 +73,7 @@
 
  |[NodeJs 16.18.0](https://nodejs.org/ko/)|[Express 4.18.2](https://expressjs.com/ko/)|[MongoDB 6.0](https://www.mongodb.com/)|
  |:-------------------:|:--------------------:|:-------------------:|
- [<img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/220px-Node.js_logo.svg.png" height = 100>](https://nodejs.org/ko/)|[<img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" height = 100>](https://expressjs.com/ko/)|[<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" height = 100>](https://www.mongodb.com/)
+ [<img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/220px-Node.js_logo.svg.png" width = 100%>](https://nodejs.org/ko/)|[<img src = "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" width = 100%>](https://expressjs.com/ko/)|[<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" width = 50%>](https://www.mongodb.com/)
  |서버 구현 | 서버 구현 |NoSQL Database|
 
 
@@ -81,7 +81,7 @@
 
  |[React Js 18.2.0](https://ko.reactjs.org/)|[Figma](https://www.figma.com/)|[Meterial UI 4.11.5](https://mui.com/)|
  |:-------------------:|:--:|:------------------:|
- [<img src = "https://reactjs.org/logo-og.png" height = 200>](https://ko.reactjs.org/)|[<img src = "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" height = 200>](https://www.figma.com/)|[<img src ="https://mui.com/static/logo.png" height = 200>](https://mui.com/)
+ [<img src = "https://reactjs.org/logo-og.png" width = 100%>](https://ko.reactjs.org/)|[<img src = "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" width = 30%>](https://www.figma.com/)|[<img src ="https://mui.com/static/logo.png" width = 100%>](https://mui.com/)
  |CRA(Create-React-App)사용|UI/UX 퍼블리싱|UI/UX 프레임워크|
 
 # 설치 안내 (Installation Process)

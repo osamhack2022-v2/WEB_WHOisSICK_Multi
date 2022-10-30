@@ -105,16 +105,6 @@ const MuiLoginForm = () => {
                     >
                         로그인
                     </Button>
-
-                    <Button
-                    onClick={() => navigate("/main")} 
-                    fullWidth
-                    variant="contained"
-                    size="large"
-                    sx={{mt: 2, mb : 3}}
-                    >
-                        일단 이동해
-                    </Button>
             </Box>
         </Container>
     )

@@ -95,7 +95,7 @@ app.get('/main', (req,res)=>{
 })
 
 app.post('/main', (req, res)=> {
-  const { date, hospital, inter, Classes } =req.body;//여기서 계급 받기
+  const { day, hospital, inter, Classes } =req.body;//여기서 계급 받기
   const {access_token} = req.cookies;
   if(!access_token){
     res.status(401).send("accesstoken이 없습니다.")
@@ -112,7 +112,7 @@ app.post('/main', (req, res)=> {
            inter : inter,
            ok: 2,
            hospital : hospital,
-           day : date, 
+           day : day, 
          } ,  (err,result)=>{
           const giveNewId = ObjectId(result.insertedId).str;
           db.collection('traking').findOne({sn:sn}, (err,result)=>{
@@ -131,7 +131,7 @@ app.post('/main', (req, res)=> {
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
-                      date : date
+                      day : day
                     } 
                   } 
               });
@@ -147,7 +147,7 @@ app.post('/main', (req, res)=> {
                       Classes : Classes,
                       inter: inter,
                       hospital: hospital,
-                      date : date
+                      day : day
                     }}
               });
               res.send("updated");
@@ -169,7 +169,7 @@ app.post('/main/hope',(req,res)=>{
     const arrayId = _id;//_id는 호프리스트의 스트링형 아이디니까.
     console.log(" 말고",ok);
     const findSn = result.sn;//아이디로 군번 찾고
-    const { Classes, inter, hospital,name,date } = result;
+    const { Classes, inter, hospital,name,day } = result;
       if(ok === 1)//승인
       {
         db.collection('traking').updateOne({sn:findSn},
@@ -180,7 +180,7 @@ app.post('/main/hope',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : date,
+              day : day,
             } 
           } 
         })//업데이트 하고
@@ -223,7 +223,7 @@ app.post('/main/hope',(req,res)=>{
               Classes : Classes,
               inter: inter,
               hospital: hospital,
-              date : date
+              day : day
             } 
           } 
         })
@@ -253,7 +253,7 @@ app.post('/main/result',(req,res)=>{
           Classes : Classes,
           inter: inter,
           hospital: hospital,
-          date : day//date는 클릭 받은 시간으로.
+          day : day//date는 클릭 받은 시간으로.
         }} })//업데이트 하고
   })
   db.collection('resultlist').update({_id:findId},

@@ -20,7 +20,6 @@ const app = express();
 app.use(express.json({}));
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false})) 
-//코스설정 대충 해놨는데 일단 되`는거 확인하면 다른 것도 하겠음
 app.use(cors({
   origin: "http://127.0.0.1:3000",
   methods : "GET, POST, PUT, DELETE",
@@ -30,7 +29,7 @@ app.use(cors({
 var db;
 MongoClient.connect(mongourl, (err, client)=> {
     if (err) return console.log(err);
-    db = client.db('who_is_sick'); //whoissick데이터베이스 폴더에 연결
+    db = client.db('who_is_sick'); 
     app.listen(process.env.PORT, ()=>{
       console.log(`listening on ${process.env.PORT}`)
     });
@@ -40,7 +39,6 @@ app.get('/',(req,res)=>{
   res.status(200).json({message:'ok'});
 })
 
-//회원가입. 군번, 비밀번호, 이름 받아올 거임.
 app.post('/signup-private', async (req, res)=> {
     const {sn, password, name } = req.body 
     const hash = await argon2.hash(password);
@@ -53,7 +51,6 @@ app.post('/signup-private', async (req, res)=> {
     return res.send("user added");
 });
 
-//간부 회원가입.
 app.post('/signup-cadre', async (req, res)=> {
     const {sn, password, name } = req.body 
     const hash = await argon2.hash(password);
@@ -66,22 +63,19 @@ app.post('/signup-cadre', async (req, res)=> {
     return res.send("user added");
 });
 
-//웹토큰 방식으로 로그인
 app.post('/',(req,res)=>{
-  const {sn, password } =req.body;//군번이랑 비번 받아옴
+  const {sn, password } =req.body;
   db.collection('users').findOne({ sn : sn}, async (err,result)=>{
     const userdata = result;
-    if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
+    if(!userdata) {
       res.status(403).send("회원가입 되지 않은 군번입니다.");
       return;
     }
-    //아르곤으로 암호화했으니 암호화 된 패스워드랑 지금 받은 패스워드 비교.
-    if(!(await argon2.verify(userdata.password ,password))) {//userdata의 password와 들어온 애를 비교할 겁니다. 근데 암호화해서요
+    if(!(await argon2.verify(userdata.password ,password))) {
       res.status(403).send("비밀번호가 틀립니다.");
       return;
-    }
-    //로그인한 이용자만 쓸 수 있게 하기.    
-    const access_token = jwt.sign( { sn }, 'dkaghzl')//암호키로 암호화해주기.
+    }  
+    const access_token = jwt.sign( { sn }, 'dkaghzl')
     res.cookie('access_token', access_token);
 
     res.send("로그인 성공");
@@ -95,15 +89,15 @@ app.get('/main', (req,res)=>{
 })
 
 app.post('/main', (req, res)=> {
-  const { day, hospital, inter, Classes } =req.body;//여기서 계급 받기
+  const { day, hospital, inter, Classes } =req.body;
   const {access_token} = req.cookies;
   if(!access_token){
     res.status(401).send("accesstoken이 없습니다.")
   }
-  try {//대기가 2.
+  try {
     const { sn } = jwt.verify(access_token,'dkaghzl')
     db.collection('users').findOne({ sn : sn}, async (err,result)=>{
-      const userdata = result;//디코딩한 군번으로 해당유저 찾고
+      const userdata = result;
       const { sn, name } = userdata;
         db.collection('hopelist').insertOne({
            sn : sn, 
@@ -116,13 +110,13 @@ app.post('/main', (req, res)=> {
          } ,  (err,result)=>{
           const giveNewId = ObjectId(result.insertedId).str;
           db.collection('traking').findOne({sn:sn}, (err,result)=>{
-            if(!result)//추적일지가 만들어진 적 없다면 트래킹에 추가해주기.
+            if(!result)
             {
               db.collection('traking').insertOne({
                 name: name,
                 sn : sn,
                 ok: 2,
-              })//그리고 Id만들어서 추가해주기.
+              })
                 db.collection('traking').updateOne({sn:sn},
                   { $push: { 
                     history: { 
@@ -138,7 +132,7 @@ app.post('/main', (req, res)=> {
               res.send("added");
             }
             else
-            {//있으면 다른 신청이라는 뜻이니 새 Id만 만들어서 추가해주기.
+            {
                 db.collection('traking').updateOne({sn:sn},
                   { $push: {
                     history: { 
@@ -154,7 +148,7 @@ app.post('/main', (req, res)=> {
             }
           });         
         })
-    if(!userdata) {//userdata가 undefined면 못 찾았다는 뜻이니께.
+    if(!userdata) {
        throw "userdata가 없습니다.";
     }})
   } catch (err) {
@@ -163,19 +157,22 @@ app.post('/main', (req, res)=> {
 });
 
 app.post('/main/hope',(req,res)=>{
-  const {_id, ok, day} =req.body;//이것도 승인 받은 시간을 따로 두면 좋을 듯?
+  const {_id, ok, day} =req.body;
   const findId = ObjectId(_id);
   db.collection('hopelist').findOne({_id:findId},(err,result)=>{
-    const arrayId = _id;//_id는 호프리스트의 스트링형 아이디니까.
-    console.log(" 말고",ok);
-    const findSn = result.sn;//아이디로 군번 찾고
+    const arrayId = _id;
+    const findSn = result.sn;
+    db.collection('user').findOne({sn:findSn},(err,result)=>{
+      if(!(result.cadre))
+        return res.send(403);
+    })
     const { Classes, inter, hospital,name,day } = result;
-      if(ok === 1)//승인
+      if(ok === 1)
       {
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: arrayId,//오리진 유지,
+              origin: arrayId,
               ok: 1,
               Classes : Classes,
               inter: inter,
@@ -183,42 +180,40 @@ app.post('/main/hope',(req,res)=>{
               day : day,
             } 
           } 
-        })//업데이트 하고
-        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});//진료신청에도 업뎃해주고
-        
-        //이부분부턴 리절트리스트로 넘어가는 부분.
+        })
+        db.collection('hopelist').updateOne({_id:findId},{$set:{"ok" : 1}});
         db.collection('resultlist').insertOne({
           name: name,
           sn: findSn,
-          ok: 3,//대기.
+          ok: 3,
           origin: arrayId,
           Classes : Classes,
           hospital: hospital,
-          symptom: inter,//아까 환자 증상으로 입력 받은 거.
-          inter: "입력대기중",//입력 받으면 수정해주면 됨.
-          day: day,//이것도 입력 받으면 수정.
-        })//리절트에 넣어줬으면 역시 트래킹에도 넣어줘야함.
+          symptom: inter,
+          inter: "입력대기중",
+          day: day,
+        })
         db.collection('traking').updateOne({sn:findSn},
             { $push: { 
               history: { 
-                origin: arrayId,//오리진 유지,
+                origin: arrayId,
                 ok: 3,
                 Classes : Classes,
                 hospital: hospital,
-                symptom: inter,//아까 환자 증상으로 입력 받은 거.
-                inter: "입력대기중",//입력 받으면 수정해주면 됨.
-                day: day,//이역시 입받수.
+                symptom: inter,
+                inter: "입력대기중",
+                day: day,
               } 
             } 
         });
 
       }
-      else if(ok ===0)//거절
+      else if(ok ===0)
       {
         db.collection('traking').updateOne({sn:findSn},
           { $push: { 
             history: { 
-              origin: arrayId,//오리진 유지,
+              origin: arrayId,
               ok: 0,
               Classes : Classes,
               inter: inter,
@@ -235,26 +230,27 @@ app.post('/main/hope',(req,res)=>{
   })
 })
 
-//inter도 받을 거임. 그러면 그 inter와, 
 app.post('/main/result',(req,res)=>{
   const {_id, ok, day, inter} =req.body;
   const findId = ObjectId(_id);
-  console.log(req.body, "db바깥");
+  db.collection('user').findOne({sn:findSn},(err,result)=>{
+    if(!(result.cadre))
+      return res.send(403);
+  })
   db.collection('resultlist').findOne({_id:findId},(err,result)=>
   {
     const findSn = result.sn;
     const {origin, Classes ,hospital } = result;
-    console.log(result, "db안 리절트");
     db.collection('traking').updateOne({sn:findSn},
     { $push: { 
         history: { 
-          origin: origin,//오리진 유지,
+          origin: origin,
           ok: 5,
           Classes : Classes,
           inter: inter,
           hospital: hospital,
-          day : day//date는 클릭 받은 시간으로.
-        }} })//업데이트 하고
+          day : day
+        }} })
   })
   db.collection('resultlist').update({_id:findId},
   {
@@ -263,7 +259,6 @@ app.post('/main/result',(req,res)=>{
     day : day,
     }
   });
-  console.log("")
   res.send("ok");
 })
 

@@ -108,10 +108,10 @@ function Row(props) {
   headers: {
       'content-Type': 'application/json',
   },
-  body: JSON.stringify(
-    serverValues, {
-      day,
+  body: JSON.stringify({
+      ...serverValues,
       ok,
+      day,
     }
   ),
 })

@@ -239,60 +239,32 @@ app.post('/main/hope',(req,res)=>{
 app.post('/main/result',(req,res)=>{
   const {_id, ok, day, inter} =req.body;
   const findId = ObjectId(_id);
-  console.log(req.body);
-  db.collection('resultlist').findOne({_id:findId},(err,result)=>{
+  console.log(req.body, "db바깥");
+  db.collection('resultlist').findOne({_id:findId},(err,result)=>
+  {
     const findSn = result.sn;
-    console.log(result);
-      const {origin, Classes ,hospital } = result;
-      if(ok === 5)//완료
-      {
-        console.log(result);
-        db.collection('traking').updateOne({sn:findSn},
-          { $push: { 
-            history: { 
-              origin: origin,//오리진 유지,
-              ok: 5,
-              Classes : Classes,
-              inter: inter,
-              hospital: hospital,
-              date : day//date는 클릭 받은 시간으로.
-            } 
-          } 
-        })//업데이트 하고
-        db.collection('resultlist').update({_id:findId},
-        {
+    const {origin, Classes ,hospital } = result;
+    console.log(result, "db안 리절트");
+    db.collection('traking').updateOne({sn:findSn},
+    { $push: { 
+        history: { 
+          origin: origin,//오리진 유지,
           ok: 5,
-          inter : inter,
-          day : day,
-        });
-        res.send("done");
-      }
-      else if(ok === 4)//거절
-      {
-        db.collection('traking').updateOne({sn:findSn},
-          { $push: { 
-            history: { 
-              origin: origin,//오리진 유지,
-              ok: 4,
-              Classes : Classes,
-              inter: inter,
-              hospital: hospital,
-              date : day
-            } 
-          } 
-        })
-        db.collection('resultlist').update({_id:findId},
-        {
-          ok: 4,
-          inter : inter,
-          day : day,
-        });
-        res.send("return");
-      }
-      else{
-        res.send("아무데도 안 들어감.")
-      }
-    })
+          Classes : Classes,
+          inter: inter,
+          hospital: hospital,
+          date : day//date는 클릭 받은 시간으로.
+        }} })//업데이트 하고
+  })
+  db.collection('resultlist').update({_id:findId},
+  {
+    $set: {ok: ok,
+    inter : inter,
+    day : day,
+    }
+  });
+  console.log("")
+  res.send("ok");
 })
 
 app.get('/main/hopelist',(req,res)=>{

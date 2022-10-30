@@ -42,7 +42,7 @@ function Row(props) {
 
   const [serverValues, setServerValue] = React.useState({
     _id : row._id,
-    inter : "",
+    inter : "입력 대기중",
   });
 
   const { vertical, horizontal, openSnack } = state;
@@ -87,11 +87,7 @@ function Row(props) {
   headers: {
       'content-Type': 'application/json',
   },
-  body: JSON.stringify(
-    serverValues, {
-      day,
-      ok,
-    }
+  body: JSON.stringify({...serverValues,ok,day}
   ),
 })
     setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});

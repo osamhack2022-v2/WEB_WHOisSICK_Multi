@@ -65,7 +65,6 @@ function Row(props) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if(name === "ok") {
       if(checked) {
         setServerValue({
           ...serverValues,
@@ -78,8 +77,8 @@ function Row(props) {
           [name]:5
       });
       }
-    }
-    else {
+      
+    if(name !== "ok") {
       setServerValue({
         ...serverValues,
         [name]:value

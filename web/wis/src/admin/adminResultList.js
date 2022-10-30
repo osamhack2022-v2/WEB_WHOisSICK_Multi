@@ -87,6 +87,10 @@ function Row(props) {
     });
     }
 
+    else {
+      console.log("이프문에 안 들어감");
+    }
+
     const date = new Date();
     const dayString = date.toLocaleDateString('ko-kr');
     setServerValue({

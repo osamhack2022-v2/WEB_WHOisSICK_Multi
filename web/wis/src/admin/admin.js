@@ -81,7 +81,7 @@ function Row(props) {
                 </TableHead>
 
                 <TableBody>
-                  {row.history.map((historyRow) => (
+                  {row.history && row.history.map((historyRow) => (
                     <StyledTableRow key={historyRow.origin}>
                       <StyledTableCell component="th" scope="row">
                         {historyRow.day}

@@ -61,6 +61,7 @@ function Row(props) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    setChecked(event.target.checked);
     if(name === "ok") {
       if(event.target.checked) {
         setServerValue({
@@ -158,7 +159,7 @@ function Row(props) {
                       <StyledTableCell align="right">
                         <Stack direction="row-reverse" spacing={1} align="right">
                             <Button onClick={()=> setModalIsOpen(true)}>처방입력</Button>
-                            <Modal className='container' isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+                            <Modal ariaHideApp={false} className='container' isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
                             <Paper
                                 sx={{
                                     p: 2,

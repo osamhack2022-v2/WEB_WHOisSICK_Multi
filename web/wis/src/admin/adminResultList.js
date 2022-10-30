@@ -192,7 +192,7 @@ function Row(props) {
                                     placeholder="두통약 처방"
                                     fullWidth
                                     sx={{mt : 3}}
-                                    value={serverValues.value}
+                                    value={serverValues.inter}
                                     onChange={handleChange}
                                     />
                                   <FormControlLabel

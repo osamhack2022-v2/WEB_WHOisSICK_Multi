@@ -58,34 +58,34 @@ function Row(props) {
   };
 
   //snackBar end 
-  
-  const handleChecked = (event) => {
-    setChecked(event.target.checked);
-  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setServerValue({
+    setChecked(event.target.checked);
+    if(name === "ok") {
+      if(event.target.checked) {
+        setServerValue({
+          ...serverValues,
+          [name]:4
+      });
+      }
+      else {
+        setServerValue({
+          ...serverValues,
+          [name]:5
+      });
+      }
+    }
+    else {
+      setServerValue({
         ...serverValues,
         [name]:value
     });
+    }
   }
 
   const handleSudmit = (event) => {
     event.preventDefault();
-    if(checked === true){
-      setServerValue({
-        ...serverValues,
-        ok:4
-    });
-    }
-
-    else if(checked === false) {
-      setServerValue({
-        ...serverValues,
-        ok:5
-    });
-    }
 
     else {
       console.log("이프문에 안 들어감");
@@ -163,7 +163,7 @@ function Row(props) {
                       <StyledTableCell align="right">
                         <Stack direction="row-reverse" spacing={1} align="right">
                             <Button onClick={()=> setModalIsOpen(true)}>처방입력</Button>
-                            <Modal className='container' isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+                            <Modal ariaHideApp={false} className='container' isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
                             <Paper
                                 sx={{
                                     p: 2,
@@ -193,7 +193,7 @@ function Row(props) {
                                     onChange={handleChange}
                                     />
                                   <FormControlLabel
-                                  control={<Checkbox checked={checked} onChange={handleChecked} value="재진여부" color="primary"/>}
+                                  control={<Checkbox checked={checked} onChange={handleChange} value="재진여부" color="primary" name='ok'/>}
                                   label="재진여부 확인"
                                   />
                                 <Button 

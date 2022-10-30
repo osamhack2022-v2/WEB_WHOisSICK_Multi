@@ -93,11 +93,7 @@ function Row(props) {
       ...serverValues,
       day:dayString
   });
-    setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
-    setModalIsOpen(false);
-}
 
-React.usehandleSudmit(() => {
   fetch('http://127.0.0.1:5000/main/result', {
   credentials: 'include',    
   method: 'POST',
@@ -108,7 +104,9 @@ React.usehandleSudmit(() => {
     serverValues
   ),
 })
-}, [serverValues.day]);
+    setState({ openSnack: true,  vertical: 'top', horizontal: 'center',});
+    setModalIsOpen(false);
+}
 
   return (
     <React.Fragment>

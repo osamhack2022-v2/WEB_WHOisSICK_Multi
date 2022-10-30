@@ -63,11 +63,32 @@ function Row(props) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-  
-    setServerValue({
-      ...serverValues,
-      [name]:value
+
+    if(checked) {
+        console.log("ok==4");
+        setServerValue({
+          ...serverValues,
+          ok:4
+      });
+      console.log(serverValues);
+}
+    else {
+        console.log("ok==5");
+        setServerValue({
+          ...serverValues,
+          ok:5
+      });
+      console.log(serverValues);
+    }
+      
+    if(name !== "ok") {
+      setServerValue({
+        ...serverValues,
+        [name]:value
     });
+    console.log(serverValues);
+
+    }
   }
 
   const handleSudmit = (event) => {

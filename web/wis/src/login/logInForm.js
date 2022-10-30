@@ -23,7 +23,7 @@ const MuiLoginForm = () => {
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        const sn = values.id;
+        const sn = values.sn;
         const password = values.password;
         fetch('http://127.0.0.1:5000/', {
             credentials: 'include',    
